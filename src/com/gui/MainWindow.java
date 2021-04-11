@@ -24,7 +24,8 @@ import javax.swing.tree.DefaultMutableTreeNode;
 import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
 
 import com.tool.FileTreeManager;
-import com.tool.Minimize;
+import com.tool.GlobalGrammarSearcher;
+import com.tool.MinimizeIcon;
 import com.tool.RuleManager;
 import com.tool.TabManager;
 
@@ -207,8 +208,7 @@ public class MainWindow extends JFrame
 			@Override
 			public void windowClosing(WindowEvent arg0)
 			{
-				// TODO 自动生成的方法存根
-				Minimize.minisize();
+				MinimizeIcon.ItemShow.setEnabled(true);
 			}
 
 			@Override
@@ -230,9 +230,11 @@ public class MainWindow extends JFrame
 	// 初始化部分数据
 	public static void InitAll()
 	{
+		GlobalGrammarSearcher.GramSearchInit();
 		FileTreepanel = new FilePanel(); // 实例化左侧面板
 		TabPane = new TabPanel(); // 实例化右侧面板
 		RuleManager.setRulePtah("src/com/config/Rule.txt");
+		MinimizeIcon.minisize();
 	}
 
 }

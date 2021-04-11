@@ -1,8 +1,16 @@
 package com.gui;
 
 import java.awt.BorderLayout;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
+
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+
+import com.tool.GlobalGrammarSearcher;
+
 import chrriis.dj.nativeswing.swtimpl.NativeInterface;
 import chrriis.dj.nativeswing.swtimpl.components.JWebBrowser;
 
@@ -33,6 +41,7 @@ public class GrammarPanel extends JPanel
 		NativeInterface.open();
 		JFrame frame = new JFrame();
 		frame.setTitle(title);
+		frame.setAlwaysOnTop(true);
 		// 设置窗体关闭的时候不关闭应用程序
 		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		frame.getContentPane().add(new GrammarPanel(url), BorderLayout.CENTER);

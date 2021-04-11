@@ -8,6 +8,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -92,7 +93,7 @@ public class MainWindow extends JFrame
 	public MainWindow()
 	{
 		setTitle("Code auditor");
-//		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setIconImage(new ImageIcon("src/com/icon/48.png").getImage());
 		setSize(1200, 800);
 		setLocationRelativeTo(null);
 		contentPane = new JPanel();

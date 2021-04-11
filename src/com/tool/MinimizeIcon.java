@@ -69,10 +69,10 @@ public class MinimizeIcon
 			@Override
 			public void actionPerformed(ActionEvent e)
 			{
-				MainWindow.frame.dispose();	//消除主窗口
-				FloatingIcon.Icon.dispose();	//消除悬浮窗
+				MainWindow.frame.dispose(); // 消除主窗口
+				FloatingIcon.Icon.dispose(); // 消除悬浮窗
 				if (GlobalGrammarPanel.GrammarSearch != null)
-					GlobalGrammarPanel.GrammarSearch.dispose();	//如果有查询窗没关，就关闭它
+					GlobalGrammarPanel.GrammarSearch.dispose(); // 如果有查询窗没关，就关闭它
 				systemTray.remove(BackIcon);
 				GlobalScreen.removeNativeMouseListener(GlobalGrammarSearcher.Searcher);
 				GlobalScreen.removeNativeMouseMotionListener(GlobalGrammarSearcher.Searcher);
@@ -85,6 +85,7 @@ public class MinimizeIcon
 					e1.printStackTrace();
 				}
 				GlobalGrammarSearcher.mTimer.cancel();// 停止所有计时器任务
+				System.exit(0);
 			}
 		});
 

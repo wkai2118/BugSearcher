@@ -19,9 +19,11 @@ public class Minimize
 		Image image = Toolkit.getDefaultToolkit().getImage("src/com/icon/16.png");
 		String BackTips = "Code";
 		PopupMenu menu = new PopupMenu();
+		MenuItem ItemGrammar = new MenuItem("全局划词审计");
 		MenuItem ItemShow = new MenuItem("显示");
 		MenuItem ItemClose = new MenuItem("退出");
 		menu.add(ItemShow);
+		menu.add(ItemGrammar);
 		menu.add(ItemClose);
 		TrayIcon BackIcon = new TrayIcon(image, BackTips, menu);
 		try

@@ -13,6 +13,7 @@ import org.jnativehook.mouse.NativeMouseEvent;
 import org.jnativehook.mouse.NativeMouseInputListener;
 
 import com.gui.FloatingIcon;
+import com.gui.GlobalGrammarPanel;
 
 public class GlobalGrammarSearcher implements NativeMouseInputListener
 {
@@ -67,12 +68,16 @@ public class GlobalGrammarSearcher implements NativeMouseInputListener
 	{
 		ReleaseX = e.getX();
 		ReleaseY = e.getY();
-		if ((ReleaseX != PressX || ReleaseY != e.getY())) // ÍÏ×§¼ì²â
+//		System.out.println("ReleaseX:" + ReleaseX);
+//		System.out.println("ReleaseY:" + ReleaseY);
+//		System.out.println("PressX:" + PressX);
+//		System.out.println("PressY:" + PressY);
+		if ((ReleaseX != PressX || ReleaseY != PressY) && GlobalGrammarPanel.SearchisExit) // ÍÏ×§¼ì²â
 		{
 			FloatingIcon.Icon.setBounds(e.getX() + 10, e.getY() - 50, 38, 38);
 			FloatingIcon.Icon.setVisible(true);
 		}
-
+		GlobalGrammarPanel.SearchisExit = true;
 	}
 
 	@Override

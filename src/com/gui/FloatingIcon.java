@@ -67,6 +67,7 @@ public class FloatingIcon extends JFrame
 //				GlobalGrammarSearcher.GramSearchClose();
 //				System.out.println("我进来了");
 				GlobalGrammarSearcher.GramSearchClose();
+				GlobalGrammarPanel.SearchisExit = false;
 				FloatingIcon.Icon.setVisible(false);
 				GlobalGrammarSearcher.robot.keyPress(KeyEvent.VK_CONTROL);
 				GlobalGrammarSearcher.robot.keyPress(KeyEvent.VK_C);

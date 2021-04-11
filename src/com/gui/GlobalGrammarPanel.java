@@ -26,6 +26,8 @@ public class GlobalGrammarPanel extends JFrame
 
 	private static final long serialVersionUID = 1L;
 
+	public static boolean SearchisExit = true;
+
 	public GlobalGrammarPanel(String url)
 	{
 		NativeInterface.open();
@@ -51,8 +53,6 @@ public class GlobalGrammarPanel extends JFrame
 				// TODO 自动生成的方法存根
 				GlobalGrammarSearcher.GramSearchOpen();
 				GlobalGrammarPanel.GrammarSearch.dispose();
-//				GlobalGrammarSearcher.PressX = GlobalGrammarSearcher.ReleaseX;
-//				GlobalGrammarSearcher.PressY = GlobalGrammarSearcher.ReleaseY;
 			}
 
 			@Override

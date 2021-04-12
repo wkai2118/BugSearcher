@@ -28,8 +28,7 @@ public class AutoCheckPanel extends JPanel
 	static JPanel ResultPanel;
 	public static String[][] rowData; // 审计结果暂存
 	static JScrollPane scrollPane;
-	public static String[] columnNames =
-	{ "漏洞描述", "文件位置", "漏洞详细" }; // 输出结果的列名
+	public static String[] columnNames = { "漏洞描述", "文件位置", "漏洞详细" }; // 输出结果的列名
 	public static JTable ResultTable; // 输出结果表格
 	public static DefaultTableModel ResultModel; // 输出表格模型
 	public static JProgressBar progressBar;
@@ -58,6 +57,8 @@ public class AutoCheckPanel extends JPanel
 		AutoCheckPanel.ResultTable = new JTable(AutoCheckPanel.ResultModel);
 
 		AutoCheckPanel.ResultTable.setRowHeight(30);
+
+		AutoCheckPanel.ResultTable.setFont(new Font("Menu.font", Font.PLAIN, 14));
 
 //		AutoCheckPanel.ResultTable.setEnabled(false);
 

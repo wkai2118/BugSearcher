@@ -1,5 +1,6 @@
 package com.tool;
 
+import java.awt.Font;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.BufferedReader;
@@ -34,13 +35,13 @@ public class RuleManager
 
 	public static void openRuleFromFile()
 	{
-		String[] columnNames =
-		{ "规则", "描述" };
+		String[] columnNames = { "规则", "描述" };
 
 		String[][] tableValues = ruleReadFromFile();
 		MainWindow.RuleModel = new DefaultTableModel(tableValues, columnNames);
 		MainWindow.RuleTable = new JTable(MainWindow.RuleModel);
-		MainWindow.RuleTable.setRowHeight(26);
+		MainWindow.RuleTable.setRowHeight(30);
+		MainWindow.RuleTable.setFont(new Font("Menu.font", Font.PLAIN, 16));
 		MainWindow.RuleTable.addMouseListener(new MouseListener()
 		{
 
@@ -79,8 +80,8 @@ public class RuleManager
 				int selectRow = MainWindow.RuleTable.getSelectedRow();
 				if (selectRow != -1)
 				{
-					RulePanel.textField.setText((String) MainWindow.RuleTable.getValueAt(selectRow, 0));
-					RulePanel.textField_1.setText((String) MainWindow.RuleTable.getValueAt(selectRow, 1));
+					RulePanel.RuleEdit.setText((String) MainWindow.RuleTable.getValueAt(selectRow, 0));
+					RulePanel.DetailsEdit.setText((String) MainWindow.RuleTable.getValueAt(selectRow, 1));
 				}
 			}
 		});

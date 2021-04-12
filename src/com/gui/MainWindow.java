@@ -105,7 +105,7 @@ public class MainWindow extends JFrame
 		toolBar.setFloatable(false);
 		contentPane.add(toolBar, BorderLayout.NORTH);
 
-		JButton btnNewButton = new JButton("\u65B0\u5EFA\u9879\u76EE");
+		JButton btnNewButton = new JButton("ÐÂ½¨ÏîÄ¿");
 		btnNewButton.setFocusPainted(false);
 		btnNewButton.setFont(new Font("Î¢ÈíÑÅºÚ", Font.BOLD, 13));
 		btnNewButton.addActionListener(new ActionListener()
@@ -117,7 +117,7 @@ public class MainWindow extends JFrame
 		});
 		toolBar.add(btnNewButton);
 
-		JButton btnNewButton_1 = new JButton("\u81EA\u52A8\u5BA1\u8BA1");
+		JButton btnNewButton_1 = new JButton("×Ô¶¯Éó¼Æ");
 		btnNewButton_1.setFocusPainted(false);
 		btnNewButton_1.setFont(new Font("Î¢ÈíÑÅºÚ", Font.BOLD, 13));
 		btnNewButton_1.addActionListener(new ActionListener()
@@ -130,7 +130,7 @@ public class MainWindow extends JFrame
 		});
 		toolBar.add(btnNewButton_1);
 
-		JButton btnNewButton_2 = new JButton("\u89C4\u5219\u914D\u7F6E");
+		JButton btnNewButton_2 = new JButton("¹æÔòÅäÖÃ");
 		btnNewButton_2.setFocusPainted(false);
 		btnNewButton_2.setFont(new Font("Î¢ÈíÑÅºÚ", Font.BOLD, 13));
 		btnNewButton_2.addActionListener(new ActionListener()
@@ -142,7 +142,7 @@ public class MainWindow extends JFrame
 		});
 		toolBar.add(btnNewButton_2);
 
-		JButton btnNewButton_3 = new JButton("\u7F16\u7801\u8F6C\u6362");
+		JButton btnNewButton_3 = new JButton("±àÂë×ª»»");
 		btnNewButton_3.addActionListener(new ActionListener()
 		{
 			public void actionPerformed(ActionEvent arg0)
@@ -154,7 +154,7 @@ public class MainWindow extends JFrame
 		btnNewButton_3.setFont(new Font("Î¢ÈíÑÅºÚ", Font.BOLD, 13));
 		toolBar.add(btnNewButton_3);
 
-		JButton btnNewButton_4 = new JButton("\u5173\u95ED\u9009\u9879\u5361");
+		JButton btnNewButton_4 = new JButton("¹Ø±ÕÑ¡Ïî¿¨");
 		btnNewButton_4.setFocusPainted(false);
 		btnNewButton_4.setFont(new Font("Î¢ÈíÑÅºÚ", Font.BOLD, 13));
 		btnNewButton_4.addActionListener(new ActionListener()

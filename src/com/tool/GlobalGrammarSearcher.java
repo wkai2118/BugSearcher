@@ -66,18 +66,18 @@ public class GlobalGrammarSearcher implements NativeMouseInputListener
 	@Override
 	public void nativeMouseReleased(NativeMouseEvent e)
 	{
-		ReleaseX = e.getX();
-		ReleaseY = e.getY();
-//		System.out.println("ReleaseX:" + ReleaseX);
-//		System.out.println("ReleaseY:" + ReleaseY);
-//		System.out.println("PressX:" + PressX);
-//		System.out.println("PressY:" + PressY);
-		if ((ReleaseX != PressX || ReleaseY != PressY) && GlobalGrammarPanel.SearchisExit) // ÍÏ×§¼ì²â
-		{
-			FloatingIcon.Icon.setBounds(e.getX() + 10, e.getY() - 50, 38, 38);
-			FloatingIcon.Icon.setVisible(true);
-		}
-		GlobalGrammarPanel.SearchisExit = true;
+		switch (System.getProperty("os.name"))
+			{
+			case "Windows 10":
+				WindowsReleased(e);
+				break;
+			case "Windows 7":
+				WindowsReleased(e);
+				break;
+			case "Linux":
+				LinuxReleased(e);
+				break;
+			}
 	}
 
 	@Override
@@ -141,6 +141,29 @@ public class GlobalGrammarSearcher implements NativeMouseInputListener
 			return false;
 		}
 		return true;
+	}
+
+	public void WindowsReleased(NativeMouseEvent e)
+	{
+		ReleaseX = e.getX();
+		ReleaseY = e.getY();
+		if ((ReleaseX != PressX || ReleaseY != PressY) && GlobalGrammarPanel.SearchisExit) // ÍÏ×§¼ì²â
+		{
+			FloatingIcon.Icon.setBounds(e.getX() + 10, e.getY() - 50, 38, 38);
+			FloatingIcon.Icon.setVisible(true);
+		}
+		GlobalGrammarPanel.SearchisExit = true;
+	}
+
+	public void LinuxReleased(NativeMouseEvent e)
+	{
+		ReleaseX = e.getX();
+		ReleaseY = e.getY();
+		if ((ReleaseX != PressX || ReleaseY != PressY))
+		{
+			FloatingIcon.Icon.setBounds(e.getX() + 10, e.getY() - 50, 38, 38);
+			FloatingIcon.Icon.setVisible(true);
+		}
 	}
 
 }

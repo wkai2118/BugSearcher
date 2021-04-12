@@ -24,6 +24,7 @@ public class MinimizeIcon
 	public static void minisize()
 	{
 		SystemTray systemTray = SystemTray.getSystemTray();
+
 		Image image = Toolkit.getDefaultToolkit().getImage("src/com/icon/16.png");
 		String BackTips = "BugSearcher";
 		PopupMenu menu = new PopupMenu();
@@ -99,10 +100,6 @@ public class MinimizeIcon
 				GrammarOpen.setEnabled(false);
 				GrammarClose.setEnabled(true);
 				GlobalGrammarSearcher.GramSearchOpen();
-//				FloatingIcon.Icon.setSize(32, 32);
-//				FloatingIcon.Icon.setLocationRelativeTo(null);
-//				FloatingIcon.Icon.setVisible(true);
-
 			}
 		});
 
@@ -117,7 +114,6 @@ public class MinimizeIcon
 				GrammarOpen.setEnabled(true);
 				FloatingIcon.Icon.setVisible(false);
 				GlobalGrammarSearcher.GramSearchClose();
-
 			}
 		});
 

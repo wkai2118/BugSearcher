@@ -231,10 +231,10 @@ public class MainWindow extends JFrame
 	// 初始化部分数据
 	public static void InitAll()
 	{
-		GlobalGrammarSearcher.GramSearchInit();
 		FileTreepanel = new FilePanel(); // 实例化左侧面板
 		TabPane = new TabPanel(); // 实例化右侧面板
 		RuleManager.setRulePtah("src/com/config/Rule.txt");
+		GlobalGrammarSearcher.GramSearchInit();
 		MinimizeIcon.minisize();
 	}
 

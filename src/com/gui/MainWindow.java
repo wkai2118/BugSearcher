@@ -55,6 +55,8 @@ public class MainWindow extends JFrame
 
 	public static MainWindow frame; // Ö÷´°¿Ú
 
+	public static AutoCheckPanel autocheckpanel;
+
 	/**
 	 * Launch the application.
 	 */
@@ -107,7 +109,7 @@ public class MainWindow extends JFrame
 
 		JButton btnNewButton = new JButton("ÐÂ½¨ÏîÄ¿");
 		btnNewButton.setFocusPainted(false);
-		btnNewButton.setFont(new Font("Î¢ÈíÑÅºÚ", Font.BOLD, 13));
+		btnNewButton.setFont(new Font("Î¢ÈíÑÅºÚ", Font.BOLD, 15));
 		btnNewButton.addActionListener(new ActionListener()
 		{
 			public void actionPerformed(ActionEvent arg0)
@@ -119,12 +121,13 @@ public class MainWindow extends JFrame
 
 		JButton btnNewButton_1 = new JButton("×Ô¶¯Éó¼Æ");
 		btnNewButton_1.setFocusPainted(false);
-		btnNewButton_1.setFont(new Font("Î¢ÈíÑÅºÚ", Font.BOLD, 13));
+		btnNewButton_1.setFont(new Font("Î¢ÈíÑÅºÚ", Font.BOLD, 15));
 		btnNewButton_1.addActionListener(new ActionListener()
 		{
 			public void actionPerformed(ActionEvent arg0)
 			{
-				tabbedPane.add("×Ô¶¯Éó¼Æ", new AutoCheckPanel());
+				autocheckpanel = new AutoCheckPanel();
+				tabbedPane.add("×Ô¶¯Éó¼Æ", autocheckpanel);
 				tabbedPane.setSelectedIndex(MainWindow.tabbedPane.getTabCount() - 1);
 			}
 		});
@@ -132,7 +135,7 @@ public class MainWindow extends JFrame
 
 		JButton btnNewButton_2 = new JButton("¹æÔòÅäÖÃ");
 		btnNewButton_2.setFocusPainted(false);
-		btnNewButton_2.setFont(new Font("Î¢ÈíÑÅºÚ", Font.BOLD, 13));
+		btnNewButton_2.setFont(new Font("Î¢ÈíÑÅºÚ", Font.BOLD, 15));
 		btnNewButton_2.addActionListener(new ActionListener()
 		{
 			public void actionPerformed(ActionEvent e)
@@ -151,12 +154,12 @@ public class MainWindow extends JFrame
 			}
 		});
 		btnNewButton_3.setFocusPainted(false);
-		btnNewButton_3.setFont(new Font("Î¢ÈíÑÅºÚ", Font.BOLD, 13));
+		btnNewButton_3.setFont(new Font("Î¢ÈíÑÅºÚ", Font.BOLD, 15));
 		toolBar.add(btnNewButton_3);
 
 		JButton btnNewButton_4 = new JButton("¹Ø±ÕÑ¡Ïî¿¨");
 		btnNewButton_4.setFocusPainted(false);
-		btnNewButton_4.setFont(new Font("Î¢ÈíÑÅºÚ", Font.BOLD, 13));
+		btnNewButton_4.setFont(new Font("Î¢ÈíÑÅºÚ", Font.BOLD, 15));
 		btnNewButton_4.addActionListener(new ActionListener()
 		{
 			public void actionPerformed(ActionEvent e)
@@ -234,6 +237,7 @@ public class MainWindow extends JFrame
 		FileTreepanel = new FilePanel(); // ÊµÀý»¯×ó²àÃæ°å
 		TabPane = new TabPanel(); // ÊµÀý»¯ÓÒ²àÃæ°å
 		RuleManager.setRulePtah("src/com/config/Rule.txt");
+		RuleManager.CompileRuleInit();
 		GlobalGrammarSearcher.GramSearchInit();
 		MinimizeIcon.minisize();
 	}

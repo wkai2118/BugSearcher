@@ -12,6 +12,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.regex.Pattern;
 
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
@@ -22,6 +23,7 @@ import com.gui.RulePanel;
 public class RuleManager
 {
 	private static String path;
+	public static Pattern[] CompileRules;
 
 	public static void setRulePtah(String temp)
 	{
@@ -41,7 +43,7 @@ public class RuleManager
 		MainWindow.RuleModel = new DefaultTableModel(tableValues, columnNames);
 		MainWindow.RuleTable = new JTable(MainWindow.RuleModel);
 		MainWindow.RuleTable.setRowHeight(30);
-		MainWindow.RuleTable.setFont(new Font("Menu.font", Font.PLAIN, 16));
+		MainWindow.RuleTable.setFont(new Font("Menu.font", Font.PLAIN, 15));
 		MainWindow.RuleTable.addMouseListener(new MouseListener()
 		{
 
@@ -171,5 +173,16 @@ public class RuleManager
 				}
 			}
 		}
+	}
+
+	public static void CompileRuleInit()
+	{
+		ArrayList<Pattern> CompileRule = new ArrayList<Pattern>();
+		String[][] RuleDate = RuleManager.ruleReadFromFile();
+		for (String[] RuleRow : RuleDate)
+		{
+			CompileRule.add(Pattern.compile(RuleRow[0], Pattern.CASE_INSENSITIVE));
+		}
+		CompileRules = (Pattern[]) CompileRule.toArray(new Pattern[CompileRule.size()]);
 	}
 }

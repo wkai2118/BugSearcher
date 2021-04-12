@@ -16,8 +16,6 @@ import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
 import javax.swing.JFileChooser;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
@@ -42,6 +40,10 @@ public class AutoCheckManager
 	public static startAutoCheck myThread = null;
 	public static boolean myThreadState = false;
 	public static JProgressBar progressBar;
+	public static ArrayList<String> bugResult;
+	public static DefaultMutableTreeNodes node;
+//	static Pattern r = null;
+	static Matcher m;
 
 	public static void runAutoCheck()
 	{
@@ -54,10 +56,7 @@ public class AutoCheckManager
 			myThread.start();
 		} else
 		{
-//			JDialog dialog = new SystemTip(MainWindow.frame, "请先新建项目");
-//			dialog.setVisible(true);
 			JOptionPane.showMessageDialog(MainWindow.frame, "请先新建项目", "Error", JOptionPane.ERROR_MESSAGE);
-
 		}
 		AutoCheckPanel.ResultTable.addMouseListener(new MouseListener()
 		{
@@ -159,7 +158,7 @@ public class AutoCheckManager
 
 	public static void RegexMatch(String path)
 	{
-		ArrayList<String> bugResult = new ArrayList<String>(); // 首先创建个列表
+		bugResult = new ArrayList<String>(); // 首先创建个列表
 		FileInputStream fis = null;
 		try
 		{
@@ -167,23 +166,20 @@ public class AutoCheckManager
 			String line = null;
 			BufferedReader br = new BufferedReader(new InputStreamReader(fis, "utf-8")); // 从文件流中获取数据流
 			String[][] RuleDate = RuleManager.ruleReadFromFile();
-
 			try
 			{
 				while ((line = br.readLine()) != null) // 一行一行读取
 				{
-					for (String[] RuleRow : RuleDate)
+					for (int i = 0; i < RuleDate.length; i++)
 					{
-						Pattern r = Pattern.compile(RuleRow[0], Pattern.CASE_INSENSITIVE); // 忽略大小写
-						Matcher m = r.matcher(line);
+						m = RuleManager.CompileRules[i].matcher(line);
 						if (m.find())
 						{
-							if (!bugResult.contains(RuleRow[1] + path + line)) // 为了避免重复
+							if (!bugResult.contains(RuleDate[i][1] + path + line)) // 为了避免重复
 							{
-								String[] rowDate =
-								{ RuleRow[1], path, line };
+								String[] rowDate = { RuleDate[i][1], path, line };
 								AutoCheckPanel.ResultModel.addRow(rowDate);
-								bugResult.add(RuleRow[1] + path + line);
+								bugResult.add(RuleDate[i][1] + path + line);
 							}
 						}
 					}
@@ -306,21 +302,23 @@ class startAutoCheck extends Thread
 	public void run()
 	{
 		Enumeration<?> enumeration = MainWindow.ParentNode.preorderEnumeration();
+
 		int i = 0;
 
 		while (enumeration.hasMoreElements())
 		{
-			DefaultMutableTreeNodes node = (DefaultMutableTreeNodes) enumeration.nextElement();
+			AutoCheckManager.node = (DefaultMutableTreeNodes) enumeration.nextElement();
 			String temp = null; // 这必须在里边啊，中转值不在里面不好判断
-			if (node.getValue() != null)
+			if (AutoCheckManager.node.getValue() != null)
 			{
-				temp = node.getValue().split("\\.")[node.getValue().split("\\.").length - 1];
+				temp = AutoCheckManager.node.getValue()
+						.split("\\.")[AutoCheckManager.node.getValue().split("\\.").length - 1];
 				i++;
 			}
 
 			if (temp != null && temp.equals("php")) // 注意要非空才能判断
 			{
-				AutoCheckManager.RegexMatch(node.getValue());
+				AutoCheckManager.RegexMatch(AutoCheckManager.node.getValue());
 			}
 			AutoCheckPanel.progressBar.setValue(i);
 		}

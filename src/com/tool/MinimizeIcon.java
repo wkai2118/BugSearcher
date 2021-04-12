@@ -33,8 +33,8 @@ public class MinimizeIcon
 		MenuItem ItemClose = new MenuItem("退出");
 		MinimizeIcon.ItemShow.setEnabled(false);
 
-		MenuItem GrammarOpen = new MenuItem("开");
-		MenuItem GrammarClose = new MenuItem("关");
+		MenuItem GrammarOpen = new MenuItem("     开     ");
+		MenuItem GrammarClose = new MenuItem("     关     ");
 
 		menu.add(ItemShow);
 

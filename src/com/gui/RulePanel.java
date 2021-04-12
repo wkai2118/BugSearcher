@@ -13,7 +13,6 @@ import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 import javax.swing.JTextField;
 
-import com.gui.MainWindow;
 import com.tool.RuleManager;
 
 public class RulePanel extends JPanel
@@ -62,9 +61,12 @@ public class RulePanel extends JPanel
 		JPanel RTextField = new JPanel();
 		RTextField.setLayout(null);
 		Rule.setBounds(50, 30, 50, 20);
+		Rule.setFont(new Font("Menu.font", Font.PLAIN, 15));
 
 		RTextField.add(Rule);
 		Details.setBounds(50, 80, 50, 20);
+		Details.setFont(new Font("Menu.font", Font.PLAIN, 15));
+
 		RTextField.add(Details);
 		RuleEdit.setBounds(110, 20, 810, 30);
 		RuleEdit.setFont(new Font("Menu.font", Font.PLAIN, 15));

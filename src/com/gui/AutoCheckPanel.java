@@ -69,7 +69,7 @@ public class AutoCheckPanel extends JPanel
 		toolBar.setFloatable(false);
 		add(toolBar, BorderLayout.NORTH);
 
-		JButton btnNewButton = new JButton("\u5F00\u59CB\u5BA1\u8BA1");
+		JButton btnNewButton = new JButton("开始审计");
 		btnNewButton.addActionListener(new ActionListener()
 		{
 			public void actionPerformed(ActionEvent e)
@@ -79,8 +79,7 @@ public class AutoCheckPanel extends JPanel
 					AutoCheckManager.runAutoCheck();
 				} else
 				{
-//					JDialog dialog = new SystemTip(MainWindow.frame, "正在审计中，请先停止");
-//					dialog.setVisible(true);
+
 					JOptionPane.showMessageDialog(MainWindow.frame, "正在审计中，请先停止", "Error", JOptionPane.ERROR_MESSAGE);
 				}
 			}

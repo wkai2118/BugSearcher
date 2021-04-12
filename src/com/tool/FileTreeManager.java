@@ -1,6 +1,7 @@
 package com.tool;
 
 import java.awt.BorderLayout;
+import java.awt.Font;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
@@ -33,6 +34,7 @@ public class FileTreeManager
 	{
 		JFileChooser filechooser = new JFileChooser();
 		filechooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+		filechooser.setFont(new Font("Menu.font", Font.PLAIN, 15));
 		int i = filechooser.showOpenDialog(MainWindow.getStaticContentPane());
 		if (i == JFileChooser.APPROVE_OPTION) // 如果i为允许的选项
 		{
@@ -45,6 +47,7 @@ public class FileTreeManager
 			FileTreeManager.FileCount = 0; // 将文件数量置为0
 			MainWindow.ParentNode = traverseFolder(path);
 			MainWindow.FileTree = new JTree(MainWindow.ParentNode);
+			MainWindow.FileTree.setFont(new Font("Menu.font", Font.PLAIN, 15));
 			MainWindow.TreeScrollPane = new JScrollPane(MainWindow.FileTree);
 			MainWindow.FileTreepanel.add(MainWindow.TreeScrollPane, BorderLayout.CENTER);
 			MainWindow.FileTree.addTreeSelectionListener(new TreeSelectionListener()

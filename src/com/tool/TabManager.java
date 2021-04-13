@@ -11,4 +11,18 @@ public class TabManager
 			MainWindow.tabbedPane.remove(index);
 		}
 	}
+
+	public static void closeAllTab()
+	{
+		MainWindow.tabbedPane.removeAll();
+		AutoCheckManager.AutoCheckInit();
+	}
+
+	public static void closeOtherTab()
+	{
+		for (int i = MainWindow.tabbedPane.getTabCount() - 1; i > 0; i--)
+		{
+			MainWindow.tabbedPane.remove(i);
+		}
+	}
 }

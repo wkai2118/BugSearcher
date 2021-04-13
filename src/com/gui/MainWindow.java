@@ -47,7 +47,7 @@ public class MainWindow extends JFrame
 	public static JPanel FileTreepanel; // 文件树面板
 	public static JScrollPane TreeScrollPane; // 文件树滚轮面板
 	public static JTree FileTree; // 文件树
-	public static DefaultMutableTreeNode ParentNode;
+	public static DefaultMutableTreeNode ParentNode; // 文件树父节点
 
 	public static RSyntaxTextArea textArea; // 代码编辑器
 
@@ -120,6 +120,28 @@ public class MainWindow extends JFrame
 		});
 		toolBar.add(NewItemBtn);
 
+		JButton CloseItem = new JButton("关闭项目");
+		CloseItem.setFocusPainted(false);
+		CloseItem.setFont(new Font("微软雅黑", Font.BOLD, 15));
+		CloseItem.addActionListener(new ActionListener()
+		{
+			public void actionPerformed(ActionEvent e)
+			{
+				TabManager.closeAllTab();
+				if (AutoCheckManager.myThreadState)
+				{
+					AutoCheckManager.stopAutoCheck();
+				}
+				if (ParentNode != null)
+				{
+					FileTreepanel.remove(TreeScrollPane);
+					FileTreepanel.updateUI();
+					MainWindow.ParentNode = null;
+				}
+			}
+		});
+		toolBar.add(CloseItem);
+
 		JButton ConfigBtn = new JButton("规则配置");
 		ConfigBtn.setFocusPainted(false);
 		ConfigBtn.setFont(new Font("微软雅黑", Font.BOLD, 15));
@@ -144,17 +166,17 @@ public class MainWindow extends JFrame
 		CodingBtn.setFont(new Font("微软雅黑", Font.BOLD, 15));
 		toolBar.add(CodingBtn);
 
-		JButton CloseTab = new JButton("关闭项目");
-		CloseTab.setFocusPainted(false);
-		CloseTab.setFont(new Font("微软雅黑", Font.BOLD, 15));
-		CloseTab.addActionListener(new ActionListener()
+		JButton CloseAllTab = new JButton("CloseAllTab");
+		CloseAllTab.setFocusPainted(false);
+		CloseAllTab.setFont(new Font("微软雅黑", Font.BOLD, 15));
+		CloseAllTab.addActionListener(new ActionListener()
 		{
 			public void actionPerformed(ActionEvent e)
 			{
-//				TabManager.closeCurrentTab();
+				TabManager.closeOtherTab();
 			}
 		});
-		toolBar.add(CloseTab);
+		toolBar.add(CloseAllTab);
 
 		JSplitPane splitPane = new JSplitPane();
 		splitPane.setContinuousLayout(true);

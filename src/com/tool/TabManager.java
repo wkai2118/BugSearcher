@@ -4,11 +4,11 @@ import com.gui.MainWindow;
 
 public class TabManager
 {
-	public static void closeCurrentTab()
+	public static void closeCurrentTab(int index)
 	{
 		if (MainWindow.tabbedPane.getSelectedIndex() != 0)
 		{ // 默认无标签时，该值为-1
-			MainWindow.tabbedPane.remove(MainWindow.tabbedPane.getSelectedIndex());
+			MainWindow.tabbedPane.remove(index);
 		}
 	}
 }

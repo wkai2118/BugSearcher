@@ -144,14 +144,14 @@ public class MainWindow extends JFrame
 		CodingBtn.setFont(new Font("微软雅黑", Font.BOLD, 15));
 		toolBar.add(CodingBtn);
 
-		JButton CloseTab = new JButton("关闭选项卡");
+		JButton CloseTab = new JButton("关闭项目");
 		CloseTab.setFocusPainted(false);
 		CloseTab.setFont(new Font("微软雅黑", Font.BOLD, 15));
 		CloseTab.addActionListener(new ActionListener()
 		{
 			public void actionPerformed(ActionEvent e)
 			{
-				TabManager.closeCurrentTab();
+//				TabManager.closeCurrentTab();
 			}
 		});
 		toolBar.add(CloseTab);

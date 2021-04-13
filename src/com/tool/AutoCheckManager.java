@@ -43,12 +43,12 @@ public class AutoCheckManager
 	public static ArrayList<String> bugResult;
 	public static DefaultMutableTreeNodes node;
 	static Matcher m;
-	static TableListener tableListener = null;
+	static TableListener tableListener = new TableListener();
 
 	public static void runAutoCheck()
 	{
 		AutoCheckPanel.ResultModel.setRowCount(0);
-		AutoCheckPanel.ResultTable.removeMouseListener(tableListener);	//防止重复注册事件
+		AutoCheckPanel.ResultTable.removeMouseListener(tableListener); // 防止重复注册事件
 		if (MainWindow.ParentNode != null) // 说明已经新建了项目
 		{
 			myThread = new startAutoCheck();
@@ -60,7 +60,6 @@ public class AutoCheckManager
 		{
 			JOptionPane.showMessageDialog(MainWindow.frame, "请先新建项目", "Error", JOptionPane.ERROR_MESSAGE);
 		}
-		tableListener = new TableListener();
 		AutoCheckPanel.ResultTable.addMouseListener(tableListener);
 	}
 
@@ -209,6 +208,12 @@ public class AutoCheckManager
 		lines = lines.replace("replace_content", result);
 //		System.out.println(lines);
 		return lines;
+	}
+
+	public static void AutoCheckInit()
+	{
+		MainWindow.tabbedPane.add("自动审计", new AutoCheckPanel());
+		MainWindow.tabbedPane.setSelectedIndex(MainWindow.tabbedPane.getTabCount() - 1);
 	}
 
 }

@@ -58,8 +58,6 @@ public class MainWindow extends JFrame
 
 	public static MainWindow frame; // 主窗口
 
-	public static AutoCheckPanel autocheckpanel;
-
 	/**
 	 * Launch the application.
 	 */
@@ -110,67 +108,53 @@ public class MainWindow extends JFrame
 		toolBar.setFloatable(false);
 		contentPane.add(toolBar, BorderLayout.NORTH);
 
-		JButton btnNewButton = new JButton("新建项目");
-		btnNewButton.setFocusPainted(false);
-		btnNewButton.setFont(new Font("微软雅黑", Font.BOLD, 15));
-		btnNewButton.addActionListener(new ActionListener()
+		JButton NewItemBtn = new JButton("新建项目");
+		NewItemBtn.setFocusPainted(false);
+		NewItemBtn.setFont(new Font("微软雅黑", Font.BOLD, 15));
+		NewItemBtn.addActionListener(new ActionListener()
 		{
 			public void actionPerformed(ActionEvent arg0)
 			{
 				FileTreeManager.getFileTree();
 			}
 		});
-		toolBar.add(btnNewButton);
+		toolBar.add(NewItemBtn);
 
-		JButton btnNewButton_1 = new JButton("自动审计");
-		btnNewButton_1.setFocusPainted(false);
-		btnNewButton_1.setFont(new Font("微软雅黑", Font.BOLD, 15));
-		btnNewButton_1.addActionListener(new ActionListener()
-		{
-			public void actionPerformed(ActionEvent arg0)
-			{
-				autocheckpanel = new AutoCheckPanel();
-				tabbedPane.add("自动审计", autocheckpanel);
-				tabbedPane.setSelectedIndex(MainWindow.tabbedPane.getTabCount() - 1);
-			}
-		});
-		toolBar.add(btnNewButton_1);
-
-		JButton btnNewButton_2 = new JButton("规则配置");
-		btnNewButton_2.setFocusPainted(false);
-		btnNewButton_2.setFont(new Font("微软雅黑", Font.BOLD, 15));
-		btnNewButton_2.addActionListener(new ActionListener()
+		JButton ConfigBtn = new JButton("规则配置");
+		ConfigBtn.setFocusPainted(false);
+		ConfigBtn.setFont(new Font("微软雅黑", Font.BOLD, 15));
+		ConfigBtn.addActionListener(new ActionListener()
 		{
 			public void actionPerformed(ActionEvent e)
 			{
 				RuleManager.openRuleFromFile();
 			}
 		});
-		toolBar.add(btnNewButton_2);
+		toolBar.add(ConfigBtn);
 
-		JButton btnNewButton_3 = new JButton("编码转换");
-		btnNewButton_3.addActionListener(new ActionListener()
+		JButton CodingBtn = new JButton("编码转换");
+		CodingBtn.addActionListener(new ActionListener()
 		{
 			public void actionPerformed(ActionEvent arg0)
 			{
 
 			}
 		});
-		btnNewButton_3.setFocusPainted(false);
-		btnNewButton_3.setFont(new Font("微软雅黑", Font.BOLD, 15));
-		toolBar.add(btnNewButton_3);
+		CodingBtn.setFocusPainted(false);
+		CodingBtn.setFont(new Font("微软雅黑", Font.BOLD, 15));
+		toolBar.add(CodingBtn);
 
-		JButton btnNewButton_4 = new JButton("关闭选项卡");
-		btnNewButton_4.setFocusPainted(false);
-		btnNewButton_4.setFont(new Font("微软雅黑", Font.BOLD, 15));
-		btnNewButton_4.addActionListener(new ActionListener()
+		JButton CloseTab = new JButton("关闭选项卡");
+		CloseTab.setFocusPainted(false);
+		CloseTab.setFont(new Font("微软雅黑", Font.BOLD, 15));
+		CloseTab.addActionListener(new ActionListener()
 		{
 			public void actionPerformed(ActionEvent e)
 			{
 				TabManager.closeCurrentTab();
 			}
 		});
-		toolBar.add(btnNewButton_4);
+		toolBar.add(CloseTab);
 
 		JSplitPane splitPane = new JSplitPane();
 		splitPane.setContinuousLayout(true);
@@ -241,8 +225,10 @@ public class MainWindow extends JFrame
 		TabPane = new TabPanel(); // 实例化右侧面板
 		RuleManager.setRulePtah("src/com/config/Rule.txt");
 		RuleManager.CompileRuleInit();
+		AutoCheckManager.AutoCheckInit();
 		GlobalGrammarSearcher.GramSearchInit();
 		MinimizeIcon.minisize();
+
 	}
 
 }

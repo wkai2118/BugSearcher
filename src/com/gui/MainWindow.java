@@ -18,18 +18,21 @@ import javax.swing.JTabbedPane;
 import javax.swing.JTable;
 import javax.swing.JToolBar;
 import javax.swing.JTree;
+import javax.swing.UIManager;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.tree.DefaultMutableTreeNode;
 
 import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
 
+import com.tool.AutoCheckManager;
 import com.tool.FileTreeManager;
 import com.tool.GlobalGrammarSearcher;
 import com.tool.MinimizeIcon;
 import com.tool.RuleManager;
 import com.tool.TabManager;
 
+@SuppressWarnings("unused")
 public class MainWindow extends JFrame
 {
 

@@ -42,11 +42,13 @@ public class AutoCheckManager
 	public static JProgressBar progressBar;
 	public static ArrayList<String> bugResult;
 	public static DefaultMutableTreeNodes node;
-//	static Pattern r = null;
 	static Matcher m;
+	static TableListener tableListener = null;
 
 	public static void runAutoCheck()
 	{
+		AutoCheckPanel.ResultModel.setRowCount(0);
+		AutoCheckPanel.ResultTable.removeMouseListener(tableListener);	//防止重复注册事件
 		if (MainWindow.ParentNode != null) // 说明已经新建了项目
 		{
 			myThread = new startAutoCheck();
@@ -58,93 +60,8 @@ public class AutoCheckManager
 		{
 			JOptionPane.showMessageDialog(MainWindow.frame, "请先新建项目", "Error", JOptionPane.ERROR_MESSAGE);
 		}
-		AutoCheckPanel.ResultTable.addMouseListener(new MouseListener()
-		{
-			@Override
-			public void mouseClicked(MouseEvent arg0)
-			{
-				int selectRow = AutoCheckPanel.ResultTable.getSelectedRow();
-				if (selectRow != -1)
-				{
-					MainWindow.textArea = new RSyntaxTextArea();
-					MainWindow.textArea.setCodeFoldingEnabled(true);
-					String path = (String) AutoCheckPanel.ResultModel.getValueAt(selectRow, 1);
-					MainWindow.textArea
-							.setSyntaxEditingStyle("text/" + path.split("\\.")[path.split("\\.").length - 1]);
-					MainWindow.textArea.setFont(MainWindow.textArea.getFont().deriveFont((float) 15));
-					JPopupMenu popup = MainWindow.textArea.getPopupMenu();
-					popup.addSeparator();
-					popup.add(new JMenuItem(new GrammarSearcher()));
-
-					FileInputStream f = null;
-					try
-					{
-						f = new FileInputStream(path); // 无奈，想设置编码格式必须用InputStreamReader
-					} catch (FileNotFoundException e2)
-					{
-						// TODO 自动生成的 catch 块
-						e2.printStackTrace();
-					} // 实例化为file类
-					Reader is = null; // 创建个Reader类
-					try
-					{
-						is = new BufferedReader(new InputStreamReader(f, "utf-8")); // 从f中实例化Reader类
-					} catch (UnsupportedEncodingException e1)
-					{
-						// TODO 自动生成的 catch 块
-						e1.printStackTrace();
-					}
-					try
-					{
-						MainWindow.textArea.read(is, "d"); // textArea直接读取Reader类
-					} catch (IOException e1)
-					{
-						// TODO 自动生成的 catch 块
-						e1.printStackTrace();
-					}
-					JPanel codeEditPane = new CodeEditor();
-
-					MainWindow.tabbedPane.add(new File(path).getName(), codeEditPane);
-					MainWindow.tabbedPane.setSelectedIndex(MainWindow.tabbedPane.getTabCount() - 1);
-
-					SearchContext context = new SearchContext();
-					context.setSearchFor((String) AutoCheckPanel.ResultModel.getValueAt(selectRow, 2));
-					context.setSearchForward(true);
-					@SuppressWarnings("unused")
-					boolean found = SearchEngine.find(MainWindow.textArea, context).wasFound();
-					CodeEditor.textField.setText((String) AutoCheckPanel.ResultModel.getValueAt(selectRow, 2));
-				}
-
-			}
-
-			@Override
-			public void mouseEntered(MouseEvent arg0)
-			{
-				// TODO 自动生成的方法存根
-
-			}
-
-			@Override
-			public void mouseExited(MouseEvent arg0)
-			{
-				// TODO 自动生成的方法存根
-
-			}
-
-			@Override
-			public void mousePressed(MouseEvent arg0)
-			{
-				// TODO 自动生成的方法存根
-
-			}
-
-			@Override
-			public void mouseReleased(MouseEvent arg0)
-			{
-				// TODO 自动生成的方法存根
-
-			}
-		});
+		tableListener = new TableListener();
+		AutoCheckPanel.ResultTable.addMouseListener(tableListener);
 	}
 
 	public static void stopAutoCheck()
@@ -323,6 +240,94 @@ class startAutoCheck extends Thread
 			AutoCheckPanel.progressBar.setValue(i);
 		}
 		AutoCheckManager.myThreadState = false;
+	}
+
+}
+
+class TableListener implements MouseListener
+{
+
+	@Override
+	public void mouseClicked(MouseEvent e)
+	{
+		int selectRow = AutoCheckPanel.ResultTable.getSelectedRow();
+		if (selectRow != -1)
+		{
+			MainWindow.textArea = new RSyntaxTextArea();
+			MainWindow.textArea.setCodeFoldingEnabled(true);
+			String path = (String) AutoCheckPanel.ResultModel.getValueAt(selectRow, 1);
+			MainWindow.textArea.setSyntaxEditingStyle("text/" + path.split("\\.")[path.split("\\.").length - 1]);
+			MainWindow.textArea.setFont(MainWindow.textArea.getFont().deriveFont((float) 15));
+			JPopupMenu popup = MainWindow.textArea.getPopupMenu();
+			popup.addSeparator();
+			popup.add(new JMenuItem(new GrammarSearcher()));
+
+			FileInputStream f = null;
+			try
+			{
+				f = new FileInputStream(path); // 无奈，想设置编码格式必须用InputStreamReader
+			} catch (FileNotFoundException e2)
+			{
+				// TODO 自动生成的 catch 块
+				e2.printStackTrace();
+			} // 实例化为file类
+			Reader is = null; // 创建个Reader类
+			try
+			{
+				is = new BufferedReader(new InputStreamReader(f, "utf-8")); // 从f中实例化Reader类
+			} catch (UnsupportedEncodingException e1)
+			{
+				// TODO 自动生成的 catch 块
+				e1.printStackTrace();
+			}
+			try
+			{
+				MainWindow.textArea.read(is, "d"); // textArea直接读取Reader类
+			} catch (IOException e1)
+			{
+				// TODO 自动生成的 catch 块
+				e1.printStackTrace();
+			}
+			JPanel codeEditPane = new CodeEditor();
+
+			MainWindow.tabbedPane.add(new File(path).getName(), codeEditPane);
+			MainWindow.tabbedPane.setSelectedIndex(MainWindow.tabbedPane.getTabCount() - 1);
+
+			SearchContext context = new SearchContext();
+			context.setSearchFor((String) AutoCheckPanel.ResultModel.getValueAt(selectRow, 2));
+			context.setSearchForward(true);
+			@SuppressWarnings("unused")
+			boolean found = SearchEngine.find(MainWindow.textArea, context).wasFound();
+			CodeEditor.textField.setText((String) AutoCheckPanel.ResultModel.getValueAt(selectRow, 2));
+		}
+	}
+
+	@Override
+	public void mouseEntered(MouseEvent e)
+	{
+		// TODO 自动生成的方法存根
+
+	}
+
+	@Override
+	public void mouseExited(MouseEvent e)
+	{
+		// TODO 自动生成的方法存根
+
+	}
+
+	@Override
+	public void mousePressed(MouseEvent e)
+	{
+		// TODO 自动生成的方法存根
+
+	}
+
+	@Override
+	public void mouseReleased(MouseEvent e)
+	{
+		// TODO 自动生成的方法存根
+
 	}
 
 }

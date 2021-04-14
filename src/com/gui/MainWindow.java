@@ -7,6 +7,7 @@ import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 
@@ -33,6 +34,10 @@ import com.tool.GlobalGrammarSearcher;
 import com.tool.MinimizeIcon;
 import com.tool.RuleManager;
 import com.tool.TabManager;
+import javax.swing.JMenuBar;
+import javax.swing.JMenu;
+import javax.swing.JMenuItem;
+import java.awt.SystemColor;
 
 @SuppressWarnings("unused")
 public class MainWindow extends JFrame
@@ -59,7 +64,6 @@ public class MainWindow extends JFrame
 	public static JPanel TabPane; // Õ¼Î»×ÓÓÃµÄ£¬·ÀÔÚ·Ö¸îÃæ°åµÄÓÒ²àÁË
 
 	public static MainWindow frame; // Ö÷´°¿Ú
-	public static JButton NewItemBtn;
 
 	/**
 	 * Launch the application.
@@ -98,28 +102,30 @@ public class MainWindow extends JFrame
 
 	public MainWindow()
 	{
-		setTitle("Code auditor");
+		setTitle("BugSearcher");
 		setIconImage(new ImageIcon("src/com/icon/48.png").getImage());
 		setSize(1200, 800);
 		setLocationRelativeTo(null);
-		contentPane = new JPanel();
-		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-		contentPane.setLayout(new BorderLayout(0, 0));
-		setContentPane(contentPane);
 
-		JToolBar toolBar = new JToolBar();
-		toolBar.setFloatable(false);
-		toolBar.setLayout(new FlowLayout(FlowLayout.LEFT));
+		JMenuBar menuBar = new JMenuBar();
+		menuBar.setFont(new Font("Î¢ÈíÑÅºÚ", Font.PLAIN, 13));
+		menuBar.setLayout(new FlowLayout(FlowLayout.LEFT));
+		setJMenuBar(menuBar);
 
-		contentPane.add(toolBar, BorderLayout.NORTH);
+		JMenu mnNewMenu = new JMenu("");
+		menuBar.add(mnNewMenu);
 
-		NewItemBtn = new JButton("ÐÂ½¨ÏîÄ¿");
+		JMenu mnNewMenu_1 = new JMenu("\u6587\u4EF6(F)");
+		mnNewMenu_1.setFont(new Font("Î¢ÈíÑÅºÚ", Font.PLAIN, 16));
+		mnNewMenu_1.setMnemonic(KeyEvent.VK_F);
+		menuBar.add(mnNewMenu_1);
 
-		NewItemBtn.setPreferredSize(new Dimension(100, 30));
+		JMenuItem mntmNewMenuItem = new JMenuItem("\u65B0\u5EFA\u9879\u76EE(N)");
+		mntmNewMenuItem.setFont(new Font("Î¢ÈíÑÅºÚ", Font.PLAIN, 16));
 
-		NewItemBtn.setFocusPainted(false);
-		NewItemBtn.setFont(new Font("Î¢ÈíÑÅºÚ", Font.BOLD, 15));
-		NewItemBtn.addActionListener(new ActionListener()
+		mntmNewMenuItem.setMnemonic(KeyEvent.VK_N);
+
+		mntmNewMenuItem.addActionListener(new ActionListener()
 		{
 			public void actionPerformed(ActionEvent arg0)
 			{
@@ -127,13 +133,16 @@ public class MainWindow extends JFrame
 				TabManager.closeAllTab();
 			}
 		});
-		toolBar.add(NewItemBtn);
 
-		JButton CloseItem = new JButton("¹Ø±ÕÏîÄ¿");
-		CloseItem.setPreferredSize(new Dimension(100, 30));
-		CloseItem.setFocusPainted(false);
-		CloseItem.setFont(new Font("Î¢ÈíÑÅºÚ", Font.BOLD, 15));
-		CloseItem.addActionListener(new ActionListener()
+		mnNewMenu_1.add(mntmNewMenuItem);
+
+		JMenu mnNewMenu_4 = new JMenu("\u6700\u8FD1\u6253\u5F00");
+		mnNewMenu_4.setFont(new Font("Î¢ÈíÑÅºÚ", Font.PLAIN, 16));
+		mnNewMenu_1.add(mnNewMenu_4);
+
+		JMenuItem mntmNewMenuItem_1 = new JMenuItem("\u5173\u95ED\u9879\u76EE");
+		mntmNewMenuItem_1.setFont(new Font("Î¢ÈíÑÅºÚ", Font.PLAIN, 16));
+		mntmNewMenuItem_1.addActionListener(new ActionListener()
 		{
 			public void actionPerformed(ActionEvent e)
 			{
@@ -150,38 +159,127 @@ public class MainWindow extends JFrame
 				}
 			}
 		});
-		toolBar.add(CloseItem);
+		mnNewMenu_1.add(mntmNewMenuItem_1);
 
-		JButton ConfigBtn = new JButton("¹æÔòÅäÖÃ");
-		ConfigBtn.setPreferredSize(new Dimension(100, 30));
-		ConfigBtn.setFocusPainted(false);
-		ConfigBtn.setFont(new Font("Î¢ÈíÑÅºÚ", Font.BOLD, 15));
-		ConfigBtn.addActionListener(new ActionListener()
+		mnNewMenu_1.addSeparator();
+
+		JMenuItem mntmNewMenuItem_2 = new JMenuItem("\u9000\u51FA(Q)");
+
+		mntmNewMenuItem_2.setMnemonic(KeyEvent.VK_Q);
+
+		mntmNewMenuItem_2.addActionListener(new ActionListener()
+		{
+			public void actionPerformed(ActionEvent e)
+			{
+				MinimizeIcon.exitSystem();
+			}
+		});
+		mntmNewMenuItem_2.setFont(new Font("Î¢ÈíÑÅºÚ", Font.PLAIN, 16));
+		mnNewMenu_1.add(mntmNewMenuItem_2);
+
+		JMenu mnNewMenu_2 = new JMenu("\u89C4\u5219\u7BA1\u7406(R)");
+
+		mnNewMenu_2.setMnemonic(KeyEvent.VK_R);
+
+		mnNewMenu_2.setFont(new Font("Î¢ÈíÑÅºÚ", Font.PLAIN, 16));
+		menuBar.add(mnNewMenu_2);
+
+		JMenuItem mntmNewMenuItem_3 = new JMenuItem("\u89C4\u5219\u914D\u7F6E");
+		mntmNewMenuItem_3.setFont(new Font("Î¢ÈíÑÅºÚ", Font.PLAIN, 16));
+		mntmNewMenuItem_3.addActionListener(new ActionListener()
 		{
 			public void actionPerformed(ActionEvent e)
 			{
 				RuleManager.openRuleFromFile();
 			}
 		});
-		toolBar.add(ConfigBtn);
+		mnNewMenu_2.add(mntmNewMenuItem_3);
 
-		JButton CodingBtn = new JButton("±àÂë×ª»»");
-		CodingBtn.setPreferredSize(new Dimension(100, 30));
-		CodingBtn.addActionListener(new ActionListener()
+		JMenu mnNewMenu_6 = new JMenu("\u6807\u7B7E\u7BA1\u7406(T)");
+
+		mnNewMenu_6.setMnemonic(KeyEvent.VK_T);
+
+		mnNewMenu_6.setFont(new Font("Î¢ÈíÑÅºÚ", Font.PLAIN, 16));
+		menuBar.add(mnNewMenu_6);
+
+		JMenuItem mntmNewMenuItem_6 = new JMenuItem("\u5173\u95ED\u5F53\u524D\u6807\u7B7E");
+		mntmNewMenuItem_6.setFont(new Font("Î¢ÈíÑÅºÚ", Font.PLAIN, 16));
+		mntmNewMenuItem_6.addActionListener(new ActionListener()
 		{
-			public void actionPerformed(ActionEvent arg0)
+			public void actionPerformed(ActionEvent e)
 			{
-
+				if (MainWindow.tabbedPane.getSelectedIndex() != 0)
+				{
+					TabManager.closeSelectTab(MainWindow.tabbedPane.getSelectedIndex());
+				}
 			}
 		});
-		CodingBtn.setFocusPainted(false);
-		CodingBtn.setFont(new Font("Î¢ÈíÑÅºÚ", Font.BOLD, 15));
-		toolBar.add(CodingBtn);
+		mnNewMenu_6.add(mntmNewMenuItem_6);
 
-		JButton CloseAllTab = new JButton("CloseAllTab");
-		CloseAllTab.setPreferredSize(new Dimension(100, 30));
+		JMenuItem mntmNewMenuItem_5 = new JMenuItem("\u5173\u95ED\u6240\u6709\u6807\u7B7E");
+		mntmNewMenuItem_5.setFont(new Font("Î¢ÈíÑÅºÚ", Font.PLAIN, 16));
+		mntmNewMenuItem_5.addActionListener(new ActionListener()
+		{
+			public void actionPerformed(ActionEvent e)
+			{
+				TabManager.closeOtherTab();
+			}
+		});
+		mnNewMenu_6.add(mntmNewMenuItem_5);
+
+		JMenu mnNewMenu_3 = new JMenu("\u9644\u52A0\u529F\u80FD(A)");
+
+		mnNewMenu_3.setMnemonic(KeyEvent.VK_A);
+
+		mnNewMenu_3.setFont(new Font("Î¢ÈíÑÅºÚ", Font.PLAIN, 16));
+		menuBar.add(mnNewMenu_3);
+
+		JMenuItem mntmNewMenuItem_7 = new JMenuItem("\u7F16\u7801\u8F6C\u6362");
+		mntmNewMenuItem_7.setFont(new Font("Î¢ÈíÑÅºÚ", Font.PLAIN, 16));
+		mnNewMenu_3.add(mntmNewMenuItem_7);
+
+		JMenu mnNewMenu_7 = new JMenu("\u5168\u5C40\u5212\u8BCD\u5BA1\u8BA1");
+		mnNewMenu_7.setFont(new Font("Î¢ÈíÑÅºÚ", Font.PLAIN, 16));
+		mnNewMenu_3.add(mnNewMenu_7);
+
+		JMenuItem mntmNewMenuItem_8 = new JMenuItem("\u5F00");
+		mntmNewMenuItem_8.setFont(new Font("Î¢ÈíÑÅºÚ", Font.PLAIN, 16));
+		mnNewMenu_7.add(mntmNewMenuItem_8);
+
+		JMenuItem mntmNewMenuItem_9 = new JMenuItem("\u5173");
+		mntmNewMenuItem_9.setFont(new Font("Î¢ÈíÑÅºÚ", Font.PLAIN, 16));
+		mnNewMenu_7.add(mntmNewMenuItem_9);
+
+		JMenu mnNewMenu_5 = new JMenu("\u5E2E\u52A9(H)");
+
+		mnNewMenu_5.setMnemonic(KeyEvent.VK_H);
+
+		mnNewMenu_5.setFont(new Font("Î¢ÈíÑÅºÚ", Font.PLAIN, 16));
+		menuBar.add(mnNewMenu_5);
+
+		JMenuItem mntmNewMenuItem_4 = new JMenuItem("\u5173\u4E8E");
+		mntmNewMenuItem_4.setFont(new Font("Î¢ÈíÑÅºÚ", Font.PLAIN, 16));
+		mnNewMenu_5.add(mntmNewMenuItem_4);
+		contentPane = new JPanel();
+		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+		contentPane.setLayout(new BorderLayout(0, 0));
+		setContentPane(contentPane);
+
+		JToolBar toolBar = new JToolBar();
+		toolBar.setBackground(SystemColor.menu);
+		toolBar.setFloatable(false);
+		toolBar.setLayout(new FlowLayout(FlowLayout.RIGHT));
+
+//		contentPane.add(toolBar, BorderLayout.NORTH);
+
+		JButton CloseAllTab = new JButton("");
+		CloseAllTab.setBackground(SystemColor.menu);
+		CloseAllTab.setToolTipText("");
+		CloseAllTab.setIcon(new ImageIcon(MainWindow.class.getResource("/com/icon/close.png")));
+		CloseAllTab.setBorder(null);
+		CloseAllTab.setPreferredSize(new Dimension(20, 20));
 		CloseAllTab.setFocusPainted(false);
-		CloseAllTab.setFont(new Font("Î¢ÈíÑÅºÚ", Font.BOLD, 15));
+		CloseAllTab.setFont(new Font("Î¢ÈíÑÅºÚ", Font.BOLD, 13));
 		CloseAllTab.addActionListener(new ActionListener()
 		{
 			public void actionPerformed(ActionEvent e)
@@ -189,7 +287,7 @@ public class MainWindow extends JFrame
 				TabManager.closeOtherTab();
 			}
 		});
-		toolBar.add(CloseAllTab);
+//		toolBar.add(CloseAllTab);
 
 		JSplitPane splitPane = new JSplitPane();
 		splitPane.setContinuousLayout(true);

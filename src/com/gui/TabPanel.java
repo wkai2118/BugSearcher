@@ -35,7 +35,7 @@ public class TabPanel extends JPanel
 						Rectangle index = MainWindow.tabbedPane.getBoundsAt(i); // 循环拿到每个标签的边界
 						if (index.contains(e.getX(), e.getY()))
 						{
-							TabManager.closeCurrentTab(i);
+							TabManager.closeSelectTab(i);
 						}
 					}
 				}

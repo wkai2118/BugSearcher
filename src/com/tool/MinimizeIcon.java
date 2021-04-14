@@ -20,10 +20,12 @@ import com.gui.MainWindow;
 public class MinimizeIcon
 {
 	public static MenuItem ItemShow;
+	public static SystemTray systemTray;
+	public static TrayIcon BackIcon;
 
 	public static void minisize()
 	{
-		SystemTray systemTray = SystemTray.getSystemTray();
+		systemTray = SystemTray.getSystemTray();
 
 		Image image = Toolkit.getDefaultToolkit().getImage("src/com/icon/16.png");
 		String BackTips = "BugSearcher";
@@ -44,7 +46,7 @@ public class MinimizeIcon
 		menu.add(ItemGrammar);
 
 		menu.add(ItemClose);
-		TrayIcon BackIcon = new TrayIcon(image, BackTips, menu);
+		BackIcon = new TrayIcon(image, BackTips, menu);
 		try
 		{
 			systemTray.add(BackIcon);
@@ -70,23 +72,7 @@ public class MinimizeIcon
 			@Override
 			public void actionPerformed(ActionEvent e)
 			{
-				MainWindow.frame.dispose(); // 消除主窗口
-				FloatingIcon.Icon.dispose(); // 消除悬浮窗
-				if (GlobalGrammarPanel.GrammarSearch != null)
-					GlobalGrammarPanel.GrammarSearch.dispose(); // 如果有查询窗没关，就关闭它
-				systemTray.remove(BackIcon);
-				GlobalScreen.removeNativeMouseListener(GlobalGrammarSearcher.Searcher);
-				GlobalScreen.removeNativeMouseMotionListener(GlobalGrammarSearcher.Searcher);
-				try
-				{
-					GlobalScreen.unregisterNativeHook();
-				} catch (NativeHookException e1)
-				{
-					// TODO 自动生成的 catch 块
-					e1.printStackTrace();
-				}
-				GlobalGrammarSearcher.mTimer.cancel();// 停止所有计时器任务
-				System.exit(0);
+				exitSystem();
 			}
 		});
 
@@ -117,5 +103,26 @@ public class MinimizeIcon
 			}
 		});
 
+	}
+
+	public static void exitSystem()
+	{
+		MainWindow.frame.dispose(); // 消除主窗口
+		FloatingIcon.Icon.dispose(); // 消除悬浮窗
+		if (GlobalGrammarPanel.GrammarSearch != null)
+			GlobalGrammarPanel.GrammarSearch.dispose(); // 如果有查询窗没关，就关闭它
+		systemTray.remove(BackIcon);
+		GlobalScreen.removeNativeMouseListener(GlobalGrammarSearcher.Searcher);
+		GlobalScreen.removeNativeMouseMotionListener(GlobalGrammarSearcher.Searcher);
+		try
+		{
+			GlobalScreen.unregisterNativeHook();
+		} catch (NativeHookException e1)
+		{
+			// TODO 自动生成的 catch 块
+			e1.printStackTrace();
+		}
+		GlobalGrammarSearcher.mTimer.cancel();// 停止所有计时器任务
+		System.exit(0);
 	}
 }

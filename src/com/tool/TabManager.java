@@ -4,7 +4,7 @@ import com.gui.MainWindow;
 
 public class TabManager
 {
-	public static void closeCurrentTab(int index)
+	public static void closeSelectTab(int index)
 	{
 		if (MainWindow.tabbedPane.getSelectedIndex() != 0)
 		{ // 默认无标签时，该值为-1

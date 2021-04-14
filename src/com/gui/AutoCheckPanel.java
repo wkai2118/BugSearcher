@@ -27,6 +27,7 @@ import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
 
 import com.tool.AutoCheckManager;
+import java.awt.SystemColor;
 
 public class AutoCheckPanel extends JPanel
 {
@@ -83,6 +84,7 @@ public class AutoCheckPanel extends JPanel
 		scrollPane.setViewportView(AutoCheckPanel.ResultTable);
 
 		JToolBar CtrlToolBar = new JToolBar();
+		CtrlToolBar.setBackground(SystemColor.menu);
 		CtrlToolBar.setLayout(new FlowLayout(FlowLayout.CENTER));
 
 		CtrlToolBar.setFont(new Font("Î¢ÈíÑÅºÚ", Font.PLAIN, 13));
@@ -90,7 +92,9 @@ public class AutoCheckPanel extends JPanel
 		add(CtrlToolBar, BorderLayout.SOUTH);
 
 		btnNewButton = new JButton("¿ªÊ¼Éó¼Æ");
+		btnNewButton.setBackground(SystemColor.menu);
 		btnNewButton.setFocusPainted(false);
+		btnNewButton.setBorder(null);
 		btnNewButton.addActionListener(new ActionListener()
 		{
 			public void actionPerformed(ActionEvent e)
@@ -106,11 +110,12 @@ public class AutoCheckPanel extends JPanel
 				}
 			}
 		});
-		btnNewButton.setFont(new Font("Î¢ÈíÑÅºÚ", Font.BOLD, 13));
+		btnNewButton.setFont(new Font("Î¢ÈíÑÅºÚ", Font.PLAIN, 15));
 		CtrlToolBar.add(btnNewButton);
 
 		JButton btnNewButton_1 = new JButton("\u505C\u6B62\u5BA1\u8BA1");
 		btnNewButton_1.setFocusPainted(false);
+		btnNewButton_1.setBorder(null);
 		btnNewButton_1.addActionListener(new ActionListener()
 		{
 			public void actionPerformed(ActionEvent e)
@@ -118,11 +123,12 @@ public class AutoCheckPanel extends JPanel
 				AutoCheckManager.stopAutoCheck();
 			}
 		});
-		btnNewButton_1.setFont(new Font("Î¢ÈíÑÅºÚ", Font.BOLD, 13));
+		btnNewButton_1.setFont(new Font("Î¢ÈíÑÅºÚ", Font.PLAIN, 15));
 		CtrlToolBar.add(btnNewButton_1);
 
 		JButton btnNewButton_2 = new JButton("\u8F93\u51FA\u8868\u683C");
 		btnNewButton_2.setFocusPainted(false);
+		btnNewButton_2.setBorder(null);
 		btnNewButton_2.addActionListener(new ActionListener()
 		{
 			public void actionPerformed(ActionEvent arg0)
@@ -130,7 +136,7 @@ public class AutoCheckPanel extends JPanel
 				AutoCheckManager.reportForHtml();
 			}
 		});
-		btnNewButton_2.setFont(new Font("Î¢ÈíÑÅºÚ", Font.BOLD, 13));
+		btnNewButton_2.setFont(new Font("Î¢ÈíÑÅºÚ", Font.PLAIN, 15));
 		CtrlToolBar.add(btnNewButton_2);
 
 		CtrlToolBar.addSeparator(new Dimension(5, 0));

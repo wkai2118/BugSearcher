@@ -23,7 +23,6 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
 import javax.swing.JProgressBar;
-import javax.swing.RowSorter;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
@@ -48,12 +47,14 @@ public class AutoCheckManager
 	public static DefaultMutableTreeNodes node;
 	static Matcher m;
 	static TableListener tableListener = new TableListener();
+	static ArrayList<String> bugType;;
 
 	public static void runAutoCheck()
 	{
 		AutoCheckPanel.ResultModel.setRowCount(0);
-		AutoCheckPanel.ResultTable.setRowSorter(null);	//重新开始后必须移除原有的排序设定，防止扫描中被排序
+		AutoCheckPanel.ResultTable.setRowSorter(null); // 重新开始后必须移除原有的排序设定，防止扫描中被排序
 		AutoCheckPanel.ResultTable.removeMouseListener(tableListener); // 防止重复注册事件
+
 		if (MainWindow.ParentNode != null) // 说明已经新建了项目
 		{
 			myThread = new startAutoCheck();
@@ -102,6 +103,11 @@ public class AutoCheckManager
 							{
 								String[] rowDate = { RuleDate[i][1], path, line };
 								AutoCheckPanel.ResultModel.addRow(rowDate);
+								if (!bugType.contains(RuleDate[i][1]))
+								{
+									AutoCheckPanel.TypeComboBox.addItem(RuleDate[i][1]);
+									bugType.add(RuleDate[i][1]);
+								}
 								bugResult.add(RuleDate[i][1] + path + line);
 							}
 						}
@@ -219,6 +225,7 @@ public class AutoCheckManager
 
 	public static void AutoCheckInit()
 	{
+		bugType = new ArrayList<String>();
 		MainWindow.tabbedPane.add("自动审计", new AutoCheckPanel());
 		MainWindow.tabbedPane.setSelectedIndex(MainWindow.tabbedPane.getTabCount() - 1);
 	}
@@ -252,8 +259,8 @@ class startAutoCheck extends Thread
 			AutoCheckPanel.progressBar.setValue(i);
 		}
 		AutoCheckManager.myThreadState = false;
-		RowSorter<TableModel> sorter = new TableRowSorter<TableModel>(AutoCheckPanel.ResultModel);
-		AutoCheckPanel.ResultTable.setRowSorter(sorter);
+		AutoCheckPanel.sorter = new TableRowSorter<TableModel>(AutoCheckPanel.ResultModel);
+		AutoCheckPanel.ResultTable.setRowSorter(AutoCheckPanel.sorter);
 	}
 
 }

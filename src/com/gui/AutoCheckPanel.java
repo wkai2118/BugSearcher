@@ -8,6 +8,8 @@ import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.ComboBoxModel;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
@@ -17,7 +19,12 @@ import javax.swing.JProgressBar;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JToolBar;
+import javax.swing.RowFilter;
+import javax.swing.event.ListDataEvent;
+import javax.swing.event.ListDataListener;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
+import javax.swing.table.TableRowSorter;
 
 import com.tool.AutoCheckManager;
 
@@ -36,6 +43,9 @@ public class AutoCheckPanel extends JPanel
 	public static DefaultTableModel ResultModel; // 输出表格模型
 	public static JProgressBar progressBar;
 	public static JButton btnNewButton;
+	public static JComboBox<String> TypeComboBox;
+	public static JComboBox<String> FileComboBox;
+	public static TableRowSorter<TableModel> sorter;
 
 	/**
 	 * Create the panel.
@@ -66,7 +76,7 @@ public class AutoCheckPanel extends JPanel
 
 //		RowSorter<TableModel> sorter = new TableRowSorter<TableModel>(AutoCheckPanel.ResultModel);
 
-		AutoCheckPanel.ResultTable.setRowSorter(null); // 设置排序
+		AutoCheckPanel.ResultTable.setRowSorter(null); // 取消排序
 
 //		AutoCheckPanel.ResultTable.setEnabled(false);
 
@@ -135,7 +145,9 @@ public class AutoCheckPanel extends JPanel
 		CtrlToolBar.add(progressBar);
 
 		JToolBar FilterToolBar = new JToolBar();
-		FilterToolBar.setLayout(new FlowLayout(FlowLayout.CENTER));
+		FilterToolBar.setLayout(new FlowLayout(FlowLayout.LEFT));
+
+		add(FilterToolBar, BorderLayout.NORTH);
 
 		FilterToolBar.setFloatable(false);
 
@@ -143,21 +155,45 @@ public class AutoCheckPanel extends JPanel
 		FilterTypeLabel.setFont(new Font("微软雅黑", Font.PLAIN, 13));
 		FilterToolBar.add(FilterTypeLabel);
 
-		JComboBox<String> TypeComboBox = new JComboBox<String>();
-		TypeComboBox.setPreferredSize(new Dimension(380, 20));
+		String[] Items = { "全部" };
+
+		TypeComboBox = new JComboBox<String>();
+		TypeComboBox.setPreferredSize(new Dimension(580, 23));
+		TypeComboBox.setFont(new Font("微软雅黑", Font.PLAIN, 13));
 		FilterToolBar.add(TypeComboBox);
 
-		FilterToolBar.addSeparator(new Dimension(10, 0));
+		ComboBoxModel<String> TyprCm = new DefaultComboBoxModel<>(Items);
+		TypeComboBox.setModel(TyprCm);
+		TyprCm.addListDataListener(new ListDataListener()
+		{
 
-		JLabel FilterFlieLabel = new JLabel("文件筛选：");
-		FilterFlieLabel.setFont(new Font("微软雅黑", Font.PLAIN, 13));
-		FilterToolBar.add(FilterFlieLabel);
+			@Override
+			public void intervalRemoved(ListDataEvent e)
+			{
+				// TODO 自动生成的方法存根
 
-		JComboBox<String> FileComBox = new JComboBox<String>();
-		FileComBox.setPreferredSize(new Dimension(380, 20));
-		FilterToolBar.add(FileComBox);
+			}
 
-		add(FilterToolBar, BorderLayout.NORTH);
+			@Override
+			public void intervalAdded(ListDataEvent e)
+			{
+				// TODO 自动生成的方法存根
 
+			}
+
+			@Override
+			public void contentsChanged(ListDataEvent e)
+			{
+				// TODO 自动生成的方法存根
+				if (TypeComboBox.getSelectedItem() == "全部")
+				{
+					AutoCheckPanel.sorter.setRowFilter(null);
+				} else
+				{
+					AutoCheckPanel.sorter
+							.setRowFilter(RowFilter.regexFilter(TypeComboBox.getSelectedItem().toString()));
+				}
+			}
+		});
 	}
 }

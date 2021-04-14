@@ -124,6 +124,7 @@ public class MainWindow extends JFrame
 			public void actionPerformed(ActionEvent arg0)
 			{
 				FileTreeManager.getFileTree();
+				TabManager.closeAllTab();
 			}
 		});
 		toolBar.add(NewItemBtn);

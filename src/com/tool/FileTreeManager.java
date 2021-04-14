@@ -39,7 +39,6 @@ public class FileTreeManager
 		if (i == JFileChooser.APPROVE_OPTION) // 如果i为允许的选项
 		{
 			String path = filechooser.getSelectedFile().getAbsolutePath(); // 将选择项的绝对路径给path
-//			System.out.println(path);
 			if (MainWindow.TreeScrollPane != null)
 			{
 				MainWindow.FileTreepanel.remove(MainWindow.TreeScrollPane); // 这边只能移除滚动面板，直接移除树面板没用
@@ -135,7 +134,7 @@ public class FileTreeManager
 		if ((((DefaultMutableTreeNodes) TreeSelection.getLastSelectedPathComponent()).node_value) != null) // 如果点击的是文件夹，因为文件夹不会存储path，所以node_value为空
 		{
 			MainWindow.textArea = new RSyntaxTextArea();
-			MainWindow.textArea.setCodeFoldingEnabled(true);
+//			MainWindow.textArea.setCodeFoldingEnabled(true);
 			String path = ((DefaultMutableTreeNodes) TreeSelection.getLastSelectedPathComponent()).node_value; // 从节点中获取存储的path
 			MainWindow.textArea.setSyntaxEditingStyle("text/" + path.split("\\.")[path.split("\\.").length - 1]);
 			MainWindow.textArea.setFont(MainWindow.textArea.getFont().deriveFont((float) 15));

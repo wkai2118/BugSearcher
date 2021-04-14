@@ -16,13 +16,17 @@ import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.regex.Matcher;
+
 import javax.swing.JFileChooser;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
 import javax.swing.JProgressBar;
+import javax.swing.RowSorter;
 import javax.swing.filechooser.FileNameExtensionFilter;
+import javax.swing.table.TableModel;
+import javax.swing.table.TableRowSorter;
 
 import org.apache.commons.lang3.StringEscapeUtils;
 import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
@@ -48,6 +52,7 @@ public class AutoCheckManager
 	public static void runAutoCheck()
 	{
 		AutoCheckPanel.ResultModel.setRowCount(0);
+		AutoCheckPanel.ResultTable.setRowSorter(null);	//重新开始后必须移除原有的排序设定，防止扫描中被排序
 		AutoCheckPanel.ResultTable.removeMouseListener(tableListener); // 防止重复注册事件
 		if (MainWindow.ParentNode != null) // 说明已经新建了项目
 		{
@@ -69,6 +74,8 @@ public class AutoCheckManager
 		{
 			myThread.stop();
 			myThreadState = false;
+			AutoCheckPanel.ResultModel.setRowCount(0);
+			AutoCheckPanel.progressBar.setValue(0);
 		}
 	}
 
@@ -245,6 +252,8 @@ class startAutoCheck extends Thread
 			AutoCheckPanel.progressBar.setValue(i);
 		}
 		AutoCheckManager.myThreadState = false;
+		RowSorter<TableModel> sorter = new TableRowSorter<TableModel>(AutoCheckPanel.ResultModel);
+		AutoCheckPanel.ResultTable.setRowSorter(sorter);
 	}
 
 }
@@ -259,7 +268,7 @@ class TableListener implements MouseListener
 		if (selectRow != -1)
 		{
 			MainWindow.textArea = new RSyntaxTextArea();
-			MainWindow.textArea.setCodeFoldingEnabled(true);
+//			MainWindow.textArea.setCodeFoldingEnabled(true);
 			String path = (String) AutoCheckPanel.ResultModel.getValueAt(selectRow, 1);
 			MainWindow.textArea.setSyntaxEditingStyle("text/" + path.split("\\.")[path.split("\\.").length - 1]);
 			MainWindow.textArea.setFont(MainWindow.textArea.getFont().deriveFont((float) 15));

@@ -1,7 +1,9 @@
 package com.gui;
 
 import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.awt.EventQueue;
+import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -57,6 +59,7 @@ public class MainWindow extends JFrame
 	public static JPanel TabPane; // 占位子用的，防在分割面板的右侧了
 
 	public static MainWindow frame; // 主窗口
+	public static JButton NewItemBtn;
 
 	/**
 	 * Launch the application.
@@ -106,9 +109,14 @@ public class MainWindow extends JFrame
 
 		JToolBar toolBar = new JToolBar();
 		toolBar.setFloatable(false);
+		toolBar.setLayout(new FlowLayout(FlowLayout.LEFT));
+
 		contentPane.add(toolBar, BorderLayout.NORTH);
 
-		JButton NewItemBtn = new JButton("新建项目");
+		NewItemBtn = new JButton("新建项目");
+
+		NewItemBtn.setPreferredSize(new Dimension(100, 30));
+
 		NewItemBtn.setFocusPainted(false);
 		NewItemBtn.setFont(new Font("微软雅黑", Font.BOLD, 15));
 		NewItemBtn.addActionListener(new ActionListener()
@@ -121,6 +129,7 @@ public class MainWindow extends JFrame
 		toolBar.add(NewItemBtn);
 
 		JButton CloseItem = new JButton("关闭项目");
+		CloseItem.setPreferredSize(new Dimension(100, 30));
 		CloseItem.setFocusPainted(false);
 		CloseItem.setFont(new Font("微软雅黑", Font.BOLD, 15));
 		CloseItem.addActionListener(new ActionListener()
@@ -143,6 +152,7 @@ public class MainWindow extends JFrame
 		toolBar.add(CloseItem);
 
 		JButton ConfigBtn = new JButton("规则配置");
+		ConfigBtn.setPreferredSize(new Dimension(100, 30));
 		ConfigBtn.setFocusPainted(false);
 		ConfigBtn.setFont(new Font("微软雅黑", Font.BOLD, 15));
 		ConfigBtn.addActionListener(new ActionListener()
@@ -155,6 +165,7 @@ public class MainWindow extends JFrame
 		toolBar.add(ConfigBtn);
 
 		JButton CodingBtn = new JButton("编码转换");
+		CodingBtn.setPreferredSize(new Dimension(100, 30));
 		CodingBtn.addActionListener(new ActionListener()
 		{
 			public void actionPerformed(ActionEvent arg0)
@@ -167,6 +178,7 @@ public class MainWindow extends JFrame
 		toolBar.add(CodingBtn);
 
 		JButton CloseAllTab = new JButton("CloseAllTab");
+		CloseAllTab.setPreferredSize(new Dimension(100, 30));
 		CloseAllTab.setFocusPainted(false);
 		CloseAllTab.setFont(new Font("微软雅黑", Font.BOLD, 15));
 		CloseAllTab.addActionListener(new ActionListener()

@@ -11,29 +11,25 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
-import java.io.Reader;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.regex.Matcher;
 
 import javax.swing.JFileChooser;
-import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.JPopupMenu;
 import javax.swing.JProgressBar;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
 
 import org.apache.commons.lang3.StringEscapeUtils;
-import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
 import org.fife.ui.rtextarea.SearchContext;
 import org.fife.ui.rtextarea.SearchEngine;
 
 import com.gui.AutoCheckPanel;
-import com.gui.CodeEditor;
+import com.gui.CodeEditPanel;
 import com.gui.MainWindow;
 import com.tool.FileTreeManager.DefaultMutableTreeNodes;
 
@@ -46,7 +42,7 @@ public class AutoCheckManager
 	public static ArrayList<String> bugResult;
 	public static DefaultMutableTreeNodes node;
 	static Matcher m;
-	static TableListener tableListener = new TableListener();
+	public static TableListener tableListener = new TableListener();
 	static ArrayList<String> bugType;;
 
 	public static void runAutoCheck()
@@ -94,7 +90,7 @@ public class AutoCheckManager
 			{
 				while ((line = br.readLine()) != null) // 一行一行读取
 				{
-					for (int i = 0; i < RuleDate.length; i++)
+					for (int i = 0; i < RuleDate.length; i++) // 将读取的行放入每一个规则中
 					{
 						m = RuleManager.CompileRules[i].matcher(line);
 						if (m.find())
@@ -112,6 +108,8 @@ public class AutoCheckManager
 							}
 						}
 					}
+
+					/* 这里匹配Function XXX( */
 				}
 
 			} catch (IOException e)
@@ -271,55 +269,20 @@ class TableListener implements MouseListener
 	@Override
 	public void mouseClicked(MouseEvent e)
 	{
-		int selectRow = AutoCheckPanel.ResultTable.getSelectedRow();
-		if (selectRow != -1)
+		int selectRow = AutoCheckPanel.ResultTable.getSelectedRow(); // 只能获取视图中的索引，而视图与模型是一一对应的
+		int model_row = AutoCheckPanel.ResultTable.convertRowIndexToModel(selectRow);
+		if (model_row != -1)
 		{
-			MainWindow.textArea = new RSyntaxTextArea();
-//			MainWindow.textArea.setCodeFoldingEnabled(true);
-			String path = (String) AutoCheckPanel.ResultModel.getValueAt(selectRow, 1);
-			MainWindow.textArea.setSyntaxEditingStyle("text/" + path.split("\\.")[path.split("\\.").length - 1]);
-			MainWindow.textArea.setFont(MainWindow.textArea.getFont().deriveFont((float) 15));
-			JPopupMenu popup = MainWindow.textArea.getPopupMenu();
-			popup.addSeparator();
-			popup.add(new JMenuItem(new GrammarSearcher()));
-
-			FileInputStream f = null;
-			try
-			{
-				f = new FileInputStream(path); // 无奈，想设置编码格式必须用InputStreamReader
-			} catch (FileNotFoundException e2)
-			{
-				// TODO 自动生成的 catch 块
-				e2.printStackTrace();
-			} // 实例化为file类
-			Reader is = null; // 创建个Reader类
-			try
-			{
-				is = new BufferedReader(new InputStreamReader(f, "utf-8")); // 从f中实例化Reader类
-			} catch (UnsupportedEncodingException e1)
-			{
-				// TODO 自动生成的 catch 块
-				e1.printStackTrace();
-			}
-			try
-			{
-				MainWindow.textArea.read(is, "d"); // textArea直接读取Reader类
-			} catch (IOException e1)
-			{
-				// TODO 自动生成的 catch 块
-				e1.printStackTrace();
-			}
-			JPanel codeEditPane = new CodeEditor();
-
-			MainWindow.tabbedPane.add(new File(path).getName(), codeEditPane);
-			MainWindow.tabbedPane.setSelectedIndex(MainWindow.tabbedPane.getTabCount() - 1);
+			String path = (String) AutoCheckPanel.ResultModel.getValueAt(model_row, 1);
+			@SuppressWarnings("unused")
+			JPanel codeEditPane = new CodeEditPanel(path);
 
 			SearchContext context = new SearchContext();
-			context.setSearchFor((String) AutoCheckPanel.ResultModel.getValueAt(selectRow, 2));
+			context.setSearchFor((String) AutoCheckPanel.ResultModel.getValueAt(model_row, 2));
 			context.setSearchForward(true);
 			@SuppressWarnings("unused")
 			boolean found = SearchEngine.find(MainWindow.textArea, context).wasFound();
-			CodeEditor.textField.setText((String) AutoCheckPanel.ResultModel.getValueAt(selectRow, 2));
+			CodeEditPanel.textField.setText((String) AutoCheckPanel.ResultModel.getValueAt(selectRow, 2));
 		}
 	}
 

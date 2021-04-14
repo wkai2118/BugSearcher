@@ -38,6 +38,7 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 import java.awt.SystemColor;
+import java.awt.Color;
 
 @SuppressWarnings("unused")
 public class MainWindow extends JFrame
@@ -140,7 +141,10 @@ public class MainWindow extends JFrame
 		mnNewMenu_4.setFont(new Font("Î¢ÈíÑÅºÚ", Font.PLAIN, 16));
 		mnNewMenu_1.add(mnNewMenu_4);
 
-		JMenuItem mntmNewMenuItem_1 = new JMenuItem("\u5173\u95ED\u9879\u76EE");
+		JMenuItem mntmNewMenuItem_1 = new JMenuItem("\u5173\u95ED\u9879\u76EE(C)");
+
+		mntmNewMenuItem_1.setMnemonic(KeyEvent.VK_C);
+
 		mntmNewMenuItem_1.setFont(new Font("Î¢ÈíÑÅºÚ", Font.PLAIN, 16));
 		mntmNewMenuItem_1.addActionListener(new ActionListener()
 		{
@@ -242,11 +246,18 @@ public class MainWindow extends JFrame
 		mnNewMenu_7.setFont(new Font("Î¢ÈíÑÅºÚ", Font.PLAIN, 16));
 		mnNewMenu_3.add(mnNewMenu_7);
 
-		JMenuItem mntmNewMenuItem_8 = new JMenuItem("\u5F00");
+		JMenuItem mntmNewMenuItem_8 = new JMenuItem("    \u5F00    ");
+		mntmNewMenuItem_8.addActionListener(new ActionListener()
+		{
+			public void actionPerformed(ActionEvent e)
+			{
+
+			}
+		});
 		mntmNewMenuItem_8.setFont(new Font("Î¢ÈíÑÅºÚ", Font.PLAIN, 16));
 		mnNewMenu_7.add(mntmNewMenuItem_8);
 
-		JMenuItem mntmNewMenuItem_9 = new JMenuItem("\u5173");
+		JMenuItem mntmNewMenuItem_9 = new JMenuItem("    \u5173    ");
 		mntmNewMenuItem_9.setFont(new Font("Î¢ÈíÑÅºÚ", Font.PLAIN, 16));
 		mnNewMenu_7.add(mntmNewMenuItem_9);
 
@@ -266,30 +277,30 @@ public class MainWindow extends JFrame
 		setContentPane(contentPane);
 
 		JToolBar toolBar = new JToolBar();
-		toolBar.setBackground(SystemColor.menu);
 		toolBar.setFloatable(false);
 		toolBar.setLayout(new FlowLayout(FlowLayout.RIGHT));
 
 //		contentPane.add(toolBar, BorderLayout.NORTH);
 
-		JButton CloseAllTab = new JButton("");
-		CloseAllTab.setBackground(SystemColor.menu);
-		CloseAllTab.setToolTipText("");
-		CloseAllTab.setIcon(new ImageIcon(MainWindow.class.getResource("/com/icon/close.png")));
-		CloseAllTab.setBorder(null);
-		CloseAllTab.setPreferredSize(new Dimension(20, 20));
-		CloseAllTab.setFocusPainted(false);
-		CloseAllTab.setFont(new Font("Î¢ÈíÑÅºÚ", Font.BOLD, 13));
-		CloseAllTab.addActionListener(new ActionListener()
-		{
-			public void actionPerformed(ActionEvent e)
-			{
-				TabManager.closeOtherTab();
-			}
-		});
+//		JButton CloseAllTab = new JButton("");
+//		CloseAllTab.setBackground(SystemColor.menu);
+//		CloseAllTab.setToolTipText("");
+//		CloseAllTab.setIcon(new ImageIcon(MainWindow.class.getResource("/com/icon/close.png")));
+//		CloseAllTab.setBorder(null);
+//		CloseAllTab.setPreferredSize(new Dimension(20, 20));
+//		CloseAllTab.setFocusPainted(false);
+//		CloseAllTab.setFont(new Font("Î¢ÈíÑÅºÚ", Font.BOLD, 13));
+//		CloseAllTab.addActionListener(new ActionListener()
+//		{
+//			public void actionPerformed(ActionEvent e)
+//			{
+//				TabManager.closeOtherTab();
+//			}
+//		});
 //		toolBar.add(CloseAllTab);
 
 		JSplitPane splitPane = new JSplitPane();
+		splitPane.setBackground(SystemColor.control);
 		splitPane.setContinuousLayout(true);
 		splitPane.setDividerLocation(200);
 		splitPane.setDividerSize(5);
@@ -355,7 +366,7 @@ public class MainWindow extends JFrame
 	public static void InitAll()
 	{
 		FileTreepanel = new FilePanel(); // ÊµÀý»¯×ó²àÃæ°å
-		TabPane = new TabPanel(); // ÊµÀý»¯ÓÒ²àÃæ°å
+		TabPane = new AllTabPanel(); // ÊµÀý»¯ÓÒ²àÃæ°å
 		RuleManager.setRulePtah("src/com/config/Rule.txt");
 		RuleManager.CompileRuleInit();
 		AutoCheckManager.AutoCheckInit();

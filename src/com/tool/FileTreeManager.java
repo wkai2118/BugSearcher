@@ -2,28 +2,17 @@ package com.tool;
 
 import java.awt.BorderLayout;
 import java.awt.Font;
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.Reader;
-import java.io.UnsupportedEncodingException;
 
 import javax.swing.JFileChooser;
-import javax.swing.JMenuItem;
 import javax.swing.JPanel;
-import javax.swing.JPopupMenu;
 import javax.swing.JScrollPane;
 import javax.swing.JTree;
 import javax.swing.event.TreeSelectionEvent;
 import javax.swing.event.TreeSelectionListener;
 import javax.swing.tree.DefaultMutableTreeNode;
 
-import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
-
-import com.gui.CodeEditor;
+import com.gui.CodeEditPanel;
 import com.gui.MainWindow;
 
 public class FileTreeManager
@@ -117,6 +106,9 @@ public class FileTreeManager
 						DefaultMutableTreeNodes temp = new DefaultMutableTreeNodes(file2.getName());
 						temp.setValue(file2.getAbsolutePath()); // 将文件的路径存储到value中
 						FileCount++;
+
+						/* 这里添加函数和变量至文件 */
+
 						ParentNode.add(temp);
 					}
 				}
@@ -133,46 +125,19 @@ public class FileTreeManager
 		JTree TreeSelection = (JTree) e.getSource(); // 从e中获取实例本身
 		if ((((DefaultMutableTreeNodes) TreeSelection.getLastSelectedPathComponent()).node_value) != null) // 如果点击的是文件夹，因为文件夹不会存储path，所以node_value为空
 		{
-			MainWindow.textArea = new RSyntaxTextArea();
-//			MainWindow.textArea.setCodeFoldingEnabled(true);
 			String path = ((DefaultMutableTreeNodes) TreeSelection.getLastSelectedPathComponent()).node_value; // 从节点中获取存储的path
-			MainWindow.textArea.setSyntaxEditingStyle("text/" + path.split("\\.")[path.split("\\.").length - 1]);
-			MainWindow.textArea.setFont(MainWindow.textArea.getFont().deriveFont((float) 15));
-
-			JPopupMenu popup = MainWindow.textArea.getPopupMenu();
-			popup.addSeparator();
-			popup.add(new JMenuItem(new GrammarSearcher()));
-			FileInputStream f = null;
-			try
-			{
-				f = new FileInputStream(path); // 无奈，想设置编码格式必须用InputStreamReader
-			} catch (FileNotFoundException e2)
-			{
-				// TODO 自动生成的 catch 块
-				e2.printStackTrace();
-			} // 实例化为file类
-			Reader is = null; // 创建个Reader类
-			try
-			{
-				is = new BufferedReader(new InputStreamReader(f, "utf-8")); // 从f中实例化Reader类
-			} catch (UnsupportedEncodingException e1)
-			{
-				// TODO 自动生成的 catch 块
-				e1.printStackTrace();
-			}
-			try
-			{
-				MainWindow.textArea.read(is, "d"); // textArea直接读取Reader类
-			} catch (IOException e1)
-			{
-				// TODO 自动生成的 catch 块
-				e1.printStackTrace();
-			}
-			JPanel codeEditPane = new CodeEditor();
-
-			MainWindow.tabbedPane.add(new File(path).getName(), codeEditPane);
-			MainWindow.tabbedPane.setSelectedIndex(MainWindow.tabbedPane.getTabCount() - 1);
+			@SuppressWarnings("unused")
+			JPanel codeEditPane = new CodeEditPanel(path);
+		} else
+		{
+			
 		}
+	}
+
+	public static DefaultMutableTreeNodes addFuncAndVariate(String path)
+	{
+
+		return null;
 	}
 
 }

@@ -10,7 +10,7 @@ import javax.swing.JTabbedPane;
 
 import com.tool.TabManager;
 
-public class TabPanel extends JPanel
+public class AllTabPanel extends JPanel
 {
 
 	private static final long serialVersionUID = 1L;
@@ -18,7 +18,7 @@ public class TabPanel extends JPanel
 	/**
 	 * Create the panel.
 	 */
-	public TabPanel()
+	public AllTabPanel()
 	{
 		setLayout(new BorderLayout(0, 0));
 		MainWindow.tabbedPane = new JTabbedPane(JTabbedPane.TOP);

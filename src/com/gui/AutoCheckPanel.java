@@ -85,7 +85,7 @@ public class AutoCheckPanel extends JPanel
 
 		JToolBar CtrlToolBar = new JToolBar();
 		CtrlToolBar.setBackground(SystemColor.menu);
-		CtrlToolBar.setLayout(new FlowLayout(FlowLayout.CENTER));
+		CtrlToolBar.setLayout(new FlowLayout(FlowLayout.LEFT));
 
 		CtrlToolBar.setFont(new Font("微软雅黑", Font.PLAIN, 13));
 		CtrlToolBar.setFloatable(false);
@@ -102,7 +102,6 @@ public class AutoCheckPanel extends JPanel
 				if (!AutoCheckManager.myThreadState)
 				{
 					AutoCheckManager.runAutoCheck();
-
 				} else
 				{
 
@@ -146,7 +145,7 @@ public class AutoCheckPanel extends JPanel
 		CtrlToolBar.add(lblNewLabel);
 
 		progressBar = new JProgressBar();
-		progressBar.setPreferredSize(new Dimension(680, 13));
+		progressBar.setPreferredSize(new Dimension(500, 13));
 
 		CtrlToolBar.add(progressBar);
 
@@ -190,7 +189,6 @@ public class AutoCheckPanel extends JPanel
 			@Override
 			public void contentsChanged(ListDataEvent e)
 			{
-				// TODO 自动生成的方法存根
 				if (TypeComboBox.getSelectedItem() == "全部")
 				{
 					AutoCheckPanel.sorter.setRowFilter(null);

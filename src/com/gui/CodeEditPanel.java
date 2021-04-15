@@ -4,6 +4,8 @@ import java.awt.BorderLayout;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
@@ -12,15 +14,21 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.Reader;
 import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JList;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
+import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 import javax.swing.JTextField;
+import javax.swing.border.BevelBorder;
 
 import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
 import org.fife.ui.rtextarea.RTextScrollPane;
@@ -37,7 +45,19 @@ public class CodeEditPanel extends JPanel
 	 */
 	private static final long serialVersionUID = 1L;
 	public JSplitPane splitPane;
-	public static JTextField textField;
+	public JTextField textField;
+	private RSyntaxTextArea textArea;
+	private JList<String> list;
+	private JList<String> list_1;
+	private JScrollPane scrollPane;
+	private JScrollPane scrollPane_1;
+	private static Pattern FuncRegx = Pattern.compile("(function\\s{1,5}(\\w{1,20})\\s{0,5})(?=\\()",
+			Pattern.CASE_INSENSITIVE);
+	private static Pattern VarsRegx = Pattern.compile("\\$\\w{1,20}((\\[[\"']|\\[)\\${0,1}[\\w\\[\\]\"']{0,30}){0,1}",
+			Pattern.CASE_INSENSITIVE);
+	private String[] ArrayFunc;
+	private String[] ArrayVars;
+	private boolean SearchForward = true;
 
 	/**
 	 * Create the panel.
@@ -51,13 +71,12 @@ public class CodeEditPanel extends JPanel
 		splitPane.setDividerSize(5);
 		add(splitPane, BorderLayout.CENTER);
 
-		
-		MainWindow.textArea = new RSyntaxTextArea();
+		textArea = new RSyntaxTextArea();
 //		MainWindow.textArea.setCodeFoldingEnabled(true);
-		MainWindow.textArea.setSyntaxEditingStyle("text/" + path.split("\\.")[path.split("\\.").length - 1]);
-		MainWindow.textArea.setFont(MainWindow.textArea.getFont().deriveFont((float) 15));
+		textArea.setSyntaxEditingStyle("text/" + path.split("\\.")[path.split("\\.").length - 1]);
+		textArea.setFont(textArea.getFont().deriveFont((float) 15));
 
-		JPopupMenu popup = MainWindow.textArea.getPopupMenu();
+		JPopupMenu popup = textArea.getPopupMenu();
 		popup.addSeparator();
 		popup.add(new JMenuItem(new GrammarSearcher()));
 		popup.add(new JMenuItem(new FuncGuide()));
@@ -81,7 +100,7 @@ public class CodeEditPanel extends JPanel
 		}
 		try
 		{
-			MainWindow.textArea.read(is, "d"); // textArea直接读取Reader类
+			textArea.read(is, "d"); // textArea直接读取Reader类
 			is.close();
 			f.close();
 
@@ -91,10 +110,10 @@ public class CodeEditPanel extends JPanel
 			e1.printStackTrace();
 		}
 
-		RTextScrollPane sp = new RTextScrollPane(MainWindow.textArea);
+		RTextScrollPane sp = new RTextScrollPane(textArea);
 
 		splitPane.setLeftComponent(sp);
-		
+
 		MainWindow.tabbedPane.add(new File(path).getName(), this);
 		MainWindow.tabbedPane.setSelectedIndex(MainWindow.tabbedPane.getTabCount() - 1);
 
@@ -108,13 +127,15 @@ public class CodeEditPanel extends JPanel
 
 		SearchLabel.setBounds(30, 10, 100, 30);
 
-		SearchLabel.setFont(new Font("Menu.font", Font.PLAIN, 15));
+		SearchLabel.setFont(new Font("微软雅黑", Font.PLAIN, 15));
 
 		SearchPanel.add(SearchLabel);
 
 		textField = new JTextField();
 
 		SearchPanel.add(textField);
+
+		textField.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
 		textField.setColumns(10);
 		textField.setBounds(120, 10, 700, 30);
 		textField.setFont(new Font("Menu.font", Font.PLAIN, 15));
@@ -127,22 +148,192 @@ public class CodeEditPanel extends JPanel
 
 		SearchContext context = new SearchContext();
 
+//		context.setSearchForward(false);
+
 		SearchBtn.addActionListener(new ActionListener()
 		{
 			public void actionPerformed(ActionEvent e)
 			{
 
-				context.setSearchFor(CodeEditPanel.textField.getText());
-				context.setSearchForward(true);
-				boolean found = SearchEngine.find(MainWindow.textArea, context).wasFound();
+				context.setSearchFor(textField.getText());
+				boolean found = SearchEngine.find(textArea, context).wasFound();
 				if (!found)
 				{
 					JOptionPane.showMessageDialog(MainWindow.frame, "已搜索完毕", "提示", JOptionPane.DEFAULT_OPTION);
+					SearchForward = !SearchForward;
+					context.setSearchForward(SearchForward);
 				}
 			}
 		});
 
 		SearchPanel.add(SearchBtn);
 
+		JLabel lblNewLabel = new JLabel("\u51FD\u6570\u6C47\u603B\uFF1A");
+		lblNewLabel.setFont(new Font("微软雅黑", Font.PLAIN, 15));
+		lblNewLabel.setBounds(30, 83, 89, 18);
+		SearchPanel.add(lblNewLabel);
+
+		JLabel lblNewLabel_1 = new JLabel("\u53D8\u91CF\u6C47\u603B\uFF1A");
+		lblNewLabel_1.setFont(new Font("微软雅黑", Font.PLAIN, 15));
+		lblNewLabel_1.setBounds(375, 84, 75, 18);
+		SearchPanel.add(lblNewLabel_1);
+
+		scrollPane = new JScrollPane();
+		scrollPane.setBounds(120, 83, 224, 254);
+		SearchPanel.add(scrollPane);
+
+		scrollPane_1 = new JScrollPane();
+		scrollPane_1.setBounds(465, 83, 224, 254);
+		SearchPanel.add(scrollPane_1);
+
+		getFuncAndVars(path);
+
+		list = new JList<String>();
+		list.setListData(ArrayFunc);
+		list.setFont(new Font("微软雅黑", Font.PLAIN, 15));
+		list.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
+		scrollPane.setViewportView(list);
+
+		list.addMouseListener(new MouseListener()
+		{
+
+			@Override
+			public void mouseReleased(MouseEvent e)
+			{
+				// TODO 自动生成的方法存根
+
+			}
+
+			@Override
+			public void mousePressed(MouseEvent e)
+			{
+				// TODO 自动生成的方法存根
+
+			}
+
+			@Override
+			public void mouseExited(MouseEvent e)
+			{
+				// TODO 自动生成的方法存根
+
+			}
+
+			@Override
+			public void mouseEntered(MouseEvent e)
+			{
+				// TODO 自动生成的方法存根
+
+			}
+
+			@Override
+			public void mouseClicked(MouseEvent e)
+			{
+				// TODO 自动生成的方法存根
+
+				context.setSearchFor(list.getSelectedValue());
+				boolean found = SearchEngine.find(textArea, context).wasFound();
+				if (!found)
+				{
+					SearchForward = !SearchForward;
+					context.setSearchForward(SearchForward);
+				}
+
+			}
+		});
+
+		list_1 = new JList<String>();
+		list_1.setListData(ArrayVars);
+		list_1.setFont(new Font("微软雅黑", Font.PLAIN, 15));
+		list_1.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
+		scrollPane_1.setViewportView(list_1);
+
+		list_1.addMouseListener(new MouseListener()
+		{
+
+			@Override
+			public void mouseReleased(MouseEvent e)
+			{
+				// TODO 自动生成的方法存根
+
+			}
+
+			@Override
+			public void mousePressed(MouseEvent e)
+			{
+				// TODO 自动生成的方法存根
+
+			}
+
+			@Override
+			public void mouseExited(MouseEvent e)
+			{
+				// TODO 自动生成的方法存根
+
+			}
+
+			@Override
+			public void mouseEntered(MouseEvent e)
+			{
+				// TODO 自动生成的方法存根
+
+			}
+
+			@Override
+			public void mouseClicked(MouseEvent e)
+			{
+				// TODO 自动生成的方法存根
+
+				context.setSearchFor(list_1.getSelectedValue());
+				boolean found = SearchEngine.find(textArea, context).wasFound();
+				if (!found)
+				{
+					SearchForward = !SearchForward;
+					context.setSearchForward(SearchForward);
+				}
+			}
+
+		});
+
+	}
+
+	public RSyntaxTextArea getTextArea()
+	{
+		return textArea;
+	}
+
+	public void getFuncAndVars(String path)
+	{
+		ArrayList<String> ArrayListFunc = new ArrayList<String>();
+		ArrayList<String> ArrayListVars = new ArrayList<String>();
+
+		FileInputStream fis = null;
+		@SuppressWarnings("unused")
+		String line = null;
+		try
+		{
+			fis = new FileInputStream(path);
+			BufferedReader br = new BufferedReader(new InputStreamReader(fis, "utf-8"));
+			while ((line = br.readLine()) != null)
+			{
+				Matcher f = FuncRegx.matcher(line);
+				Matcher v = VarsRegx.matcher(line);
+				if (f.find())
+				{
+					ArrayListFunc.add(f.group(0));
+				}
+				if (v.find() && (!ArrayListVars.contains(v.group(0))))
+				{
+					ArrayListVars.add(v.group(0));
+				}
+
+			}
+			br.close();
+			fis.close();
+		} catch (IOException e)
+		{
+			e.printStackTrace();
+		}
+		ArrayFunc = (String[]) ArrayListFunc.toArray(new String[ArrayListFunc.size()]);
+		ArrayVars = (String[]) ArrayListVars.toArray(new String[ArrayListFunc.size()]);
 	}
 }

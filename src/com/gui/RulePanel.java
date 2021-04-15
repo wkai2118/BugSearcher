@@ -30,8 +30,8 @@ public class RulePanel extends JPanel
 	public JScrollPane scrollPane;
 	public JLabel Rule = new JLabel("规则：");
 	public JLabel Details = new JLabel("详情：");
-	public static JTextField RuleEdit = new JTextField();
-	public static JTextField DetailsEdit = new JTextField();
+	public JTextField RuleEdit = new JTextField();
+	public JTextField DetailsEdit = new JTextField();
 	private JButton AddButton = new JButton("添加");
 	private JButton UpdButton = new JButton("更新");
 	private JButton DelButton = new JButton("删除");
@@ -86,7 +86,7 @@ public class RulePanel extends JPanel
 		{
 			public void actionPerformed(ActionEvent arg0)
 			{
-				String[] rowDate = { RulePanel.RuleEdit.getText(), RulePanel.DetailsEdit.getText() };
+				String[] rowDate = { RuleEdit.getText(), DetailsEdit.getText() };
 				MainWindow.RuleModel.addRow(rowDate);
 				RuleManager.ruleWriteForFile();
 			}
@@ -99,8 +99,8 @@ public class RulePanel extends JPanel
 				int selectRow = MainWindow.RuleTable.getSelectedRow();
 				if (selectRow != -1)
 				{
-					MainWindow.RuleModel.setValueAt(RulePanel.RuleEdit.getText(), selectRow, 0);
-					MainWindow.RuleModel.setValueAt(RulePanel.DetailsEdit.getText(), selectRow, 1);
+					MainWindow.RuleModel.setValueAt(RuleEdit.getText(), selectRow, 0);
+					MainWindow.RuleModel.setValueAt(DetailsEdit.getText(), selectRow, 1);
 				}
 				RuleManager.ruleWriteForFile();
 			}
@@ -123,4 +123,13 @@ public class RulePanel extends JPanel
 		RuleEditPanel.add(RButton, BorderLayout.SOUTH);
 	}
 
+	public JTextField getRuleEdit()
+	{
+		return RuleEdit;
+	}
+
+	public JTextField getDetailsEdit()
+	{
+		return DetailsEdit;
+	}
 }

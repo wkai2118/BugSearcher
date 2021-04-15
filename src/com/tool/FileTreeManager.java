@@ -2,14 +2,14 @@ package com.tool;
 
 import java.awt.BorderLayout;
 import java.awt.Font;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.io.File;
 
 import javax.swing.JFileChooser;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTree;
-import javax.swing.event.TreeSelectionEvent;
-import javax.swing.event.TreeSelectionListener;
 import javax.swing.tree.DefaultMutableTreeNode;
 
 import com.gui.CodeEditPanel;
@@ -38,16 +38,51 @@ public class FileTreeManager
 			MainWindow.FileTree.setFont(new Font("Menu.font", Font.PLAIN, 15));
 			MainWindow.TreeScrollPane = new JScrollPane(MainWindow.FileTree);
 			MainWindow.FileTreepanel.add(MainWindow.TreeScrollPane, BorderLayout.CENTER);
-			MainWindow.FileTree.addTreeSelectionListener(new TreeSelectionListener()
+
+			MainWindow.FileTree.addMouseListener(new MouseListener()
 			{
 
 				@Override
-				public void valueChanged(TreeSelectionEvent e)
+				public void mouseReleased(MouseEvent e)
 				{
-					getCodeFromTreeNode(e);
+					// TODO 自动生成的方法存根
+
+				}
+
+				@Override
+				public void mousePressed(MouseEvent e)
+				{
+					// TODO 自动生成的方法存根
+
+				}
+
+				@Override
+				public void mouseExited(MouseEvent e)
+				{
+					// TODO 自动生成的方法存根
+
+				}
+
+				@Override
+				public void mouseEntered(MouseEvent e)
+				{
+					// TODO 自动生成的方法存根
+
+				}
+
+				@Override
+				public void mouseClicked(MouseEvent e)
+				{
+					// TODO 自动生成的方法存根
+					if (e.getClickCount() == 2)
+					{
+						getCodeFromTreeNode(e);
+					}
 				}
 			});
+
 			MainWindow.FileTreepanel.updateUI();
+
 		}
 	}
 
@@ -106,10 +141,8 @@ public class FileTreeManager
 						DefaultMutableTreeNodes temp = new DefaultMutableTreeNodes(file2.getName());
 						temp.setValue(file2.getAbsolutePath()); // 将文件的路径存储到value中
 						FileCount++;
-
-						/* 这里添加函数和变量至文件 */
-
 						ParentNode.add(temp);
+
 					}
 				}
 			}
@@ -120,7 +153,7 @@ public class FileTreeManager
 		return ParentNode; // 最终返回父节点
 	}
 
-	public static void getCodeFromTreeNode(TreeSelectionEvent e)
+	public static void getCodeFromTreeNode(MouseEvent e)
 	{
 		JTree TreeSelection = (JTree) e.getSource(); // 从e中获取实例本身
 		if ((((DefaultMutableTreeNodes) TreeSelection.getLastSelectedPathComponent()).node_value) != null) // 如果点击的是文件夹，因为文件夹不会存储path，所以node_value为空
@@ -128,16 +161,7 @@ public class FileTreeManager
 			String path = ((DefaultMutableTreeNodes) TreeSelection.getLastSelectedPathComponent()).node_value; // 从节点中获取存储的path
 			@SuppressWarnings("unused")
 			JPanel codeEditPane = new CodeEditPanel(path);
-		} else
-		{
-			
 		}
-	}
-
-	public static DefaultMutableTreeNodes addFuncAndVariate(String path)
-	{
-
-		return null;
 	}
 
 }

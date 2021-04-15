@@ -9,6 +9,9 @@ public class TabManager
 		if (MainWindow.tabbedPane.getSelectedIndex() != 0)
 		{ // 默认无标签时，该值为-1
 			MainWindow.tabbedPane.remove(index);
+		} else
+		{
+			closeOtherTab();
 		}
 	}
 

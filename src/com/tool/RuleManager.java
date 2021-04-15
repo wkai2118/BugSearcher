@@ -44,6 +44,8 @@ public class RuleManager
 		MainWindow.RuleTable = new JTable(MainWindow.RuleModel);
 		MainWindow.RuleTable.setRowHeight(30);
 		MainWindow.RuleTable.setFont(new Font("Menu.font", Font.PLAIN, 15));
+		RulePanel rulepanel = new RulePanel();
+		MainWindow.tabbedPane.add("规则配置", rulepanel);
 		MainWindow.RuleTable.addMouseListener(new MouseListener()
 		{
 
@@ -82,12 +84,12 @@ public class RuleManager
 				int selectRow = MainWindow.RuleTable.getSelectedRow();
 				if (selectRow != -1)
 				{
-					RulePanel.RuleEdit.setText((String) MainWindow.RuleTable.getValueAt(selectRow, 0));
-					RulePanel.DetailsEdit.setText((String) MainWindow.RuleTable.getValueAt(selectRow, 1));
+					rulepanel.getRuleEdit().setText((String) MainWindow.RuleTable.getValueAt(selectRow, 0));
+					rulepanel.getDetailsEdit().setText((String) MainWindow.RuleTable.getValueAt(selectRow, 1));
 				}
 			}
 		});
-		MainWindow.tabbedPane.add("规则配置", new RulePanel());
+
 		MainWindow.tabbedPane.setSelectedIndex(MainWindow.tabbedPane.getTabCount() - 1);
 	}
 

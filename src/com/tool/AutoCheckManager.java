@@ -270,19 +270,19 @@ class TableListener implements MouseListener
 	public void mouseClicked(MouseEvent e)
 	{
 		int selectRow = AutoCheckPanel.ResultTable.getSelectedRow(); // 只能获取视图中的索引，而视图与模型是一一对应的
-		int model_row = AutoCheckPanel.ResultTable.convertRowIndexToModel(selectRow);
+		int model_row = AutoCheckPanel.ResultTable.convertRowIndexToModel(selectRow); // 将视图索引转化为模型缩影
 		if (model_row != -1)
 		{
 			String path = (String) AutoCheckPanel.ResultModel.getValueAt(model_row, 1);
 			@SuppressWarnings("unused")
-			JPanel codeEditPane = new CodeEditPanel(path);
+			CodeEditPanel codeEditPane = new CodeEditPanel(path);
 
 			SearchContext context = new SearchContext();
 			context.setSearchFor((String) AutoCheckPanel.ResultModel.getValueAt(model_row, 2));
 			context.setSearchForward(true);
 			@SuppressWarnings("unused")
-			boolean found = SearchEngine.find(MainWindow.textArea, context).wasFound();
-			CodeEditPanel.textField.setText((String) AutoCheckPanel.ResultModel.getValueAt(selectRow, 2));
+			boolean found = SearchEngine.find(codeEditPane.getTextArea(), context).wasFound();
+			codeEditPane.textField.setText((String) AutoCheckPanel.ResultModel.getValueAt(selectRow, 2));
 		}
 	}
 

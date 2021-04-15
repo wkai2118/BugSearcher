@@ -1,6 +1,7 @@
 package com.gui;
 
 import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -85,6 +86,7 @@ public class CodeEditPanel extends JPanel
 		popup.addSeparator();
 		popup.add(new JMenuItem(new GrammarSearcher()));
 		popup.add(new JMenuItem(new FuncGuide()));
+		popup.setPreferredSize(new Dimension(150, 230));
 		FileInputStream f = null;
 		try
 		{

@@ -5,8 +5,8 @@ import java.awt.Font;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.File;
+import java.util.ArrayList;
 
-import javax.swing.JFileChooser;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTree;
@@ -19,71 +19,64 @@ public class FileTreeManager
 {
 	public static int FileCount;
 
-	public static void getFileTree() // 获取文件树
+	public static void getFileTree(String path) // 获取文件树
 	{
-		JFileChooser filechooser = new JFileChooser();
-		filechooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
-		filechooser.setFont(new Font("Menu.font", Font.PLAIN, 15));
-		int i = filechooser.showOpenDialog(MainWindow.getStaticContentPane());
-		if (i == JFileChooser.APPROVE_OPTION) // 如果i为允许的选项
+		MainWindow.FunctionList = new ArrayList<String[]>();
+		if (MainWindow.TreeScrollPane != null)
 		{
-			String path = filechooser.getSelectedFile().getAbsolutePath(); // 将选择项的绝对路径给path
-			if (MainWindow.TreeScrollPane != null)
-			{
-				MainWindow.FileTreepanel.remove(MainWindow.TreeScrollPane); // 这边只能移除滚动面板，直接移除树面板没用
-			}
-			FileTreeManager.FileCount = 0; // 将文件数量置为0
-			MainWindow.ParentNode = traverseFolder(path);
-			MainWindow.FileTree = new JTree(MainWindow.ParentNode);
-			MainWindow.FileTree.setFont(new Font("Menu.font", Font.PLAIN, 15));
-			MainWindow.TreeScrollPane = new JScrollPane(MainWindow.FileTree);
-			MainWindow.FileTreepanel.add(MainWindow.TreeScrollPane, BorderLayout.CENTER);
-
-			MainWindow.FileTree.addMouseListener(new MouseListener()
-			{
-
-				@Override
-				public void mouseReleased(MouseEvent e)
-				{
-					// TODO 自动生成的方法存根
-
-				}
-
-				@Override
-				public void mousePressed(MouseEvent e)
-				{
-					// TODO 自动生成的方法存根
-
-				}
-
-				@Override
-				public void mouseExited(MouseEvent e)
-				{
-					// TODO 自动生成的方法存根
-
-				}
-
-				@Override
-				public void mouseEntered(MouseEvent e)
-				{
-					// TODO 自动生成的方法存根
-
-				}
-
-				@Override
-				public void mouseClicked(MouseEvent e)
-				{
-					// TODO 自动生成的方法存根
-					if (e.getClickCount() == 2)
-					{
-						getCodeFromTreeNode(e);
-					}
-				}
-			});
-
-			MainWindow.FileTreepanel.updateUI();
-
+			MainWindow.FileTreepanel.remove(MainWindow.TreeScrollPane); // 这边只能移除滚动面板，直接移除树面板没用
 		}
+		FileTreeManager.FileCount = 0; // 将文件数量置为0
+		MainWindow.ParentNode = traverseFolder(path);
+		MainWindow.FileTree = new JTree(MainWindow.ParentNode);
+		MainWindow.FileTree.setFont(new Font("Menu.font", Font.PLAIN, 15));
+		MainWindow.TreeScrollPane = new JScrollPane(MainWindow.FileTree);
+		MainWindow.FileTreepanel.add(MainWindow.TreeScrollPane, BorderLayout.CENTER);
+
+		MainWindow.FileTree.addMouseListener(new MouseListener()
+		{
+
+			@Override
+			public void mouseReleased(MouseEvent e)
+			{
+				// TODO 自动生成的方法存根
+
+			}
+
+			@Override
+			public void mousePressed(MouseEvent e)
+			{
+				// TODO 自动生成的方法存根
+
+			}
+
+			@Override
+			public void mouseExited(MouseEvent e)
+			{
+				// TODO 自动生成的方法存根
+
+			}
+
+			@Override
+			public void mouseEntered(MouseEvent e)
+			{
+				// TODO 自动生成的方法存根
+
+			}
+
+			@Override
+			public void mouseClicked(MouseEvent e)
+			{
+				// TODO 自动生成的方法存根
+				if (e.getClickCount() == 2)
+				{
+					getCodeFromTreeNode(e);
+				}
+			}
+		});
+
+		MainWindow.FileTreepanel.updateUI();
+
 	}
 
 	static class DefaultMutableTreeNodes extends DefaultMutableTreeNode

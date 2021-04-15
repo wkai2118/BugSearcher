@@ -107,6 +107,8 @@ public class RuleManager
 				{
 					rowDate.add(line.split("￥")); // 将字符串按照指定字符分割
 				}
+				br.close();
+				fis.close();
 			} catch (IOException e)
 			{
 				// TODO 自动生成的 catch 块

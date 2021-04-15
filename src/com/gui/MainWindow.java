@@ -13,6 +13,7 @@ import java.awt.event.WindowListener;
 import java.util.ArrayList;
 
 import javax.swing.ImageIcon;
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
@@ -34,6 +35,7 @@ import com.tool.AutoCheckManager;
 import com.tool.FileTreeManager;
 import com.tool.GlobalGrammarSearcher;
 import com.tool.MinimizeIcon;
+import com.tool.RecentProjectManger;
 import com.tool.RuleManager;
 import com.tool.TabManager;
 
@@ -64,6 +66,8 @@ public class MainWindow extends JFrame
 	public static MainWindow frame; // 主窗口
 
 	public static ArrayList<String[]> FunctionList;
+
+	public static JMenu RecentItemBtn;
 
 	/**
 	 * Launch the application.
@@ -130,17 +134,60 @@ public class MainWindow extends JFrame
 		{
 			public void actionPerformed(ActionEvent arg0)
 			{
-				FunctionList = new ArrayList<String[]>();
-				FileTreeManager.getFileTree();
+				String path = null;
+				JFileChooser filechooser = new JFileChooser();
+				filechooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+				filechooser.setFont(new Font("Menu.font", Font.PLAIN, 15));
+				int i = filechooser.showOpenDialog(MainWindow.getStaticContentPane());
+				if (filechooser.getSelectedFile() != null)
+				{
+					path = filechooser.getSelectedFile().getAbsolutePath(); // 将选择项的绝对路径给path
+				}
+				if (i == JFileChooser.APPROVE_OPTION) // 如果i为允许的选项
+				{
+					FileTreeManager.getFileTree(path);
+					RecentProjectManger.addRecentItemHistory(path);
+				}
 				TabManager.closeAllTab();
 			}
 		});
 
 		mnNewMenu_1.add(mntmNewMenuItem);
 
-		JMenu mnNewMenu_4 = new JMenu("\u6700\u8FD1\u6253\u5F00");
-		mnNewMenu_4.setFont(new Font("微软雅黑", Font.PLAIN, 16));
-		mnNewMenu_1.add(mnNewMenu_4);
+		RecentItemBtn = new JMenu("最近的项目");
+		RecentItemBtn.setFont(new Font("微软雅黑", Font.PLAIN, 16));
+		mnNewMenu_1.add(RecentItemBtn);
+
+		for (String ItemHistory : RecentProjectManger.rowDate)
+		{
+			JMenuItem Record = new JMenuItem(ItemHistory);
+			MainWindow.RecentItemBtn.add(Record);
+			Record.setFont(new Font("微软雅黑", Font.PLAIN, 15));
+			Record.addActionListener(new ActionListener()
+			{
+
+				@Override
+				public void actionPerformed(ActionEvent e)
+				{
+					// TODO 自动生成的方法存根
+					FileTreeManager.getFileTree(ItemHistory);
+					TabManager.closeAllTab();
+				}
+			});
+		}
+
+		JMenuItem mntmNewMenuItem_10 = new JMenuItem("清空历史记录");
+		mntmNewMenuItem_10.setFont(new Font("微软雅黑", Font.PLAIN, 15));
+		mntmNewMenuItem_10.addActionListener(new ActionListener()
+		{
+			public void actionPerformed(ActionEvent arg0)
+			{
+				RecentProjectManger.clearAllItemHistory();
+				RecentItemBtn.removeAll();
+				RecentItemBtn.add(mntmNewMenuItem_10);
+			}
+		});
+		RecentItemBtn.add(mntmNewMenuItem_10);
 
 		JMenuItem mntmNewMenuItem_1 = new JMenuItem("\u5173\u95ED\u9879\u76EE(C)");
 
@@ -373,7 +420,7 @@ public class MainWindow extends JFrame
 		AutoCheckManager.AutoCheckInit();
 		GlobalGrammarSearcher.GramSearchInit();
 		MinimizeIcon.minisize();
-
+		RecentProjectManger.InitRecentItemHistory(); // 初始化最近项目
 	}
 
 }

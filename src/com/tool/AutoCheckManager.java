@@ -41,6 +41,7 @@ public class AutoCheckManager
 	public static ArrayList<String> bugResult;
 	public static DefaultMutableTreeNodes node;
 	static Matcher m;
+
 	public static TableListener tableListener = new TableListener();
 	static ArrayList<String> bugType;;
 
@@ -107,22 +108,12 @@ public class AutoCheckManager
 							}
 						}
 					}
-
-					/* ’‚¿Ô∆•≈‰Function XXX( */
 				}
-
+				br.close();
+				fis.close();
 			} catch (IOException e)
 			{
 				e.printStackTrace();
-			} finally
-			{
-				try
-				{
-					br.close();
-				} catch (IOException e)
-				{
-					e.printStackTrace();
-				}
 			}
 		} catch (FileNotFoundException e)
 		{
@@ -130,15 +121,6 @@ public class AutoCheckManager
 		} catch (UnsupportedEncodingException e1)
 		{
 			e1.printStackTrace();
-		} finally
-		{
-			try
-			{
-				fis.close();
-			} catch (IOException e)
-			{
-				e.printStackTrace();
-			}
 		}
 	}
 

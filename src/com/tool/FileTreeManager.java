@@ -138,11 +138,11 @@ public class FileTreeManager
 						ParentNode.add(traverseFolder(file2.getAbsolutePath()));
 					} else
 					{ // 否则直接将文件添加至父节点
+						FuncGuide.getAllFunc(file2.getAbsolutePath());
 						DefaultMutableTreeNodes temp = new DefaultMutableTreeNodes(file2.getName());
 						temp.setValue(file2.getAbsolutePath()); // 将文件的路径存储到value中
 						FileCount++;
 						ParentNode.add(temp);
-
 					}
 				}
 			}

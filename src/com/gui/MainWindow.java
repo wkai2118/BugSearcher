@@ -1,19 +1,22 @@
 package com.gui;
 
 import java.awt.BorderLayout;
-import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.FlowLayout;
 import java.awt.Font;
+import java.awt.SystemColor;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
+import java.util.ArrayList;
 
 import javax.swing.ImageIcon;
-import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
@@ -21,7 +24,6 @@ import javax.swing.JTabbedPane;
 import javax.swing.JTable;
 import javax.swing.JToolBar;
 import javax.swing.JTree;
-import javax.swing.UIManager;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.tree.DefaultMutableTreeNode;
@@ -34,11 +36,6 @@ import com.tool.GlobalGrammarSearcher;
 import com.tool.MinimizeIcon;
 import com.tool.RuleManager;
 import com.tool.TabManager;
-import javax.swing.JMenuBar;
-import javax.swing.JMenu;
-import javax.swing.JMenuItem;
-import java.awt.SystemColor;
-import java.awt.Color;
 
 @SuppressWarnings("unused")
 public class MainWindow extends JFrame
@@ -65,6 +62,8 @@ public class MainWindow extends JFrame
 	public static JPanel TabPane; // 占位子用的，防在分割面板的右侧了
 
 	public static MainWindow frame; // 主窗口
+
+	public static ArrayList<String[]> FunctionList;
 
 	/**
 	 * Launch the application.
@@ -131,6 +130,7 @@ public class MainWindow extends JFrame
 		{
 			public void actionPerformed(ActionEvent arg0)
 			{
+				FunctionList = new ArrayList<String[]>();
 				FileTreeManager.getFileTree();
 				TabManager.closeAllTab();
 			}

@@ -55,13 +55,14 @@ public class CodeEditPanel extends JPanel
 	private JList<String> list_1;
 	private JScrollPane scrollPane;
 	private JScrollPane scrollPane_1;
-	private static Pattern FuncRegx = Pattern.compile("(function\\s{1,5}(\\w{1,20})\\s{0,5})(?=\\()",
+	public static Pattern FuncRegx = Pattern.compile("(?!\\\\)(.{0,10})(function\\s{1,5}(\\w{1,20})\\s{0,5})(?=\\()",
 			Pattern.CASE_INSENSITIVE);
 	private static Pattern VarsRegx = Pattern.compile("\\$\\w{1,20}((\\[[\"']|\\[)\\${0,1}[\\w\\[\\]\"']{0,30}){0,1}",
 			Pattern.CASE_INSENSITIVE);
 	private String[] ArrayFunc;
 	private String[] ArrayVars;
 	private boolean SearchForward = true;
+	private static int CodeEditSize = 15;
 
 	/**
 	 * Create the panel.
@@ -78,7 +79,7 @@ public class CodeEditPanel extends JPanel
 		textArea = new RSyntaxTextArea();
 //		MainWindow.textArea.setCodeFoldingEnabled(true);
 		textArea.setSyntaxEditingStyle("text/" + path.split("\\.")[path.split("\\.").length - 1]);
-		textArea.setFont(textArea.getFont().deriveFont((float) 15));
+		textArea.setFont(textArea.getFont().deriveFont((float) CodeEditSize));
 
 		JPopupMenu popup = textArea.getPopupMenu();
 		popup.addSeparator();
@@ -254,13 +255,14 @@ public class CodeEditPanel extends JPanel
 		JSlider slider = new JSlider(SwingConstants.VERTICAL);
 		slider.setMaximum(20);
 		slider.setMinimum(12);
-		slider.setValue(15);
+		slider.setValue(CodeEditSize);
 		slider.addChangeListener(new ChangeListener()
 		{
 			public void stateChanged(ChangeEvent arg0)
 			{
 //				System.out.println("µ±Ç°Öµ: " + slider.getValue());
 				textArea.setFont(textArea.getFont().deriveFont((float) slider.getValue()));
+				CodeEditSize = slider.getValue();
 			}
 		});
 		slider.setBounds(863, 83, 47, 254);

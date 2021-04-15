@@ -37,6 +37,10 @@ import org.fife.ui.rtextarea.SearchEngine;
 
 import com.tool.FuncGuide;
 import com.tool.GrammarSearcher;
+import javax.swing.JSlider;
+import javax.swing.SwingConstants;
+import javax.swing.event.ChangeListener;
+import javax.swing.event.ChangeEvent;
 
 public class CodeEditPanel extends JPanel
 {
@@ -246,6 +250,26 @@ public class CodeEditPanel extends JPanel
 		list_1.setFont(new Font("Î¢ÈíÑÅºÚ", Font.PLAIN, 15));
 		list_1.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
 		scrollPane_1.setViewportView(list_1);
+
+		JSlider slider = new JSlider(SwingConstants.VERTICAL);
+		slider.setMaximum(20);
+		slider.setMinimum(12);
+		slider.setValue(15);
+		slider.addChangeListener(new ChangeListener()
+		{
+			public void stateChanged(ChangeEvent arg0)
+			{
+//				System.out.println("µ±Ç°Öµ: " + slider.getValue());
+				textArea.setFont(textArea.getFont().deriveFont((float) slider.getValue()));
+			}
+		});
+		slider.setBounds(863, 83, 47, 254);
+		SearchPanel.add(slider);
+
+		JLabel lblNewLabel_2 = new JLabel("\u7F16\u8F91\u5668\u5B57\u4F53\u5927\u5C0F\uFF1A");
+		lblNewLabel_2.setFont(new Font("Î¢ÈíÑÅºÚ", Font.PLAIN, 15));
+		lblNewLabel_2.setBounds(748, 84, 121, 18);
+		SearchPanel.add(lblNewLabel_2);
 
 		list_1.addMouseListener(new MouseListener()
 		{

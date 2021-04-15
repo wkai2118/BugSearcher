@@ -18,7 +18,6 @@ import java.util.regex.Matcher;
 
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
-import javax.swing.JPanel;
 import javax.swing.JProgressBar;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.TableModel;

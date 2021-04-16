@@ -61,13 +61,15 @@ public class MainWindow extends JFrame
 	public static JTable RuleTable; // 规则表格
 	public static DefaultTableModel RuleModel; // 规则表格模型
 
-	public static JPanel TabPane; // 占位子用的，防在分割面板的右侧了
+	public static JPanel TabPane; // 占位子用的，放在分割面板的右侧了
 
 	public static MainWindow frame; // 主窗口
 
 	public static ArrayList<String[]> FunctionList;
 
 	public static JMenu RecentItemBtn;
+
+	JMenuItem clearHistoryBtn;
 
 	/**
 	 * Launch the application.
@@ -125,7 +127,7 @@ public class MainWindow extends JFrame
 		mnNewMenu_1.setMnemonic(KeyEvent.VK_F);
 		menuBar.add(mnNewMenu_1);
 
-		JMenuItem mntmNewMenuItem = new JMenuItem("\u65B0\u5EFA\u9879\u76EE(N)");
+		JMenuItem mntmNewMenuItem = new JMenuItem("新建项目");
 		mntmNewMenuItem.setFont(new Font("微软雅黑", Font.PLAIN, 16));
 
 		mntmNewMenuItem.setMnemonic(KeyEvent.VK_N);
@@ -139,16 +141,16 @@ public class MainWindow extends JFrame
 				filechooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
 				filechooser.setFont(new Font("Menu.font", Font.PLAIN, 15));
 				int i = filechooser.showOpenDialog(MainWindow.getStaticContentPane());
-				if (filechooser.getSelectedFile() != null)
-				{
-					path = filechooser.getSelectedFile().getAbsolutePath(); // 将选择项的绝对路径给path
-				}
 				if (i == JFileChooser.APPROVE_OPTION) // 如果i为允许的选项
 				{
+					path = filechooser.getSelectedFile().getAbsolutePath(); // 将选择项的绝对路径给path
 					FileTreeManager.getFileTree(path);
-					RecentProjectManger.addRecentItemHistory(path);
+					RecentProjectManger.addRecentItemHistory(path); // 添加记录至文件
 				}
 				TabManager.closeAllTab();
+				RecentItemBtn.removeAll(); // 移除所有记录的按钮
+				RecentItemBtn.add(clearHistoryBtn); // 添加清空按钮
+				InitHistoryBtn(); // 重新初始化按钮
 			}
 		});
 
@@ -158,36 +160,20 @@ public class MainWindow extends JFrame
 		RecentItemBtn.setFont(new Font("微软雅黑", Font.PLAIN, 16));
 		mnNewMenu_1.add(RecentItemBtn);
 
-		for (String ItemHistory : RecentProjectManger.rowDate)
-		{
-			JMenuItem Record = new JMenuItem(ItemHistory);
-			MainWindow.RecentItemBtn.add(Record);
-			Record.setFont(new Font("微软雅黑", Font.PLAIN, 15));
-			Record.addActionListener(new ActionListener()
-			{
+		InitHistoryBtn();
 
-				@Override
-				public void actionPerformed(ActionEvent e)
-				{
-					// TODO 自动生成的方法存根
-					FileTreeManager.getFileTree(ItemHistory);
-					TabManager.closeAllTab();
-				}
-			});
-		}
-
-		JMenuItem mntmNewMenuItem_10 = new JMenuItem("清空历史记录");
-		mntmNewMenuItem_10.setFont(new Font("微软雅黑", Font.PLAIN, 15));
-		mntmNewMenuItem_10.addActionListener(new ActionListener()
+		clearHistoryBtn = new JMenuItem("清空历史记录");
+		clearHistoryBtn.setFont(new Font("微软雅黑", Font.PLAIN, 15));
+		clearHistoryBtn.addActionListener(new ActionListener()
 		{
 			public void actionPerformed(ActionEvent arg0)
 			{
 				RecentProjectManger.clearAllItemHistory();
 				RecentItemBtn.removeAll();
-				RecentItemBtn.add(mntmNewMenuItem_10);
+				RecentItemBtn.add(clearHistoryBtn);
 			}
 		});
-		RecentItemBtn.add(mntmNewMenuItem_10);
+		RecentItemBtn.add(clearHistoryBtn);
 
 		JMenuItem mntmNewMenuItem_1 = new JMenuItem("\u5173\u95ED\u9879\u76EE(C)");
 
@@ -289,25 +275,6 @@ public class MainWindow extends JFrame
 		JMenuItem mntmNewMenuItem_7 = new JMenuItem("\u7F16\u7801\u8F6C\u6362");
 		mntmNewMenuItem_7.setFont(new Font("微软雅黑", Font.PLAIN, 16));
 		mnNewMenu_3.add(mntmNewMenuItem_7);
-
-		JMenu mnNewMenu_7 = new JMenu("\u5168\u5C40\u5212\u8BCD\u5BA1\u8BA1");
-		mnNewMenu_7.setFont(new Font("微软雅黑", Font.PLAIN, 16));
-		mnNewMenu_3.add(mnNewMenu_7);
-
-		JMenuItem mntmNewMenuItem_8 = new JMenuItem("    \u5F00    ");
-		mntmNewMenuItem_8.addActionListener(new ActionListener()
-		{
-			public void actionPerformed(ActionEvent e)
-			{
-
-			}
-		});
-		mntmNewMenuItem_8.setFont(new Font("微软雅黑", Font.PLAIN, 16));
-		mnNewMenu_7.add(mntmNewMenuItem_8);
-
-		JMenuItem mntmNewMenuItem_9 = new JMenuItem("    \u5173    ");
-		mntmNewMenuItem_9.setFont(new Font("微软雅黑", Font.PLAIN, 16));
-		mnNewMenu_7.add(mntmNewMenuItem_9);
 
 		JMenu mnNewMenu_5 = new JMenu("\u5E2E\u52A9(H)");
 
@@ -421,6 +388,27 @@ public class MainWindow extends JFrame
 		GlobalGrammarSearcher.GramSearchInit();
 		MinimizeIcon.minisize();
 		RecentProjectManger.InitRecentItemHistory(); // 初始化最近项目
+	}
+
+	public void InitHistoryBtn()
+	{
+		for (String ItemHistory : RecentProjectManger.rowDate)
+		{
+			JMenuItem Record = new JMenuItem(ItemHistory);
+			MainWindow.RecentItemBtn.add(Record);
+			Record.setFont(new Font("微软雅黑", Font.PLAIN, 15));
+			Record.addActionListener(new ActionListener()
+			{
+
+				@Override
+				public void actionPerformed(ActionEvent e)
+				{
+					// TODO 自动生成的方法存根
+					FileTreeManager.getFileTree(ItemHistory);
+					TabManager.closeAllTab();
+				}
+			});
+		}
 	}
 
 }

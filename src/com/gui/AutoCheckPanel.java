@@ -27,7 +27,6 @@ import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
 
 import com.tool.AutoCheckManager;
-import java.awt.SystemColor;
 
 public class AutoCheckPanel extends JPanel
 {
@@ -84,7 +83,6 @@ public class AutoCheckPanel extends JPanel
 		scrollPane.setViewportView(AutoCheckPanel.ResultTable);
 
 		JToolBar CtrlToolBar = new JToolBar();
-		CtrlToolBar.setBackground(SystemColor.menu);
 		CtrlToolBar.setLayout(new FlowLayout(FlowLayout.LEFT));
 
 		CtrlToolBar.setFont(new Font("Î¢ÈíÑÅºÚ", Font.PLAIN, 13));
@@ -92,7 +90,6 @@ public class AutoCheckPanel extends JPanel
 		add(CtrlToolBar, BorderLayout.SOUTH);
 
 		btnNewButton = new JButton("¿ªÊ¼Éó¼Æ");
-		btnNewButton.setBackground(SystemColor.menu);
 		btnNewButton.setFocusPainted(false);
 		btnNewButton.setBorder(null);
 		btnNewButton.addActionListener(new ActionListener()

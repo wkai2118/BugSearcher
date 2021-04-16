@@ -73,7 +73,7 @@ public class CodeEditPanel extends JPanel
 		setLayout(new BorderLayout(0, 0));
 		splitPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT);
 		splitPane.setContinuousLayout(true);
-		splitPane.setDividerLocation(610);
+		splitPane.setDividerLocation(623);
 		splitPane.setDividerSize(5);
 		add(splitPane, BorderLayout.CENTER);
 

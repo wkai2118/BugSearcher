@@ -6,10 +6,9 @@ import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 
-import javax.swing.UIManager;
-import javax.swing.text.BadLocationException;
-import javax.swing.text.JTextComponent;
 import javax.swing.text.TextAction;
+
+import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
 
 import com.gui.GrammarPanel;
 
@@ -19,31 +18,19 @@ public class GrammarSearcher extends TextAction
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
+	private RSyntaxTextArea textArea;
 
-	public GrammarSearcher()
+	public GrammarSearcher(RSyntaxTextArea textArea)
 	{
 		super("划词审计");
+		this.textArea = textArea;
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent e)
 	{
-		JTextComponent tc = getTextComponent(e);
-		String SelectContent = null;
-		try
-		{
-			int selStart = tc.getSelectionStart();
-			int selEnd = tc.getSelectionEnd();
-			if (selStart != selEnd)
-			{
-				SelectContent = tc.getText(selStart, selEnd - selStart);
-			}
-		} catch (BadLocationException ble)
-		{
-			ble.printStackTrace();
-			UIManager.getLookAndFeel().provideErrorFeedback(tc);
-			return;
-		}
+
+		String SelectContent = textArea.getSelectedText();
 		switch (System.getProperty("os.name"))
 			{
 			case "Windows 10":
@@ -54,18 +41,18 @@ public class GrammarSearcher extends TextAction
 				break;
 			case "Linux":
 				Desktop LinuxBrowser = Desktop.getDesktop();
-			try
-			{
-				LinuxBrowser.browse(new URI("https://www.php.net/" + SelectContent));
-			} catch (IOException e1)
-			{
-				// TODO 自动生成的 catch 块
-				e1.printStackTrace();
-			} catch (URISyntaxException e1)
-			{
-				// TODO 自动生成的 catch 块
-				e1.printStackTrace();
-			}
+				try
+				{
+					LinuxBrowser.browse(new URI("https://www.php.net/" + SelectContent));
+				} catch (IOException e1)
+				{
+					// TODO 自动生成的 catch 块
+					e1.printStackTrace();
+				} catch (URISyntaxException e1)
+				{
+					// TODO 自动生成的 catch 块
+					e1.printStackTrace();
+				}
 				break;
 			}
 

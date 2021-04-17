@@ -10,7 +10,10 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Properties;
 
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
@@ -25,6 +28,9 @@ import javax.swing.JTabbedPane;
 import javax.swing.JTable;
 import javax.swing.JToolBar;
 import javax.swing.JTree;
+import javax.swing.SwingUtilities;
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.tree.DefaultMutableTreeNode;
@@ -61,13 +67,21 @@ public class MainWindow extends JFrame
 	public static JTable RuleTable; // 规则表格
 	public static DefaultTableModel RuleModel; // 规则表格模型
 
-	public static JPanel TabPane; // 占位子用的，放在分割面板的右侧了
+	public static AllTabPanel TabPane; // 占位子用的，放在分割面板的右侧了
 
 	public static MainWindow frame; // 主窗口
 
 	public static ArrayList<String[]> FunctionList;
 
 	public static JMenu RecentItemBtn;
+
+	public static JMenuBar menuBar;
+
+	public static AutoCheckPanel autoCheckPanel;
+
+	public static Properties InitConfig = new Properties();
+
+	public static String theme;
 
 	JMenuItem clearHistoryBtn;
 
@@ -77,16 +91,13 @@ public class MainWindow extends JFrame
 
 	public static void main(String[] args)
 	{
-		InitAll();
-
 		EventQueue.invokeLater(new Runnable()
 		{
 			public void run()
 			{
 				try
 				{
-//					String laf = UIManager.getSystemLookAndFeelClassName();// 获取系统图形界面外观
-//					UIManager.setLookAndFeel(laf);// 设置图形界面外观
+					InitAll();
 					frame = new MainWindow();
 					frame.setVisible(true);
 				} catch (Exception e)
@@ -114,7 +125,7 @@ public class MainWindow extends JFrame
 		setLocationRelativeTo(null);
 //		setResizable(false);
 
-		JMenuBar menuBar = new JMenuBar();
+		menuBar = new JMenuBar();
 		menuBar.setFont(new Font("微软雅黑", Font.PLAIN, 13));
 		menuBar.setLayout(new FlowLayout(FlowLayout.LEFT));
 		setJMenuBar(menuBar);
@@ -146,11 +157,11 @@ public class MainWindow extends JFrame
 					path = filechooser.getSelectedFile().getAbsolutePath(); // 将选择项的绝对路径给path
 					FileTreeManager.getFileTree(path);
 					RecentProjectManger.addRecentItemHistory(path); // 添加记录至文件
+					TabManager.closeAllTab();
+					RecentItemBtn.removeAll(); // 移除所有记录的按钮
+					RecentItemBtn.add(clearHistoryBtn); // 添加清空按钮
+					InitHistoryBtn(); // 重新初始化按钮
 				}
-				TabManager.closeAllTab();
-				RecentItemBtn.removeAll(); // 移除所有记录的按钮
-				RecentItemBtn.add(clearHistoryBtn); // 添加清空按钮
-				InitHistoryBtn(); // 重新初始化按钮
 			}
 		});
 
@@ -276,6 +287,114 @@ public class MainWindow extends JFrame
 		mntmNewMenuItem_7.setFont(new Font("微软雅黑", Font.PLAIN, 16));
 		mnNewMenu_3.add(mntmNewMenuItem_7);
 
+		JMenu mnNewMenu_4 = new JMenu("Windows风格");
+		mnNewMenu_4.setFont(new Font("微软雅黑", Font.PLAIN, 16));
+		mnNewMenu_3.add(mnNewMenu_4);
+
+		JMenuItem mntmNewMenuItem_9 = new JMenuItem("Windows\u98CE\u683C");
+		mntmNewMenuItem_9.setFont(new Font("微软雅黑", Font.PLAIN, 16));
+		mntmNewMenuItem_9.addActionListener(new ActionListener()
+		{
+			public void actionPerformed(ActionEvent arg0)
+			{
+				MainWindow.theme = "com.sun.java.swing.plaf.windows.WindowsLookAndFeel";
+				try
+				{
+					UIManager.setLookAndFeel(theme);
+				} catch (ClassNotFoundException | InstantiationException | IllegalAccessException
+						| UnsupportedLookAndFeelException e)
+				{
+					// TODO 自动生成的 catch 块
+					e.printStackTrace();
+				}
+				SwingUtilities.updateComponentTreeUI(MainWindow.menuBar);
+				SwingUtilities.updateComponentTreeUI(MainWindow.contentPane);
+			}
+		});
+		mnNewMenu_4.add(mntmNewMenuItem_9);
+
+		JMenuItem mntmNewMenuItem_12 = new JMenuItem("Nimbus\u98CE\u683C");
+		mntmNewMenuItem_12.setFont(new Font("微软雅黑", Font.PLAIN, 16));
+		mntmNewMenuItem_12.addActionListener(new ActionListener()
+		{
+			public void actionPerformed(ActionEvent arg0)
+			{
+				theme = "com.sun.java.swing.plaf.nimbus.NimbusLookAndFeel";
+				try
+				{
+					UIManager.setLookAndFeel(theme);
+				} catch (ClassNotFoundException | InstantiationException | IllegalAccessException
+						| UnsupportedLookAndFeelException e)
+				{
+					// TODO 自动生成的 catch 块
+					e.printStackTrace();
+				}
+				SwingUtilities.updateComponentTreeUI(MainWindow.menuBar);
+				SwingUtilities.updateComponentTreeUI(MainWindow.contentPane);
+			}
+		});
+		mnNewMenu_4.add(mntmNewMenuItem_12);
+
+		JMenuItem mntmNewMenuItem_8 = new JMenuItem("Metal\u98CE\u683C");
+		mntmNewMenuItem_8.setFont(new Font("微软雅黑", Font.PLAIN, 16));
+		mntmNewMenuItem_8.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				theme = "javax.swing.plaf.metal.MetalLookAndFeel";
+				try
+				{
+					UIManager.setLookAndFeel(theme);
+				} catch (ClassNotFoundException | InstantiationException | IllegalAccessException
+						| UnsupportedLookAndFeelException e)
+				{
+					// TODO 自动生成的 catch 块
+					e.printStackTrace();
+				}
+				SwingUtilities.updateComponentTreeUI(MainWindow.menuBar);
+				SwingUtilities.updateComponentTreeUI(MainWindow.contentPane);
+			}
+		});
+		mnNewMenu_4.add(mntmNewMenuItem_8);
+
+		JMenuItem mntmNewMenuItem_10 = new JMenuItem("Windows Classic\u98CE\u683C");
+		mntmNewMenuItem_10.setFont(new Font("微软雅黑", Font.PLAIN, 16));
+		mntmNewMenuItem_10.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				theme = "com.sun.java.swing.plaf.windows.WindowsClassicLookAndFeel";
+				try
+				{
+					UIManager.setLookAndFeel(theme);
+				} catch (ClassNotFoundException | InstantiationException | IllegalAccessException
+						| UnsupportedLookAndFeelException e)
+				{
+					// TODO 自动生成的 catch 块
+					e.printStackTrace();
+				}
+				SwingUtilities.updateComponentTreeUI(MainWindow.menuBar);
+				SwingUtilities.updateComponentTreeUI(MainWindow.contentPane);
+			}
+		});
+		mnNewMenu_4.add(mntmNewMenuItem_10);
+
+		JMenuItem mntmNewMenuItem_11 = new JMenuItem("Motif\u98CE\u683C");
+		mntmNewMenuItem_11.setFont(new Font("微软雅黑", Font.PLAIN, 16));
+		mntmNewMenuItem_11.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				theme = "com.sun.java.swing.plaf.motif.MotifLookAndFeel";
+				try
+				{
+					UIManager.setLookAndFeel(theme);
+				} catch (ClassNotFoundException | InstantiationException | IllegalAccessException
+						| UnsupportedLookAndFeelException e)
+				{
+					// TODO 自动生成的 catch 块
+					e.printStackTrace();
+				}
+				SwingUtilities.updateComponentTreeUI(MainWindow.menuBar);
+				SwingUtilities.updateComponentTreeUI(MainWindow.contentPane);
+			}
+		});
+		mnNewMenu_4.add(mntmNewMenuItem_11);
+
 		JMenu mnNewMenu_5 = new JMenu("\u5E2E\u52A9(H)");
 
 		mnNewMenu_5.setMnemonic(KeyEvent.VK_H);
@@ -380,6 +499,22 @@ public class MainWindow extends JFrame
 	// 初始化部分数据
 	public static void InitAll()
 	{
+
+//		String laf = UIManager.getSystemLookAndFeelClassName();// 获取系统图形界面外观
+//		System.out.println(laf);
+//		UIManager.setLookAndFeel(laf);// 设置图形界面外观
+
+		try
+		{
+			InitConfig.load(new FileInputStream("src/com/config/Init.properties"));
+			theme = InitConfig.getProperty("theme");
+			UIManager.setLookAndFeel(theme);
+		} catch (IOException | ClassNotFoundException | InstantiationException | IllegalAccessException
+				| UnsupportedLookAndFeelException e)
+		{
+			e.printStackTrace();
+		}
+
 		FileTreepanel = new FilePanel(); // 实例化左侧面板
 		TabPane = new AllTabPanel(); // 实例化右侧面板
 		RuleManager.setRulePtah("src/com/config/Rule.txt");

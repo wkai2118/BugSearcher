@@ -22,6 +22,7 @@ public class AllTabPanel extends JPanel
 	{
 		setLayout(new BorderLayout(0, 0));
 		MainWindow.tabbedPane = new JTabbedPane(JTabbedPane.TOP);
+		MainWindow.tabbedPane.setFocusable(false);
 		add(MainWindow.tabbedPane, BorderLayout.CENTER);
 		MainWindow.tabbedPane.setFont(new Font("Menu.font", Font.PLAIN, 15));
 		MainWindow.tabbedPane.addMouseListener(new java.awt.event.MouseAdapter()

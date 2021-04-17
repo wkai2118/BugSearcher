@@ -9,10 +9,13 @@ import java.awt.Toolkit;
 import java.awt.TrayIcon;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.FileOutputStream;
+import java.io.IOException;
 
 import org.jnativehook.GlobalScreen;
 import org.jnativehook.NativeHookException;
 
+import com.gui.CodeEditPanel;
 import com.gui.FloatingIcon;
 import com.gui.GlobalGrammarPanel;
 import com.gui.MainWindow;
@@ -107,6 +110,16 @@ public class MinimizeIcon
 
 	public static void exitSystem()
 	{
+		MainWindow.InitConfig.setProperty("editsize", "" + CodeEditPanel.DefaultCodeEditSize);
+		MainWindow.InitConfig.setProperty("theme", "" + MainWindow.theme);
+		try
+		{
+			MainWindow.InitConfig.store(new FileOutputStream("src/com/config/Init.properties"), "");
+		} catch (IOException e)
+		{
+			e.printStackTrace();
+		}
+
 		MainWindow.frame.dispose(); // 消除主窗口
 		FloatingIcon.Icon.dispose(); // 消除悬浮窗
 		if (GlobalGrammarPanel.GrammarSearch != null)

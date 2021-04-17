@@ -18,7 +18,6 @@ public class DecodingManger extends TextAction
 	 */
 	private static final long serialVersionUID = 1L;
 	private String OptionName;
-	@SuppressWarnings("unused")
 	private RSyntaxTextArea textArea;
 
 	public DecodingManger(String category, RSyntaxTextArea textArea)

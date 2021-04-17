@@ -162,6 +162,7 @@ public class AutoCheckPanel extends JPanel
 		TypeComboBox = new JComboBox<String>();
 		TypeComboBox.setPreferredSize(new Dimension(580, 23));
 		TypeComboBox.setFont(new Font("Î¢ÈíÑÅºÚ", Font.PLAIN, 13));
+		TypeComboBox.setFocusable(false);
 		FilterToolBar.add(TypeComboBox);
 
 		ComboBoxModel<String> TyprCm = new DefaultComboBoxModel<>(Items);

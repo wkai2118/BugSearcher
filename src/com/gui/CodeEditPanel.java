@@ -67,7 +67,7 @@ public class CodeEditPanel extends JPanel
 	private String[] ArrayFunc;
 	private String[] ArrayVars;
 	private boolean SearchForward = true;
-	private static int DefaultCodeEditSize = 18;
+	public static int DefaultCodeEditSize = Integer.valueOf(MainWindow.InitConfig.getProperty("editsize"));
 
 	/**
 	 * Create the panel.
@@ -78,7 +78,7 @@ public class CodeEditPanel extends JPanel
 		splitPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT);
 		splitPane.setContinuousLayout(true);
 //		splitPane.setDividerLocation(623);
-//		splitPane.setDividerLocation(623);
+		splitPane.setDividerLocation(623);
 
 		splitPane.addComponentListener(new ComponentAdapter()
 		{
@@ -99,7 +99,7 @@ public class CodeEditPanel extends JPanel
 
 		JPopupMenu popup = textArea.getPopupMenu();
 		popup.addSeparator();
-		popup.add(new JMenuItem(new GrammarSearcher()));
+		popup.add(new JMenuItem(new GrammarSearcher(textArea)));
 		popup.add(new JMenuItem(new FuncGuide()));
 
 		JMenu decode = new JMenu("±àÂë×ª»»");

@@ -205,7 +205,8 @@ public class AutoCheckManager
 	public static void AutoCheckInit()
 	{
 		bugType = new ArrayList<String>();
-		MainWindow.tabbedPane.add("自动审计", new AutoCheckPanel());
+		MainWindow.autoCheckPanel = new AutoCheckPanel();
+		MainWindow.tabbedPane.add("自动审计", MainWindow.autoCheckPanel);
 		MainWindow.tabbedPane.setSelectedIndex(MainWindow.tabbedPane.getTabCount() - 1);
 	}
 

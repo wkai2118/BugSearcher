@@ -24,6 +24,7 @@ import java.util.regex.Pattern;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JList;
+import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -42,6 +43,7 @@ import org.fife.ui.rtextarea.RTextScrollPane;
 import org.fife.ui.rtextarea.SearchContext;
 import org.fife.ui.rtextarea.SearchEngine;
 
+import com.tool.DecodingManger;
 import com.tool.FuncGuide;
 import com.tool.GrammarSearcher;
 
@@ -99,6 +101,15 @@ public class CodeEditPanel extends JPanel
 		popup.addSeparator();
 		popup.add(new JMenuItem(new GrammarSearcher()));
 		popup.add(new JMenuItem(new FuncGuide()));
+
+		JMenu decode = new JMenu("±àÂë×ª»»");
+
+		decode.add(new DecodingManger("URL-decode", textArea));
+		decode.add(new DecodingManger("HTML-decode", textArea));
+		decode.add(new DecodingManger("Base64-decode", textArea));
+
+		popup.add(decode);
+
 		popup.setPreferredSize(new Dimension(150, 230));
 		FileInputStream f = null;
 		try

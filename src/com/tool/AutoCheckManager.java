@@ -218,7 +218,7 @@ class startAutoCheck extends Thread
 	{
 		Enumeration<?> enumeration = MainWindow.ParentNode.preorderEnumeration();
 
-		int i = 0;
+		int fileCount = 0;
 
 		while (enumeration.hasMoreElements())
 		{
@@ -228,14 +228,14 @@ class startAutoCheck extends Thread
 			{
 				temp = AutoCheckManager.node.getValue()
 						.split("\\.")[AutoCheckManager.node.getValue().split("\\.").length - 1];
-				i++;
+				fileCount++;
 			}
 
 			if (temp != null && temp.equals("php")) // 注意要非空才能判断
 			{
 				AutoCheckManager.RegexMatch(AutoCheckManager.node.getValue());
 			}
-			AutoCheckPanel.progressBar.setValue(i);
+			AutoCheckPanel.progressBar.setValue(fileCount);
 		}
 		AutoCheckManager.myThreadState = false;
 		AutoCheckPanel.sorter = new TableRowSorter<TableModel>(AutoCheckPanel.ResultModel);

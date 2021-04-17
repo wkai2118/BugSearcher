@@ -7,6 +7,7 @@ import java.awt.event.MouseListener;
 import java.io.File;
 import java.util.ArrayList;
 
+import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTree;
 import javax.swing.tree.DefaultMutableTreeNode;
@@ -26,56 +27,57 @@ public class FileTreeManager
 			MainWindow.FileTreepanel.remove(MainWindow.TreeScrollPane); // 这边只能移除滚动面板，直接移除树面板没用
 		}
 		FileTreeManager.FileCount = 0; // 将文件数量置为0
-		MainWindow.ParentNode = traverseFolder(path);
-		MainWindow.FileTree = new JTree(MainWindow.ParentNode);
-		MainWindow.FileTree.setFont(new Font("Menu.font", Font.PLAIN, 15));
-		MainWindow.TreeScrollPane = new JScrollPane(MainWindow.FileTree);
-		MainWindow.FileTreepanel.add(MainWindow.TreeScrollPane, BorderLayout.CENTER);
-
-		MainWindow.FileTree.addMouseListener(new MouseListener()
+		if ((MainWindow.ParentNode = traverseFolder(path)) != null)
 		{
+			MainWindow.FileTree = new JTree(MainWindow.ParentNode);
+			MainWindow.FileTree.setFont(new Font("Menu.font", Font.PLAIN, 15));
+			MainWindow.TreeScrollPane = new JScrollPane(MainWindow.FileTree);
+			MainWindow.FileTreepanel.add(MainWindow.TreeScrollPane, BorderLayout.CENTER);
 
-			@Override
-			public void mouseReleased(MouseEvent e)
+			MainWindow.FileTree.addMouseListener(new MouseListener()
 			{
-				// TODO 自动生成的方法存根
 
-			}
-
-			@Override
-			public void mousePressed(MouseEvent e)
-			{
-				// TODO 自动生成的方法存根
-
-			}
-
-			@Override
-			public void mouseExited(MouseEvent e)
-			{
-				// TODO 自动生成的方法存根
-
-			}
-
-			@Override
-			public void mouseEntered(MouseEvent e)
-			{
-				// TODO 自动生成的方法存根
-
-			}
-
-			@Override
-			public void mouseClicked(MouseEvent e)
-			{
-				// TODO 自动生成的方法存根
-				if (e.getClickCount() == 2)
+				@Override
+				public void mouseReleased(MouseEvent e)
 				{
-					getCodeFromTreeNode(e);
+					// TODO 自动生成的方法存根
+
 				}
-			}
-		});
 
-		MainWindow.FileTreepanel.updateUI();
+				@Override
+				public void mousePressed(MouseEvent e)
+				{
+					// TODO 自动生成的方法存根
 
+				}
+
+				@Override
+				public void mouseExited(MouseEvent e)
+				{
+					// TODO 自动生成的方法存根
+
+				}
+
+				@Override
+				public void mouseEntered(MouseEvent e)
+				{
+					// TODO 自动生成的方法存根
+
+				}
+
+				@Override
+				public void mouseClicked(MouseEvent e)
+				{
+					// TODO 自动生成的方法存根
+					if (e.getClickCount() == 2)
+					{
+						getCodeFromTreeNode(e);
+					}
+				}
+			});
+
+			MainWindow.FileTreepanel.updateUI();
+		}
 	}
 
 	static class DefaultMutableTreeNodes extends DefaultMutableTreeNode
@@ -140,6 +142,7 @@ public class FileTreeManager
 			}
 		} else // 如果文件一开始就不存在，直接返回null
 		{
+			JOptionPane.showMessageDialog(MainWindow.frame, "项目文件夹不存在", "Error", JOptionPane.ERROR_MESSAGE);
 			return null;
 		}
 		return ParentNode; // 最终返回父节点

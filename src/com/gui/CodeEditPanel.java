@@ -67,7 +67,7 @@ public class CodeEditPanel extends JPanel
 	private String[] ArrayFunc;
 	private String[] ArrayVars;
 	private boolean SearchForward = true;
-	private static int CodeEditSize = 15;
+	private static int DefaultCodeEditSize = 18;
 
 	/**
 	 * Create the panel.
@@ -95,7 +95,7 @@ public class CodeEditPanel extends JPanel
 		textArea = new RSyntaxTextArea();
 //		MainWindow.textArea.setCodeFoldingEnabled(true);
 		textArea.setSyntaxEditingStyle("text/" + path.split("\\.")[path.split("\\.").length - 1]);
-		textArea.setFont(textArea.getFont().deriveFont((float) CodeEditSize));
+		textArea.setFont(textArea.getFont().deriveFont((float) DefaultCodeEditSize));
 
 		JPopupMenu popup = textArea.getPopupMenu();
 		popup.addSeparator();
@@ -279,16 +279,16 @@ public class CodeEditPanel extends JPanel
 		scrollPane_1.setViewportView(list_1);
 
 		JSlider slider = new JSlider(SwingConstants.VERTICAL);
-		slider.setMaximum(20);
-		slider.setMinimum(12);
-		slider.setValue(CodeEditSize);
+		slider.setMaximum(28);
+		slider.setMinimum(16);
+		slider.setValue(DefaultCodeEditSize);
 		slider.addChangeListener(new ChangeListener()
 		{
 			public void stateChanged(ChangeEvent arg0)
 			{
 //				System.out.println("µ±Ç°Öµ: " + slider.getValue());
 				textArea.setFont(textArea.getFont().deriveFont((float) slider.getValue()));
-				CodeEditSize = slider.getValue();
+				DefaultCodeEditSize = slider.getValue();
 			}
 		});
 		slider.setBounds(863, 83, 47, 254);

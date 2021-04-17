@@ -52,7 +52,7 @@ public class GlobalGrammarPanel extends JFrame
 			{
 				// TODO 自动生成的方法存根
 				GlobalGrammarSearcher.GramSearchOpen();
-				GlobalGrammarPanel.GrammarSearch.dispose();
+				GlobalGrammarPanel.GrammarSearch.dispose();	//销毁全局语法搜索窗口
 			}
 
 			@Override

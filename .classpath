@@ -6,7 +6,7 @@
 	<classpathentry kind="lib" path="D:/Users/16337/Desktop/JAVA/extension/djnativeswing.jar"/>
 	<classpathentry kind="lib" path="D:/Users/16337/Desktop/JAVA/extension/djnativeswing-swt.jar"/>
 	<classpathentry kind="lib" path="D:/Users/16337/Desktop/JAVA/extension/org.eclipse.swt.win32.win32.x86_64-4.3.jar"/>
-	<classpathentry kind="lib" path="D:/Users/16337/Desktop/JAVA/extension/rsyntaxtextarea-3.1.1.jar"/>
 	<classpathentry kind="lib" path="D:/Users/16337/Desktop/JAVA/extension/jnativehook-2.1.0.jar"/>
+	<classpathentry kind="lib" path="D:/Users/16337/Desktop/JAVA/extension/编辑器/rsyntaxtextarea-3.1.2.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

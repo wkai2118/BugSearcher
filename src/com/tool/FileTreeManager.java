@@ -7,7 +7,6 @@ import java.awt.event.MouseListener;
 import java.io.File;
 import java.util.ArrayList;
 
-import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTree;
 import javax.swing.tree.DefaultMutableTreeNode;
@@ -153,7 +152,7 @@ public class FileTreeManager
 		{
 			String path = ((DefaultMutableTreeNodes) TreeSelection.getLastSelectedPathComponent()).node_value; // 从节点中获取存储的path
 			@SuppressWarnings("unused")
-			JPanel codeEditPane = new CodeEditPanel(path);
+			CodeEditPanel codeEditPane = new CodeEditPanel(path);
 		}
 	}
 

@@ -112,7 +112,7 @@ public class MainWindow extends JFrame
 		setIconImage(new ImageIcon("src/com/icon/48.png").getImage());
 		setSize(1200, 800);
 		setLocationRelativeTo(null);
-		setResizable(false);
+//		setResizable(false);
 
 		JMenuBar menuBar = new JMenuBar();
 		menuBar.setFont(new Font("Î¢ÈíÑÅºÚ", Font.PLAIN, 13));

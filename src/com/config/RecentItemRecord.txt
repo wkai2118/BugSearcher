@@ -1,4 +1,2 @@
 D:\phpStudy\WWW\bbs_new
-D:\phpStudy\WWW\DVWA
-D:\phpStudy\WWW\DVWAC
-D:\phpStudy\WWW\sqli-labs
+D:\phpStudy\WWW\espcms_utf8_5.9.14.08.28

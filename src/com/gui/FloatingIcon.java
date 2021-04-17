@@ -103,6 +103,7 @@ public class FloatingIcon extends JFrame
 		GlobalGrammarSearcher.robot.keyRelease(KeyEvent.VK_C);
 		GlobalGrammarSearcher.robot.delay(220);
 		String contents = Clipboard.getClipboardString();
+//		System.out.println(contents);
 		GlobalGrammarPanel.GrammarSearch = new GlobalGrammarPanel("https://www.php.net/" + contents);
 		GlobalGrammarPanel.GrammarSearch.setBounds(GlobalGrammarSearcher.ReleaseX + 38,
 				GlobalGrammarSearcher.ReleaseY - 12, 600, 450);

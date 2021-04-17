@@ -5,6 +5,8 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.BufferedReader;
@@ -27,9 +29,13 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
 import javax.swing.JScrollPane;
+import javax.swing.JSlider;
 import javax.swing.JSplitPane;
 import javax.swing.JTextField;
+import javax.swing.SwingConstants;
 import javax.swing.border.BevelBorder;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 
 import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
 import org.fife.ui.rtextarea.RTextScrollPane;
@@ -38,10 +44,6 @@ import org.fife.ui.rtextarea.SearchEngine;
 
 import com.tool.FuncGuide;
 import com.tool.GrammarSearcher;
-import javax.swing.JSlider;
-import javax.swing.SwingConstants;
-import javax.swing.event.ChangeListener;
-import javax.swing.event.ChangeEvent;
 
 public class CodeEditPanel extends JPanel
 {
@@ -73,7 +75,18 @@ public class CodeEditPanel extends JPanel
 		setLayout(new BorderLayout(0, 0));
 		splitPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT);
 		splitPane.setContinuousLayout(true);
-		splitPane.setDividerLocation(623);
+//		splitPane.setDividerLocation(623);
+//		splitPane.setDividerLocation(623);
+
+		splitPane.addComponentListener(new ComponentAdapter()
+		{
+			@Override
+			public void componentResized(ComponentEvent e)
+			{
+				splitPane.setDividerLocation(0.925);
+			}
+		});
+
 		splitPane.setDividerSize(5);
 		add(splitPane, BorderLayout.CENTER);
 
@@ -193,7 +206,7 @@ public class CodeEditPanel extends JPanel
 		scrollPane_1.setBounds(465, 83, 224, 254);
 		SearchPanel.add(scrollPane_1);
 
-		getFuncAndVars(path);
+		getFuncAndVars(path); // 获取该标签的函数和变量
 
 		list = new JList<String>();
 		list.setListData(ArrayFunc);
@@ -237,11 +250,11 @@ public class CodeEditPanel extends JPanel
 			{
 				// TODO 自动生成的方法存根
 
-				context.setSearchFor(list.getSelectedValue());
+				context.setSearchFor(list.getSelectedValue()); // 将列表选中内容放置搜索引擎
 				boolean found = SearchEngine.find(textArea, context).wasFound();
 				if (!found)
 				{
-					SearchForward = !SearchForward;
+					SearchForward = !SearchForward; // 如果找不到，变换搜索方向
 					context.setSearchForward(SearchForward);
 				}
 
@@ -364,4 +377,5 @@ public class CodeEditPanel extends JPanel
 		ArrayFunc = (String[]) ArrayListFunc.toArray(new String[ArrayListFunc.size()]);
 		ArrayVars = (String[]) ArrayListVars.toArray(new String[ArrayListFunc.size()]);
 	}
+
 }

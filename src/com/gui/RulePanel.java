@@ -5,6 +5,8 @@ import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -28,8 +30,8 @@ public class RulePanel extends JPanel
 	 */
 
 	public JScrollPane scrollPane;
-	public JLabel Rule = new JLabel("规则：");
-	public JLabel Details = new JLabel("详情：");
+	public JLabel RuleLabel = new JLabel("规则：");
+	public JLabel DetailsLabel = new JLabel("详情：");
 	public JTextField RuleEdit = new JTextField();
 	public JTextField DetailsEdit = new JTextField();
 	private JButton AddButton = new JButton("添加");
@@ -42,9 +44,18 @@ public class RulePanel extends JPanel
 
 		JSplitPane splitPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT);
 
-		splitPane.setDividerLocation(520);
+//		splitPane.setDividerLocation(520);
 		splitPane.setContinuousLayout(true); // 设置是否重绘制分割条
 		splitPane.setDividerSize(5); // 设置分割条的像素大小
+
+		splitPane.addComponentListener(new ComponentAdapter()
+		{
+			@Override
+			public void componentResized(ComponentEvent e)
+			{
+				splitPane.setDividerLocation(0.78);
+			}
+		});
 
 		add(splitPane, BorderLayout.CENTER);
 
@@ -60,21 +71,21 @@ public class RulePanel extends JPanel
 
 		JPanel RTextField = new JPanel();
 		RTextField.setLayout(null);
-		Rule.setBounds(50, 30, 50, 20);
-		Rule.setFont(new Font("Menu.font", Font.PLAIN, 15));
 
-		RTextField.add(Rule);
-		Details.setBounds(50, 80, 50, 20);
-		Details.setFont(new Font("Menu.font", Font.PLAIN, 15));
+		RuleLabel.setBounds(50, 30, 50, 20);
+		RuleLabel.setFont(new Font("Menu.font", Font.PLAIN, 15));
+		RTextField.add(RuleLabel);
 
-		RTextField.add(Details);
+		DetailsLabel.setBounds(50, 80, 50, 20);
+		DetailsLabel.setFont(new Font("Menu.font", Font.PLAIN, 15));
+		RTextField.add(DetailsLabel);
+
 		RuleEdit.setBounds(110, 20, 810, 30);
 		RuleEdit.setFont(new Font("Menu.font", Font.PLAIN, 15));
-
 		RTextField.add(RuleEdit);
+
 		DetailsEdit.setBounds(110, 70, 810, 30);
 		DetailsEdit.setFont(new Font("Menu.font", Font.PLAIN, 15));
-
 		RTextField.add(DetailsEdit);
 
 		RuleEditPanel.add(RTextField, BorderLayout.CENTER);

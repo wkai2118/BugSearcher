@@ -271,9 +271,42 @@ public class MainWindow extends JFrame
 		{
 			public void actionPerformed(ActionEvent e)
 			{
+				TabManager.closeAllCodeTab();
+			}
+		});
+
+		JMenuItem mntmNewMenuItem_15 = new JMenuItem("\u5173\u95ED\u5176\u4ED6\u6807\u7B7E\u9875");
+		mntmNewMenuItem_15.addActionListener(new ActionListener()
+		{
+			public void actionPerformed(ActionEvent e)
+			{
 				TabManager.closeOtherTab();
 			}
 		});
+		mntmNewMenuItem_15.setFont(new Font("Î¢ÈíÑÅºÚ", Font.PLAIN, 16));
+		mnNewMenu_6.add(mntmNewMenuItem_15);
+
+		JMenuItem mntmNewMenuItem_13 = new JMenuItem("\u5173\u95ED\u53F3\u8FB9\u6240\u6709\u6807\u7B7E\u9875");
+		mntmNewMenuItem_13.addActionListener(new ActionListener()
+		{
+			public void actionPerformed(ActionEvent arg0)
+			{
+				TabManager.closeAllRightTab();
+			}
+		});
+		mntmNewMenuItem_13.setFont(new Font("Î¢ÈíÑÅºÚ", Font.PLAIN, 16));
+		mnNewMenu_6.add(mntmNewMenuItem_13);
+
+		JMenuItem mntmNewMenuItem_14 = new JMenuItem("\u5173\u95ED\u5DE6\u8FB9\u6240\u6709\u6807\u7B7E\u9875");
+		mntmNewMenuItem_14.addActionListener(new ActionListener()
+		{
+			public void actionPerformed(ActionEvent e)
+			{
+				TabManager.closeAllleftTab();
+			}
+		});
+		mntmNewMenuItem_14.setFont(new Font("Î¢ÈíÑÅºÚ", Font.PLAIN, 16));
+		mnNewMenu_6.add(mntmNewMenuItem_14);
 		mnNewMenu_6.add(mntmNewMenuItem_5);
 
 		JMenu mnNewMenu_3 = new JMenu("\u9644\u52A0\u529F\u80FD(A)");
@@ -283,11 +316,50 @@ public class MainWindow extends JFrame
 		mnNewMenu_3.setFont(new Font("Î¢ÈíÑÅºÚ", Font.PLAIN, 16));
 		menuBar.add(mnNewMenu_3);
 
-		JMenuItem mntmNewMenuItem_7 = new JMenuItem("\u7F16\u7801\u8F6C\u6362");
+		JMenu mntmNewMenuItem_7 = new JMenu("\u7F16\u7801\u8F6C\u6362");
 		mntmNewMenuItem_7.setFont(new Font("Î¢ÈíÑÅºÚ", Font.PLAIN, 16));
 		mnNewMenu_3.add(mntmNewMenuItem_7);
 
-		JMenu mnNewMenu_4 = new JMenu("Windows·ç¸ñ");
+		JMenuItem mntmNewMenuItem_16 = new JMenuItem("Url Encoding");
+		mntmNewMenuItem_16.setFont(new Font("Î¢ÈíÑÅºÚ", Font.PLAIN, 16));
+		mntmNewMenuItem_16.addActionListener(new ActionListener()
+		{
+			public void actionPerformed(ActionEvent e)
+			{
+				DecodingPanel urlencoding = new DecodingPanel("Url Encoding");
+				MainWindow.tabbedPane.add(urlencoding, "Url Encoding");
+				MainWindow.tabbedPane.setSelectedIndex(MainWindow.tabbedPane.getTabCount() - 1);
+			}
+		});
+		mntmNewMenuItem_7.add(mntmNewMenuItem_16);
+
+		JMenuItem mntmNewMenuItem_17 = new JMenuItem("Html Entity Encoding");
+		mntmNewMenuItem_17.addActionListener(new ActionListener()
+		{
+			public void actionPerformed(ActionEvent e)
+			{
+				DecodingPanel htmlencoding = new DecodingPanel("Html Entity Encoding");
+				MainWindow.tabbedPane.add(htmlencoding, "Html Entity Encoding");
+				MainWindow.tabbedPane.setSelectedIndex(MainWindow.tabbedPane.getTabCount() - 1);
+			}
+		});
+		mntmNewMenuItem_17.setFont(new Font("Î¢ÈíÑÅºÚ", Font.PLAIN, 16));
+		mntmNewMenuItem_7.add(mntmNewMenuItem_17);
+
+		JMenuItem mntmNewMenuItem_18 = new JMenuItem("Base64 Encoding");
+		mntmNewMenuItem_18.addActionListener(new ActionListener()
+		{
+			public void actionPerformed(ActionEvent e)
+			{
+				DecodingPanel base64encoding = new DecodingPanel("Base64 Encoding");
+				MainWindow.tabbedPane.add(base64encoding, "Base64 Encoding");
+				MainWindow.tabbedPane.setSelectedIndex(MainWindow.tabbedPane.getTabCount() - 1);
+			}
+		});
+		mntmNewMenuItem_18.setFont(new Font("Î¢ÈíÑÅºÚ", Font.PLAIN, 16));
+		mntmNewMenuItem_7.add(mntmNewMenuItem_18);
+
+		JMenu mnNewMenu_4 = new JMenu("\u4E3B\u9898\u5207\u6362");
 		mnNewMenu_4.setFont(new Font("Î¢ÈíÑÅºÚ", Font.PLAIN, 16));
 		mnNewMenu_3.add(mnNewMenu_4);
 
@@ -337,8 +409,10 @@ public class MainWindow extends JFrame
 
 		JMenuItem mntmNewMenuItem_8 = new JMenuItem("Metal\u98CE\u683C");
 		mntmNewMenuItem_8.setFont(new Font("Î¢ÈíÑÅºÚ", Font.PLAIN, 16));
-		mntmNewMenuItem_8.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
+		mntmNewMenuItem_8.addActionListener(new ActionListener()
+		{
+			public void actionPerformed(ActionEvent arg0)
+			{
 				theme = "javax.swing.plaf.metal.MetalLookAndFeel";
 				try
 				{
@@ -357,8 +431,10 @@ public class MainWindow extends JFrame
 
 		JMenuItem mntmNewMenuItem_10 = new JMenuItem("Windows Classic\u98CE\u683C");
 		mntmNewMenuItem_10.setFont(new Font("Î¢ÈíÑÅºÚ", Font.PLAIN, 16));
-		mntmNewMenuItem_10.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
+		mntmNewMenuItem_10.addActionListener(new ActionListener()
+		{
+			public void actionPerformed(ActionEvent arg0)
+			{
 				theme = "com.sun.java.swing.plaf.windows.WindowsClassicLookAndFeel";
 				try
 				{
@@ -377,8 +453,10 @@ public class MainWindow extends JFrame
 
 		JMenuItem mntmNewMenuItem_11 = new JMenuItem("Motif\u98CE\u683C");
 		mntmNewMenuItem_11.setFont(new Font("Î¢ÈíÑÅºÚ", Font.PLAIN, 16));
-		mntmNewMenuItem_11.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
+		mntmNewMenuItem_11.addActionListener(new ActionListener()
+		{
+			public void actionPerformed(ActionEvent arg0)
+			{
 				theme = "com.sun.java.swing.plaf.motif.MotifLookAndFeel";
 				try
 				{
@@ -403,6 +481,13 @@ public class MainWindow extends JFrame
 		menuBar.add(mnNewMenu_5);
 
 		JMenuItem mntmNewMenuItem_4 = new JMenuItem("\u5173\u4E8E");
+		mntmNewMenuItem_4.addActionListener(new ActionListener()
+		{
+			public void actionPerformed(ActionEvent e)
+			{
+				new AboutWindow().setVisible(true);
+			}
+		});
 		mntmNewMenuItem_4.setFont(new Font("Î¢ÈíÑÅºÚ", Font.PLAIN, 16));
 		mnNewMenu_5.add(mntmNewMenuItem_4);
 		contentPane = new JPanel();

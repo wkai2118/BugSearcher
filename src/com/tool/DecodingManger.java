@@ -3,6 +3,7 @@ package com.tool;
 import java.awt.event.ActionEvent;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
+import java.net.URLEncoder;
 import java.util.Base64;
 
 import javax.swing.text.TextAction;
@@ -27,7 +28,7 @@ public class DecodingManger extends TextAction
 		this.textArea = textArea;
 	}
 
-	public static String DecodingURL(String content)
+	public static String decodingURL(String content)
 	{
 		if (content != null)
 		{
@@ -44,13 +45,13 @@ public class DecodingManger extends TextAction
 		return null;
 	}
 
-	public static String DecodingHTML(String content)
+	public static String decodingHTML(String content)
 	{
 
 		return StringEscapeUtils.unescapeHtml4(content);
 	}
 
-	public static String DecodingBase64(String content)
+	public static String decodingBase64(String content)
 	{
 		final Base64.Decoder decoder = Base64.getDecoder();
 		String decodeContent = null;
@@ -68,6 +69,58 @@ public class DecodingManger extends TextAction
 
 	}
 
+	public static String encodingURL(String content)
+	{
+		if (content != null)
+		{
+			try
+			{
+
+				return URLEncoder.encode(content, "UTF-8");
+			} catch (UnsupportedEncodingException e)
+			{
+				e.printStackTrace();
+
+			}
+		}
+		return null;
+
+	}
+
+	public static String encodingHTML(String content)
+	{
+		return StringEscapeUtils.escapeHtml4(content);
+	}
+
+	public static String encodingBase64(String content)
+	{
+
+		final Base64.Encoder encoder = Base64.getEncoder();
+
+		byte[] textByte = null;
+		try
+		{
+			textByte = content.getBytes("UTF-8");
+		} catch (UnsupportedEncodingException e1)
+		{
+			e1.printStackTrace();
+		}
+
+		String encodeContent = null;
+
+		if (content != null)
+		{
+			try
+			{
+				encodeContent = new String(encoder.encode(textByte), "UTF-8");
+			} catch (UnsupportedEncodingException e)
+			{
+				e.printStackTrace();
+			}
+		}
+		return encodeContent;
+	}
+
 	@Override
 	public void actionPerformed(ActionEvent e)
 	{
@@ -77,17 +130,17 @@ public class DecodingManger extends TextAction
 			{
 			case "URL-decode":
 			{
-				textArea.replaceSelection(DecodingURL(SelectContent));
+				textArea.replaceSelection(decodingURL(SelectContent));
 				break;
 			}
 			case "HTML-decode":
 			{
-				textArea.replaceSelection(DecodingHTML(SelectContent));
+				textArea.replaceSelection(decodingHTML(SelectContent));
 				break;
 			}
 			case "Base64-decode":
 			{
-				textArea.replaceSelection(DecodingBase64(SelectContent));
+				textArea.replaceSelection(decodingBase64(SelectContent));
 				break;
 			}
 			}

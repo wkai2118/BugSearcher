@@ -1,0 +1,21 @@
+register_globals￥该选项在设置为on的情况下，会直接把用户GET、POST等方式提交上来的参数 注册成全局变量并初始化值为参数对应的值，使得提交参数可以直接在脚本中使用。
+allow_url_include￥在该配置为on的情况下，它可以直接包含远程文件，当存在include ($var) 且$var可控的情况下，可以直接控制$var变量来执行PHP代码。
+magic_quotes_gpc￥当该选项设置为on时，会自动在GET、POST、COOKIE变量中的单引号(')、双引号(")、反斜杠(\)及空字符(NULL)的前面加，上反斜杠(\)，建议开启。但是在PHP 5中magic_ quotes_ gpc 并不会过滤$_ SERVER变量，导致很多类似client-ip、referer一类的漏洞能够利用。
+magic_quotes_runtime￥magic_ quotes_ runtime 也是自动在单引号(')、双引号(")、反斜杠(\)及空字符(NULL)的前面加上反斜杠(\)。它跟magic_ _quotes_ gpc的区别是，处理的对象不一样，magic__quotes__runtime只对从数据库或者文件中获取的数据进行过滤，建议开启。
+magic_quotes_sybase￥magic_ quotes_ sybase 仅仅是转义了空字符和把单引号(')变成了双引号(")。
+safe_mode￥安全模式是PHP内嵌的一种安全机制，当safe_ mode=on 时，联动可以配置的指令有safe_ _mode_ include_ dir、 safe_ mode_ exec_ dir、 safe_ mode_ allowed_ env_ vars、 safe_ modeprotected_ env_ vars。建议开启。
+display_errors￥display_errors表明是否显示PHP脚本内部错误的选项，在调试PHP的时候，通常都把PHP错误显示打开，但是在生产环境中，建议关闭PHP错误回显，即设置display_ errors=off，以避免带来一些安全隐患。
+error_reporting￥在设置display_ _errors=on 时，还可以配置的一个指令是error_ reporting, 这个选项用来配置错误显示的级别。
+safe_mode_gid￥以安全模式打开文件时默认使用UID来比对;设置本指令为on时使用GID做宽松的比对。
+variables_order￥此指令描述了PHP注册GET. POST、Cookie、 环境和内置变量的顺序，注册使用从左往右的顺序,新的值会覆盖旧的值，
+max_execution_time￥每个脚本最多执行秒数
+memory_limit￥每个脚本能够使用的最大内存数量
+log_errors￥将错误输人到日志文件
+log_errors_max_len￥设定log_errors 的最大长度
+post_max_ size￥PHP可以接受的最大的POST数据大小.
+auto_prepend_file￥在任何PHP文档之前自动包含的文件
+extension_dir￥可加载的扩展(模块)的目录位置
+file_uploads￥是否允许HTTP文件上传
+upload_tmp_dir￥对于HTTP上传文件的临时文件目录
+upload_max_filesize￥允许上传的最大文件大小
+expose_php￥是否在服务器返回信息HTTP头显示PHP版本

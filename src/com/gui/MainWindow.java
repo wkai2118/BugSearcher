@@ -10,11 +10,13 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
+import java.beans.Encoder;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Properties;
 
+import javax.swing.ButtonGroup;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
@@ -22,11 +24,11 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
+import javax.swing.JRadioButtonMenuItem;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JTable;
-import javax.swing.JToolBar;
 import javax.swing.JTree;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
@@ -81,7 +83,7 @@ public class MainWindow extends JFrame
 
 	public static Properties InitConfig = new Properties();
 
-	public static String theme;
+	public static String theme; // Ö÷Ìâ
 
 	JMenuItem clearHistoryBtn;
 
@@ -226,23 +228,58 @@ public class MainWindow extends JFrame
 		mntmNewMenuItem_2.setFont(new Font("Î¢ÈíÑÅºÚ", Font.PLAIN, 16));
 		mnNewMenu_1.add(mntmNewMenuItem_2);
 
-		JMenu mnNewMenu_2 = new JMenu("\u89C4\u5219\u7BA1\u7406(R)");
+		JMenu mnNewMenu_3 = new JMenu("\u9644\u52A0\u529F\u80FD(A)");
 
-		mnNewMenu_2.setMnemonic(KeyEvent.VK_R);
+		mnNewMenu_3.setMnemonic(KeyEvent.VK_A);
 
-		mnNewMenu_2.setFont(new Font("Î¢ÈíÑÅºÚ", Font.PLAIN, 16));
-		menuBar.add(mnNewMenu_2);
+		mnNewMenu_3.setFont(new Font("Î¢ÈíÑÅºÚ", Font.PLAIN, 16));
+		menuBar.add(mnNewMenu_3);
 
-		JMenuItem mntmNewMenuItem_3 = new JMenuItem("\u89C4\u5219\u914D\u7F6E");
-		mntmNewMenuItem_3.setFont(new Font("Î¢ÈíÑÅºÚ", Font.PLAIN, 16));
-		mntmNewMenuItem_3.addActionListener(new ActionListener()
+		JMenu mntmNewMenuItem_7 = new JMenu("\u7F16\u7801\u8F6C\u6362");
+		mntmNewMenuItem_7.setFont(new Font("Î¢ÈíÑÅºÚ", Font.PLAIN, 16));
+		mnNewMenu_3.add(mntmNewMenuItem_7);
+
+		JMenuItem mntmNewMenuItem_16 = new JMenuItem("Url Encoding");
+		mntmNewMenuItem_16.setFont(new Font("Î¢ÈíÑÅºÚ", Font.PLAIN, 16));
+		mntmNewMenuItem_16.addActionListener(new ActionListener()
 		{
 			public void actionPerformed(ActionEvent e)
 			{
-				RuleManager.openRuleFromFile();
+				DecodingPanel urlencoding = new DecodingPanel("Url Encoding");
+				MainWindow.tabbedPane.add(urlencoding, "Url Encoding");
+				MainWindow.tabbedPane.setSelectedIndex(MainWindow.tabbedPane.getTabCount() - 1);
 			}
 		});
-		mnNewMenu_2.add(mntmNewMenuItem_3);
+		mntmNewMenuItem_7.add(mntmNewMenuItem_16);
+
+		JMenuItem mntmNewMenuItem_17 = new JMenuItem("Html Entity Encoding");
+		mntmNewMenuItem_17.addActionListener(new ActionListener()
+		{
+			public void actionPerformed(ActionEvent e)
+			{
+				DecodingPanel htmlencoding = new DecodingPanel("Html Entity Encoding");
+				MainWindow.tabbedPane.add(htmlencoding, "Html Entity Encoding");
+				MainWindow.tabbedPane.setSelectedIndex(MainWindow.tabbedPane.getTabCount() - 1);
+			}
+		});
+		mntmNewMenuItem_17.setFont(new Font("Î¢ÈíÑÅºÚ", Font.PLAIN, 16));
+		mntmNewMenuItem_7.add(mntmNewMenuItem_17);
+
+		JMenuItem mntmNewMenuItem_18 = new JMenuItem("Base64 Encoding");
+		mntmNewMenuItem_18.addActionListener(new ActionListener()
+		{
+			public void actionPerformed(ActionEvent e)
+			{
+				DecodingPanel base64encoding = new DecodingPanel("Base64 Encoding");
+				MainWindow.tabbedPane.add(base64encoding, "Base64 Encoding");
+				MainWindow.tabbedPane.setSelectedIndex(MainWindow.tabbedPane.getTabCount() - 1);
+			}
+		});
+		mntmNewMenuItem_18.setFont(new Font("Î¢ÈíÑÅºÚ", Font.PLAIN, 16));
+		mntmNewMenuItem_7.add(mntmNewMenuItem_18);
+
+		JMenuItem mntmNewMenuItem_19 = new JMenuItem("\u4EE3\u7801\u8C03\u8BD5");
+		mnNewMenu_3.add(mntmNewMenuItem_19);
 
 		JMenu mnNewMenu_6 = new JMenu("\u6807\u7B7E\u7BA1\u7406(T)");
 
@@ -309,59 +346,76 @@ public class MainWindow extends JFrame
 		mnNewMenu_6.add(mntmNewMenuItem_14);
 		mnNewMenu_6.add(mntmNewMenuItem_5);
 
-		JMenu mnNewMenu_3 = new JMenu("\u9644\u52A0\u529F\u80FD(A)");
+		JMenu mnNewMenu_2 = new JMenu("\u8BBE\u7F6E(S)");
 
-		mnNewMenu_3.setMnemonic(KeyEvent.VK_A);
+		mnNewMenu_2.setMnemonic(KeyEvent.VK_S);
 
-		mnNewMenu_3.setFont(new Font("Î¢ÈíÑÅºÚ", Font.PLAIN, 16));
-		menuBar.add(mnNewMenu_3);
+		mnNewMenu_2.setFont(new Font("Î¢ÈíÑÅºÚ", Font.PLAIN, 16));
+		menuBar.add(mnNewMenu_2);
 
-		JMenu mntmNewMenuItem_7 = new JMenu("\u7F16\u7801\u8F6C\u6362");
-		mntmNewMenuItem_7.setFont(new Font("Î¢ÈíÑÅºÚ", Font.PLAIN, 16));
-		mnNewMenu_3.add(mntmNewMenuItem_7);
-
-		JMenuItem mntmNewMenuItem_16 = new JMenuItem("Url Encoding");
-		mntmNewMenuItem_16.setFont(new Font("Î¢ÈíÑÅºÚ", Font.PLAIN, 16));
-		mntmNewMenuItem_16.addActionListener(new ActionListener()
+		JMenuItem mntmNewMenuItem_3 = new JMenuItem("\u89C4\u5219\u914D\u7F6E");
+		mntmNewMenuItem_3.setFont(new Font("Î¢ÈíÑÅºÚ", Font.PLAIN, 16));
+		mntmNewMenuItem_3.addActionListener(new ActionListener()
 		{
 			public void actionPerformed(ActionEvent e)
 			{
-				DecodingPanel urlencoding = new DecodingPanel("Url Encoding");
-				MainWindow.tabbedPane.add(urlencoding, "Url Encoding");
-				MainWindow.tabbedPane.setSelectedIndex(MainWindow.tabbedPane.getTabCount() - 1);
+				RuleManager.openRuleFromFile();
 			}
 		});
-		mntmNewMenuItem_7.add(mntmNewMenuItem_16);
+		mnNewMenu_2.add(mntmNewMenuItem_3);
 
-		JMenuItem mntmNewMenuItem_17 = new JMenuItem("Html Entity Encoding");
-		mntmNewMenuItem_17.addActionListener(new ActionListener()
+		JMenu encodeselect = new JMenu("\u7F16\u7801\u914D\u7F6E");
+		encodeselect.setFont(new Font("Î¢ÈíÑÅºÚ", Font.PLAIN, 16));
+		mnNewMenu_2.add(encodeselect);
+
+		JRadioButtonMenuItem utf8 = new JRadioButtonMenuItem("UTF-8");
+		utf8.setFont(new Font("Î¢ÈíÑÅºÚ", Font.PLAIN, 16));
+		utf8.addActionListener(new ActionListener()
 		{
 			public void actionPerformed(ActionEvent e)
 			{
-				DecodingPanel htmlencoding = new DecodingPanel("Html Entity Encoding");
-				MainWindow.tabbedPane.add(htmlencoding, "Html Entity Encoding");
-				MainWindow.tabbedPane.setSelectedIndex(MainWindow.tabbedPane.getTabCount() - 1);
+				CodeEditPanel.Encode = "utf-8";
 			}
 		});
-		mntmNewMenuItem_17.setFont(new Font("Î¢ÈíÑÅºÚ", Font.PLAIN, 16));
-		mntmNewMenuItem_7.add(mntmNewMenuItem_17);
+		encodeselect.add(utf8);
 
-		JMenuItem mntmNewMenuItem_18 = new JMenuItem("Base64 Encoding");
-		mntmNewMenuItem_18.addActionListener(new ActionListener()
+		JRadioButtonMenuItem gbk = new JRadioButtonMenuItem("GBK");
+		gbk.setFont(new Font("Î¢ÈíÑÅºÚ", Font.PLAIN, 16));
+		gbk.addActionListener(new ActionListener()
 		{
 			public void actionPerformed(ActionEvent e)
 			{
-				DecodingPanel base64encoding = new DecodingPanel("Base64 Encoding");
-				MainWindow.tabbedPane.add(base64encoding, "Base64 Encoding");
-				MainWindow.tabbedPane.setSelectedIndex(MainWindow.tabbedPane.getTabCount() - 1);
+				CodeEditPanel.Encode = "gbk";
 			}
 		});
-		mntmNewMenuItem_18.setFont(new Font("Î¢ÈíÑÅºÚ", Font.PLAIN, 16));
-		mntmNewMenuItem_7.add(mntmNewMenuItem_18);
+		encodeselect.add(gbk);
+
+		ButtonGroup btg = new ButtonGroup();
+
+		btg.add(utf8);
+		btg.add(gbk);
+
+		switch (CodeEditPanel.Encode)
+			{
+			case "utf-8":
+			{
+				utf8.setSelected(true);
+				break;
+			}
+			case "gbk":
+			{
+				gbk.setSelected(true);
+				break;
+			}
+			}
+
+		JMenuItem mntmNewMenuItem_20 = new JMenuItem("PHP\u8FD0\u884C\u73AF\u5883\u914D\u7F6E");
+		mntmNewMenuItem_20.setFont(new Font("Î¢ÈíÑÅºÚ", Font.PLAIN, 16));
+		mnNewMenu_2.add(mntmNewMenuItem_20);
 
 		JMenu mnNewMenu_4 = new JMenu("\u4E3B\u9898\u5207\u6362");
+		mnNewMenu_2.add(mnNewMenu_4);
 		mnNewMenu_4.setFont(new Font("Î¢ÈíÑÅºÚ", Font.PLAIN, 16));
-		mnNewMenu_3.add(mnNewMenu_4);
 
 		JMenuItem mntmNewMenuItem_9 = new JMenuItem("Windows\u98CE\u683C");
 		mntmNewMenuItem_9.setFont(new Font("Î¢ÈíÑÅºÚ", Font.PLAIN, 16));
@@ -494,29 +548,6 @@ public class MainWindow extends JFrame
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		contentPane.setLayout(new BorderLayout(0, 0));
 		setContentPane(contentPane);
-
-		JToolBar toolBar = new JToolBar();
-		toolBar.setFloatable(false);
-		toolBar.setLayout(new FlowLayout(FlowLayout.RIGHT));
-
-//		contentPane.add(toolBar, BorderLayout.NORTH);
-
-//		JButton CloseAllTab = new JButton("");
-//		CloseAllTab.setBackground(SystemColor.menu);
-//		CloseAllTab.setToolTipText("");
-//		CloseAllTab.setIcon(new ImageIcon(MainWindow.class.getResource("/com/icon/close.png")));
-//		CloseAllTab.setBorder(null);
-//		CloseAllTab.setPreferredSize(new Dimension(20, 20));
-//		CloseAllTab.setFocusPainted(false);
-//		CloseAllTab.setFont(new Font("Î¢ÈíÑÅºÚ", Font.BOLD, 13));
-//		CloseAllTab.addActionListener(new ActionListener()
-//		{
-//			public void actionPerformed(ActionEvent e)
-//			{
-//				TabManager.closeOtherTab();
-//			}
-//		});
-//		toolBar.add(CloseAllTab);
 
 		JSplitPane splitPane = new JSplitPane();
 		splitPane.setBackground(SystemColor.control);

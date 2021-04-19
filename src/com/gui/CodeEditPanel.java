@@ -68,6 +68,7 @@ public class CodeEditPanel extends JPanel
 	private String[] ArrayVars;
 	private boolean SearchForward = true;
 	public static int DefaultCodeEditSize = Integer.valueOf(MainWindow.InitConfig.getProperty("editsize"));
+	public static String Encode = MainWindow.InitConfig.getProperty("encode");
 
 	/**
 	 * Create the panel.
@@ -123,7 +124,7 @@ public class CodeEditPanel extends JPanel
 		Reader is = null; // 创建个Reader类
 		try
 		{
-			is = new BufferedReader(new InputStreamReader(f, "utf-8")); // 从f中实例化Reader类
+			is = new BufferedReader(new InputStreamReader(f, Encode)); // 从f中实例化Reader类
 		} catch (UnsupportedEncodingException e1)
 		{
 			// TODO 自动生成的 catch 块

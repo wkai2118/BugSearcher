@@ -111,10 +111,11 @@ public class MinimizeIcon
 	public static void exitSystem()
 	{
 		MainWindow.InitConfig.setProperty("editsize", "" + CodeEditPanel.DefaultCodeEditSize);
-		MainWindow.InitConfig.setProperty("theme", "" + MainWindow.theme);
+		MainWindow.InitConfig.setProperty("theme", MainWindow.theme);
+		MainWindow.InitConfig.setProperty("encode", CodeEditPanel.Encode);
 		try
 		{
-			MainWindow.InitConfig.store(new FileOutputStream("src/com/config/Init.properties"), "");
+			MainWindow.InitConfig.store(new FileOutputStream("src/com/config/Init.properties"), "Init.properties");
 		} catch (IOException e)
 		{
 			e.printStackTrace();

@@ -12,11 +12,8 @@ import java.awt.event.MouseListener;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.io.Reader;
-import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -44,6 +41,7 @@ import org.fife.ui.rtextarea.SearchContext;
 import org.fife.ui.rtextarea.SearchEngine;
 
 import com.tool.DecodingManger;
+import com.tool.FileTreeManager;
 import com.tool.FuncGuide;
 import com.tool.GrammarSearcher;
 
@@ -112,35 +110,8 @@ public class CodeEditPanel extends JPanel
 		popup.add(decode);
 
 		popup.setPreferredSize(new Dimension(150, 230));
-		FileInputStream f = null;
-		try
-		{
-			f = new FileInputStream(path); // 无奈，想设置编码格式必须用InputStreamReader
-		} catch (FileNotFoundException e2)
-		{
-			// TODO 自动生成的 catch 块
-			e2.printStackTrace();
-		} // 实例化为file类
-		Reader is = null; // 创建个Reader类
-		try
-		{
-			is = new BufferedReader(new InputStreamReader(f, Encode)); // 从f中实例化Reader类
-		} catch (UnsupportedEncodingException e1)
-		{
-			// TODO 自动生成的 catch 块
-			e1.printStackTrace();
-		}
-		try
-		{
-			textArea.read(is, "d"); // textArea直接读取Reader类
-			is.close();
-			f.close();
 
-		} catch (IOException e1)
-		{
-			// TODO 自动生成的 catch 块
-			e1.printStackTrace();
-		}
+		FileTreeManager.openPHPFile(textArea, path);
 
 		RTextScrollPane sp = new RTextScrollPane(textArea);
 

@@ -43,7 +43,7 @@ public class AutoCheckPanel extends JPanel
 	public static DefaultTableModel ResultModel; // 输出表格模型
 	public static JProgressBar progressBar;
 	public static JButton btnNewButton;
-	public static JComboBox<String> TypeComboBox;
+	public static JComboBox<String> TypeComboBox;	//下拉列表框
 	public static JComboBox<String> FileComboBox;
 	public static TableRowSorter<TableModel> sorter;
 

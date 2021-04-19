@@ -10,7 +10,6 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
-import java.beans.Encoder;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -43,6 +42,7 @@ import com.tool.AutoCheckManager;
 import com.tool.FileTreeManager;
 import com.tool.GlobalGrammarSearcher;
 import com.tool.MinimizeIcon;
+import com.tool.PHPiniItemManager;
 import com.tool.RecentProjectManger;
 import com.tool.RuleManager;
 import com.tool.TabManager;
@@ -64,10 +64,11 @@ public class MainWindow extends JFrame
 	public static JTree FileTree; // 文件树
 	public static DefaultMutableTreeNode ParentNode; // 文件树父节点
 
-	public static RSyntaxTextArea textArea; // 代码编辑器
-
 	public static JTable RuleTable; // 规则表格
 	public static DefaultTableModel RuleModel; // 规则表格模型
+
+	public static JTable INIRuleTable; // php.ini规则表格
+	public static DefaultTableModel INIRuleModel; // php.ini规则表格模型
 
 	public static AllTabPanel TabPane; // 占位子用的，放在分割面板的右侧了
 
@@ -83,7 +84,11 @@ public class MainWindow extends JFrame
 
 	public static Properties InitConfig = new Properties();
 
-	public static String theme; // 主题
+	public static String Theme; // 主题
+
+	public static String PhpExe;
+
+	public static String PhpIni;
 
 	JMenuItem clearHistoryBtn;
 
@@ -278,8 +283,30 @@ public class MainWindow extends JFrame
 		mntmNewMenuItem_18.setFont(new Font("微软雅黑", Font.PLAIN, 16));
 		mntmNewMenuItem_7.add(mntmNewMenuItem_18);
 
-		JMenuItem mntmNewMenuItem_19 = new JMenuItem("\u4EE3\u7801\u8C03\u8BD5");
+		JMenuItem mntmNewMenuItem_19 = new JMenuItem("PHP\u4EE3\u7801\u8C03\u8BD5");
+		mntmNewMenuItem_19.addActionListener(new ActionListener()
+		{
+			public void actionPerformed(ActionEvent e)
+			{
+				PHPRunCodePanel phprunpanel = new PHPRunCodePanel();
+				MainWindow.tabbedPane.add("PHP代码调试", phprunpanel);
+				MainWindow.tabbedPane.setSelectedIndex(MainWindow.tabbedPane.getTabCount() - 1);
+			}
+		});
+		mntmNewMenuItem_19.setFont(new Font("微软雅黑", Font.PLAIN, 16));
 		mnNewMenu_3.add(mntmNewMenuItem_19);
+
+		JMenuItem mntmNewMenuItem_21 = new JMenuItem("PHPINI\u626B\u63CF");
+		mntmNewMenuItem_21.addActionListener(new ActionListener()
+		{
+			public void actionPerformed(ActionEvent e)
+			{
+				MainWindow.tabbedPane.add("PHPINI配置检测", new PHPiniSearchPanel());
+				MainWindow.tabbedPane.setSelectedIndex(MainWindow.tabbedPane.getTabCount() - 1);
+			}
+		});
+		mntmNewMenuItem_21.setFont(new Font("微软雅黑", Font.PLAIN, 16));
+		mnNewMenu_3.add(mntmNewMenuItem_21);
 
 		JMenu mnNewMenu_6 = new JMenu("\u6807\u7B7E\u7BA1\u7406(T)");
 
@@ -410,6 +437,24 @@ public class MainWindow extends JFrame
 			}
 
 		JMenuItem mntmNewMenuItem_20 = new JMenuItem("PHP\u8FD0\u884C\u73AF\u5883\u914D\u7F6E");
+		mntmNewMenuItem_20.addActionListener(new ActionListener()
+		{
+			public void actionPerformed(ActionEvent e)
+			{
+				new PHPRunSettingWindow().setVisible(true);
+			}
+		});
+
+		JMenuItem mntmNewMenuItem_22 = new JMenuItem("PHPINI\u626B\u63CF\u9879\u914D\u7F6E");
+		mntmNewMenuItem_22.setFont(new Font("微软雅黑", Font.PLAIN, 16));
+		mntmNewMenuItem_22.addActionListener(new ActionListener()
+		{
+			public void actionPerformed(ActionEvent e)
+			{
+				PHPiniItemManager.openRuleFromFile();
+			}
+		});
+		mnNewMenu_2.add(mntmNewMenuItem_22);
 		mntmNewMenuItem_20.setFont(new Font("微软雅黑", Font.PLAIN, 16));
 		mnNewMenu_2.add(mntmNewMenuItem_20);
 
@@ -423,10 +468,10 @@ public class MainWindow extends JFrame
 		{
 			public void actionPerformed(ActionEvent arg0)
 			{
-				MainWindow.theme = "com.sun.java.swing.plaf.windows.WindowsLookAndFeel";
+				MainWindow.Theme = "com.sun.java.swing.plaf.windows.WindowsLookAndFeel";
 				try
 				{
-					UIManager.setLookAndFeel(theme);
+					UIManager.setLookAndFeel(Theme);
 				} catch (ClassNotFoundException | InstantiationException | IllegalAccessException
 						| UnsupportedLookAndFeelException e)
 				{
@@ -445,10 +490,10 @@ public class MainWindow extends JFrame
 		{
 			public void actionPerformed(ActionEvent arg0)
 			{
-				theme = "com.sun.java.swing.plaf.nimbus.NimbusLookAndFeel";
+				Theme = "com.sun.java.swing.plaf.nimbus.NimbusLookAndFeel";
 				try
 				{
-					UIManager.setLookAndFeel(theme);
+					UIManager.setLookAndFeel(Theme);
 				} catch (ClassNotFoundException | InstantiationException | IllegalAccessException
 						| UnsupportedLookAndFeelException e)
 				{
@@ -467,10 +512,10 @@ public class MainWindow extends JFrame
 		{
 			public void actionPerformed(ActionEvent arg0)
 			{
-				theme = "javax.swing.plaf.metal.MetalLookAndFeel";
+				Theme = "javax.swing.plaf.metal.MetalLookAndFeel";
 				try
 				{
-					UIManager.setLookAndFeel(theme);
+					UIManager.setLookAndFeel(Theme);
 				} catch (ClassNotFoundException | InstantiationException | IllegalAccessException
 						| UnsupportedLookAndFeelException e)
 				{
@@ -489,10 +534,10 @@ public class MainWindow extends JFrame
 		{
 			public void actionPerformed(ActionEvent arg0)
 			{
-				theme = "com.sun.java.swing.plaf.windows.WindowsClassicLookAndFeel";
+				Theme = "com.sun.java.swing.plaf.windows.WindowsClassicLookAndFeel";
 				try
 				{
-					UIManager.setLookAndFeel(theme);
+					UIManager.setLookAndFeel(Theme);
 				} catch (ClassNotFoundException | InstantiationException | IllegalAccessException
 						| UnsupportedLookAndFeelException e)
 				{
@@ -511,10 +556,10 @@ public class MainWindow extends JFrame
 		{
 			public void actionPerformed(ActionEvent arg0)
 			{
-				theme = "com.sun.java.swing.plaf.motif.MotifLookAndFeel";
+				Theme = "com.sun.java.swing.plaf.motif.MotifLookAndFeel";
 				try
 				{
-					UIManager.setLookAndFeel(theme);
+					UIManager.setLookAndFeel(Theme);
 				} catch (ClassNotFoundException | InstantiationException | IllegalAccessException
 						| UnsupportedLookAndFeelException e)
 				{
@@ -615,16 +660,19 @@ public class MainWindow extends JFrame
 	// 初始化部分数据
 	public static void InitAll()
 	{
-
 //		String laf = UIManager.getSystemLookAndFeelClassName();// 获取系统图形界面外观
-//		System.out.println(laf);
 //		UIManager.setLookAndFeel(laf);// 设置图形界面外观
 
 		try
 		{
 			InitConfig.load(new FileInputStream("src/com/config/Init.properties"));
-			theme = InitConfig.getProperty("theme");
-			UIManager.setLookAndFeel(theme);
+
+			Theme = InitConfig.getProperty("theme");
+			UIManager.setLookAndFeel(Theme);
+
+			PhpExe = InitConfig.getProperty("phpexe");
+			PhpIni = InitConfig.getProperty("phpini");
+
 		} catch (IOException | ClassNotFoundException | InstantiationException | IllegalAccessException
 				| UnsupportedLookAndFeelException e)
 		{
@@ -634,6 +682,7 @@ public class MainWindow extends JFrame
 		FileTreepanel = new FilePanel(); // 实例化左侧面板
 		TabPane = new AllTabPanel(); // 实例化右侧面板
 		RuleManager.setRulePtah("src/com/config/Rule.txt");
+		PHPiniItemManager.setRulePtah("src/com/config/PHPiniSearchItem.txt");
 		RuleManager.CompileRuleInit();
 		AutoCheckManager.AutoCheckInit();
 		GlobalGrammarSearcher.GramSearchInit();

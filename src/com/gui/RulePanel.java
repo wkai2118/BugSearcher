@@ -44,7 +44,7 @@ public class RulePanel extends JPanel
 
 		JSplitPane splitPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT);
 
-//		splitPane.setDividerLocation(520);
+		splitPane.setDividerLocation(520);
 		splitPane.setContinuousLayout(true); // …Ë÷√ «∑Ò÷ÿªÊ÷∆∑÷∏ÓÃı
 		splitPane.setDividerSize(5); // …Ë÷√∑÷∏ÓÃıµƒœÒÀÿ¥Û–°
 
@@ -53,7 +53,7 @@ public class RulePanel extends JPanel
 			@Override
 			public void componentResized(ComponentEvent e)
 			{
-				splitPane.setDividerLocation(0.78);
+				splitPane.setDividerLocation(0.76);
 			}
 		});
 
@@ -73,11 +73,11 @@ public class RulePanel extends JPanel
 		RTextField.setLayout(null);
 
 		RuleLabel.setBounds(50, 30, 50, 20);
-		RuleLabel.setFont(new Font("Menu.font", Font.PLAIN, 15));
+		RuleLabel.setFont(new Font("Œ¢»Ì—≈∫⁄", Font.PLAIN, 16));
 		RTextField.add(RuleLabel);
 
 		DetailsLabel.setBounds(50, 80, 50, 20);
-		DetailsLabel.setFont(new Font("Menu.font", Font.PLAIN, 15));
+		DetailsLabel.setFont(new Font("Œ¢»Ì—≈∫⁄", Font.PLAIN, 16));
 		RTextField.add(DetailsLabel);
 
 		RuleEdit.setBounds(110, 20, 810, 30);
@@ -93,6 +93,7 @@ public class RulePanel extends JPanel
 		splitPane.setRightComponent(RuleEditPanel);
 
 		JPanel RButton = new JPanel(new FlowLayout());
+		AddButton.setFont(new Font("Œ¢»Ì—≈∫⁄", Font.PLAIN, 16));
 		AddButton.addActionListener(new ActionListener()
 		{
 			public void actionPerformed(ActionEvent arg0)
@@ -103,6 +104,7 @@ public class RulePanel extends JPanel
 			}
 		});
 		RButton.add(AddButton);
+		UpdButton.setFont(new Font("Œ¢»Ì—≈∫⁄", Font.PLAIN, 16));
 		UpdButton.addActionListener(new ActionListener()
 		{
 			public void actionPerformed(ActionEvent e)
@@ -117,6 +119,7 @@ public class RulePanel extends JPanel
 			}
 		});
 		RButton.add(UpdButton);
+		DelButton.setFont(new Font("Œ¢»Ì—≈∫⁄", Font.PLAIN, 16));
 		DelButton.addActionListener(new ActionListener()
 		{
 			public void actionPerformed(ActionEvent e)

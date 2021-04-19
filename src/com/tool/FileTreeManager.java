@@ -4,13 +4,25 @@ import java.awt.BorderLayout;
 import java.awt.Font;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.io.Reader;
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 
 import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTree;
 import javax.swing.tree.DefaultMutableTreeNode;
+
+import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
 
 import com.gui.CodeEditPanel;
 import com.gui.MainWindow;
@@ -156,6 +168,72 @@ public class FileTreeManager
 			String path = ((DefaultMutableTreeNodes) TreeSelection.getLastSelectedPathComponent()).node_value; // 从节点中获取存储的path
 			@SuppressWarnings("unused")
 			CodeEditPanel codeEditPane = new CodeEditPanel(path);
+		}
+	}
+
+	public static void openPHPFile(RSyntaxTextArea textArea, String path)
+	{
+		FileInputStream f = null;
+		try
+		{
+			f = new FileInputStream(path);
+		} catch (FileNotFoundException e2)
+		{
+			// TODO 自动生成的 catch 块
+			e2.printStackTrace();
+		} // 实例化为file类
+		Reader is = null; // 创建个Reader类
+		try
+		{
+			is = new BufferedReader(new InputStreamReader(f, CodeEditPanel.Encode));
+		} catch (UnsupportedEncodingException e1)
+		{
+			// TODO 自动生成的 catch 块
+			e1.printStackTrace();
+		}
+		try
+		{
+			textArea.read(is, "d"); // textArea直接读取Reader类
+			is.close();
+			f.close();
+
+		} catch (IOException e1)
+		{
+			// TODO 自动生成的 catch 块
+			e1.printStackTrace();
+		}
+	}
+
+	public static void savePHPFile(RSyntaxTextArea textArea, String path)
+	{
+		FileOutputStream f = null;
+		try
+		{
+			f = new FileOutputStream(path);
+		} catch (FileNotFoundException e2)
+		{
+			// TODO 自动生成的 catch 块
+			e2.printStackTrace();
+		} // 实例化为file类
+		BufferedWriter is = null; // 创建个Reader类
+		try
+		{
+			is = new BufferedWriter(new OutputStreamWriter(f, CodeEditPanel.Encode));
+		} catch (UnsupportedEncodingException e1)
+		{
+			// TODO 自动生成的 catch 块
+			e1.printStackTrace();
+		}
+		try
+		{
+			textArea.write(is); // textArea直接读取Reader类
+			is.close();
+			f.close();
+
+		} catch (IOException e1)
+		{
+			// TODO 自动生成的 catch 块
+			e1.printStackTrace();
 		}
 	}
 

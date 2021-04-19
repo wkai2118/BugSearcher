@@ -34,6 +34,7 @@ public class AboutWindow extends JFrame
 		textArea.setEditable(false);
 		scrollPane.setViewportView(textArea);
 		setLocationRelativeTo(null);
+		setResizable(false);
 
 		textArea.setText("	关于软件\r\n" + "~首先申明：此软件参考了Seay代码审计工具，审计规则也来自于Seay代码审计工具\r\n"
 				+ "~此软件的特色就是对审计内容做了分类，其次添加了划词审计的功能，方便大家学习新的PHP函数\r\n"

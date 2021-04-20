@@ -373,12 +373,12 @@ public class MainWindow extends JFrame
 		mnNewMenu_6.add(mntmNewMenuItem_14);
 		mnNewMenu_6.add(mntmNewMenuItem_5);
 
-		JMenu mnNewMenu_2 = new JMenu("\u8BBE\u7F6E(S)");
+		JMenu settingBtn = new JMenu("\u8BBE\u7F6E(S)");
 
-		mnNewMenu_2.setMnemonic(KeyEvent.VK_S);
+		settingBtn.setMnemonic(KeyEvent.VK_S);
 
-		mnNewMenu_2.setFont(new Font("Î¢ÈíÑÅºÚ", Font.PLAIN, 16));
-		menuBar.add(mnNewMenu_2);
+		settingBtn.setFont(new Font("Î¢ÈíÑÅºÚ", Font.PLAIN, 16));
+		menuBar.add(settingBtn);
 
 		JMenuItem mntmNewMenuItem_3 = new JMenuItem("\u89C4\u5219\u914D\u7F6E");
 		mntmNewMenuItem_3.setFont(new Font("Î¢ÈíÑÅºÚ", Font.PLAIN, 16));
@@ -389,11 +389,11 @@ public class MainWindow extends JFrame
 				RuleManager.openRuleFromFile();
 			}
 		});
-		mnNewMenu_2.add(mntmNewMenuItem_3);
+		settingBtn.add(mntmNewMenuItem_3);
 
 		JMenu encodeselect = new JMenu("\u7F16\u7801\u914D\u7F6E");
 		encodeselect.setFont(new Font("Î¢ÈíÑÅºÚ", Font.PLAIN, 16));
-		mnNewMenu_2.add(encodeselect);
+		settingBtn.add(encodeselect);
 
 		JRadioButtonMenuItem utf8 = new JRadioButtonMenuItem("UTF-8");
 		utf8.setFont(new Font("Î¢ÈíÑÅºÚ", Font.PLAIN, 16));
@@ -454,17 +454,17 @@ public class MainWindow extends JFrame
 				PHPiniItemManager.openRuleFromFile();
 			}
 		});
-		mnNewMenu_2.add(mntmNewMenuItem_22);
+		settingBtn.add(mntmNewMenuItem_22);
 		mntmNewMenuItem_20.setFont(new Font("Î¢ÈíÑÅºÚ", Font.PLAIN, 16));
-		mnNewMenu_2.add(mntmNewMenuItem_20);
+		settingBtn.add(mntmNewMenuItem_20);
 
-		JMenu mnNewMenu_4 = new JMenu("\u4E3B\u9898\u5207\u6362");
-		mnNewMenu_2.add(mnNewMenu_4);
-		mnNewMenu_4.setFont(new Font("Î¢ÈíÑÅºÚ", Font.PLAIN, 16));
+		JMenu selectTheme = new JMenu("\u4E3B\u9898\u5207\u6362");
+		settingBtn.add(selectTheme);
+		selectTheme.setFont(new Font("Î¢ÈíÑÅºÚ", Font.PLAIN, 16));
 
-		JMenuItem mntmNewMenuItem_9 = new JMenuItem("Windows\u98CE\u683C");
-		mntmNewMenuItem_9.setFont(new Font("Î¢ÈíÑÅºÚ", Font.PLAIN, 16));
-		mntmNewMenuItem_9.addActionListener(new ActionListener()
+		JMenuItem windowsTheme = new JMenuItem("Windows\u98CE\u683C");
+		windowsTheme.setFont(new Font("Î¢ÈíÑÅºÚ", Font.PLAIN, 16));
+		windowsTheme.addActionListener(new ActionListener()
 		{
 			public void actionPerformed(ActionEvent arg0)
 			{
@@ -482,11 +482,11 @@ public class MainWindow extends JFrame
 				SwingUtilities.updateComponentTreeUI(MainWindow.contentPane);
 			}
 		});
-		mnNewMenu_4.add(mntmNewMenuItem_9);
+		selectTheme.add(windowsTheme);
 
-		JMenuItem mntmNewMenuItem_12 = new JMenuItem("Nimbus\u98CE\u683C");
-		mntmNewMenuItem_12.setFont(new Font("Î¢ÈíÑÅºÚ", Font.PLAIN, 16));
-		mntmNewMenuItem_12.addActionListener(new ActionListener()
+		JMenuItem nimbusTheme = new JMenuItem("Nimbus\u98CE\u683C");
+		nimbusTheme.setFont(new Font("Î¢ÈíÑÅºÚ", Font.PLAIN, 16));
+		nimbusTheme.addActionListener(new ActionListener()
 		{
 			public void actionPerformed(ActionEvent arg0)
 			{
@@ -504,11 +504,11 @@ public class MainWindow extends JFrame
 				SwingUtilities.updateComponentTreeUI(MainWindow.contentPane);
 			}
 		});
-		mnNewMenu_4.add(mntmNewMenuItem_12);
+		selectTheme.add(nimbusTheme);
 
-		JMenuItem mntmNewMenuItem_8 = new JMenuItem("Metal\u98CE\u683C");
-		mntmNewMenuItem_8.setFont(new Font("Î¢ÈíÑÅºÚ", Font.PLAIN, 16));
-		mntmNewMenuItem_8.addActionListener(new ActionListener()
+		JMenuItem metalTheme = new JMenuItem("Metal\u98CE\u683C");
+		metalTheme.setFont(new Font("Î¢ÈíÑÅºÚ", Font.PLAIN, 16));
+		metalTheme.addActionListener(new ActionListener()
 		{
 			public void actionPerformed(ActionEvent arg0)
 			{
@@ -526,11 +526,11 @@ public class MainWindow extends JFrame
 				SwingUtilities.updateComponentTreeUI(MainWindow.contentPane);
 			}
 		});
-		mnNewMenu_4.add(mntmNewMenuItem_8);
+		selectTheme.add(metalTheme);
 
-		JMenuItem mntmNewMenuItem_10 = new JMenuItem("Windows Classic\u98CE\u683C");
-		mntmNewMenuItem_10.setFont(new Font("Î¢ÈíÑÅºÚ", Font.PLAIN, 16));
-		mntmNewMenuItem_10.addActionListener(new ActionListener()
+		JMenuItem windowsClassicTheme = new JMenuItem("Windows Classic\u98CE\u683C");
+		windowsClassicTheme.setFont(new Font("Î¢ÈíÑÅºÚ", Font.PLAIN, 16));
+		windowsClassicTheme.addActionListener(new ActionListener()
 		{
 			public void actionPerformed(ActionEvent arg0)
 			{
@@ -548,11 +548,11 @@ public class MainWindow extends JFrame
 				SwingUtilities.updateComponentTreeUI(MainWindow.contentPane);
 			}
 		});
-		mnNewMenu_4.add(mntmNewMenuItem_10);
+		selectTheme.add(windowsClassicTheme);
 
-		JMenuItem mntmNewMenuItem_11 = new JMenuItem("Motif\u98CE\u683C");
-		mntmNewMenuItem_11.setFont(new Font("Î¢ÈíÑÅºÚ", Font.PLAIN, 16));
-		mntmNewMenuItem_11.addActionListener(new ActionListener()
+		JMenuItem motifTheme = new JMenuItem("Motif\u98CE\u683C");
+		motifTheme.setFont(new Font("Î¢ÈíÑÅºÚ", Font.PLAIN, 16));
+		motifTheme.addActionListener(new ActionListener()
 		{
 			public void actionPerformed(ActionEvent arg0)
 			{
@@ -570,14 +570,21 @@ public class MainWindow extends JFrame
 				SwingUtilities.updateComponentTreeUI(MainWindow.contentPane);
 			}
 		});
-		mnNewMenu_4.add(mntmNewMenuItem_11);
+		selectTheme.add(motifTheme);
 
-		JMenu mnNewMenu_5 = new JMenu("\u5E2E\u52A9(H)");
+		if (System.getProperty("os.name").equals("Linux"))
+		{
+			windowsTheme.setEnabled(false);
+			nimbusTheme.setEnabled(false);
+			windowsClassicTheme.setEnabled(false);
+		}
 
-		mnNewMenu_5.setMnemonic(KeyEvent.VK_H);
+		JMenu helpBtn = new JMenu("\u5E2E\u52A9(H)");
 
-		mnNewMenu_5.setFont(new Font("Î¢ÈíÑÅºÚ", Font.PLAIN, 16));
-		menuBar.add(mnNewMenu_5);
+		helpBtn.setMnemonic(KeyEvent.VK_H);
+
+		helpBtn.setFont(new Font("Î¢ÈíÑÅºÚ", Font.PLAIN, 16));
+		menuBar.add(helpBtn);
 
 		JMenuItem mntmNewMenuItem_4 = new JMenuItem("\u5173\u4E8E");
 		mntmNewMenuItem_4.addActionListener(new ActionListener()
@@ -588,7 +595,7 @@ public class MainWindow extends JFrame
 			}
 		});
 		mntmNewMenuItem_4.setFont(new Font("Î¢ÈíÑÅºÚ", Font.PLAIN, 16));
-		mnNewMenu_5.add(mntmNewMenuItem_4);
+		helpBtn.add(mntmNewMenuItem_4);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		contentPane.setLayout(new BorderLayout(0, 0));
@@ -668,7 +675,12 @@ public class MainWindow extends JFrame
 			InitConfig.load(new FileInputStream("src/com/config/Init.properties"));
 
 			Theme = InitConfig.getProperty("theme");
-			UIManager.setLookAndFeel(Theme);
+			if (System.getProperty("os.name").equals("Linux"))
+			{
+				String laf = UIManager.getSystemLookAndFeelClassName();
+				UIManager.setLookAndFeel(laf);
+			} else
+				UIManager.setLookAndFeel(Theme);
 
 			PhpExe = InitConfig.getProperty("phpexe");
 			PhpIni = InitConfig.getProperty("phpini");

@@ -1,6 +1,7 @@
 package com.gui;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
@@ -95,6 +96,8 @@ public class CodeEditPanel extends JPanel
 //		MainWindow.textArea.setCodeFoldingEnabled(true);
 		textArea.setSyntaxEditingStyle("text/" + path.split("\\.")[path.split("\\.").length - 1]);
 		textArea.setFont(textArea.getFont().deriveFont((float) DefaultCodeEditSize));
+		textArea.setCurrentLineHighlightColor(Color.GREEN);
+		textArea.setSelectionColor(Color.GREEN);
 
 		JPopupMenu popup = textArea.getPopupMenu();
 		popup.addSeparator();

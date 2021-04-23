@@ -5,12 +5,13 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
-import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.FileWriter;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.regex.Pattern;
 
@@ -20,7 +21,7 @@ import javax.swing.table.DefaultTableModel;
 import com.gui.MainWindow;
 import com.gui.RulePanel;
 
-public class RuleManager
+public class CodeCheckRuleManager
 {
 	private static String path;
 	public static Pattern[] CompileRules;
@@ -45,7 +46,7 @@ public class RuleManager
 		MainWindow.RuleTable.setRowHeight(30);
 		MainWindow.RuleTable.setFont(new Font("Menu.font", Font.PLAIN, 15));
 		RulePanel rulepanel = new RulePanel();
-		MainWindow.tabbedPane.add("规则配置", rulepanel);
+		MainWindow.tabbedPane.add("自动审计规则配置", rulepanel);
 		MainWindow.RuleTable.addMouseListener(new MouseListener()
 		{
 
@@ -99,7 +100,7 @@ public class RuleManager
 		try
 		{
 			FileInputStream fis = new FileInputStream(path); // 读取文件流
-			BufferedReader br = new BufferedReader(new InputStreamReader(fis)); // 从文件流中获取数据流
+			BufferedReader br = new BufferedReader(new InputStreamReader(fis, "UTF-8")); // 从文件流中获取数据流
 			String line = null;
 			try
 			{
@@ -115,7 +116,7 @@ public class RuleManager
 				e.printStackTrace();
 			}
 
-		} catch (FileNotFoundException e)
+		} catch (FileNotFoundException | UnsupportedEncodingException e)
 		{
 			// TODO 自动生成的 catch 块
 			e.printStackTrace();
@@ -129,60 +130,32 @@ public class RuleManager
 
 	public static void ruleWriteForFile()
 	{
-		File f = new File(path);
-		FileWriter fis = null;
+		FileOutputStream fis = null;
 		BufferedWriter bw = null;
 		try
 		{
-			fis = new FileWriter(f);
-		} catch (IOException e1)
-		{
-			// TODO 自动生成的 catch 块
-			e1.printStackTrace();
-		}
-		bw = new BufferedWriter(fis);
-		try
-		{
+
+			fis = new FileOutputStream(path);
+			bw = new BufferedWriter(new OutputStreamWriter(fis, "UTF-8"));
 			for (int k = 0; k < MainWindow.RuleTable.getRowCount(); k++) // 循环必须在try/catch之内
 			{
 				bw.write(
 						(String) (MainWindow.RuleModel.getValueAt(k, 0) + "￥" + MainWindow.RuleModel.getValueAt(k, 1)));
 				bw.newLine();
 			}
-
-		} catch (IOException e)
+			bw.close();
+			fis.close();
+		} catch (IOException e1)
 		{
-			// TODO 自动生成的 catch 块
-			e.printStackTrace();
-		} finally
-		{
-			if (bw != null)
-				try
-				{
-					bw.close();
-				} catch (IOException e)
-				{
-					// TODO 自动生成的 catch 块
-					e.printStackTrace();
-				}
-			if (fis != null)
-			{
-				try
-				{
-					fis.close();
-				} catch (IOException e)
-				{
-					// TODO 自动生成的 catch 块
-					e.printStackTrace();
-				}
-			}
+			e1.printStackTrace();
 		}
+
 	}
 
 	public static void CompileRuleInit()
 	{
 		ArrayList<Pattern> CompileRule = new ArrayList<Pattern>();
-		String[][] RuleDate = RuleManager.ruleReadFromFile();
+		String[][] RuleDate = CodeCheckRuleManager.ruleReadFromFile();
 		for (String[] RuleRow : RuleDate)
 		{
 			CompileRule.add(Pattern.compile(RuleRow[0], Pattern.CASE_INSENSITIVE));

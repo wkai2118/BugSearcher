@@ -115,12 +115,15 @@ public class MinimizeIcon
 		MainWindow.InitConfig.setProperty("encode", CodeEditPanel.Encode);
 		MainWindow.InitConfig.setProperty("phpexe", MainWindow.PhpExe);
 		MainWindow.InitConfig.setProperty("phpini", MainWindow.PhpIni);
+		FileOutputStream fos = null;
 		try
 		{
-			MainWindow.InitConfig.store(new FileOutputStream("src/com/config/Init.properties"), "Init.properties");
-		} catch (IOException e)
+			fos = new FileOutputStream("src/com/config/Init.properties");
+			MainWindow.InitConfig.store(fos, "Init.properties");
+			fos.close();
+		} catch (IOException e2)
 		{
-			e.printStackTrace();
+			e2.printStackTrace();
 		}
 
 		MainWindow.frame.dispose(); // Ïû³ýÖ÷´°¿Ú

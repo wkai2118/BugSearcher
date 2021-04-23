@@ -5,12 +5,13 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
-import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.FileWriter;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.regex.Pattern;
 
@@ -37,7 +38,7 @@ public class PHPiniItemManager
 
 	public static void openRuleFromFile()
 	{
-		String[] columnNames = { "项目配置", "项目描述描述" };
+		String[] columnNames = { "项目配置", "项目描述" };
 
 		String[][] tableValues = ruleReadFromFile();
 		MainWindow.INIRuleModel = new DefaultTableModel(tableValues, columnNames);
@@ -99,7 +100,7 @@ public class PHPiniItemManager
 		try
 		{
 			FileInputStream fis = new FileInputStream(path); // 读取文件流
-			BufferedReader br = new BufferedReader(new InputStreamReader(fis)); // 从文件流中获取数据流
+			BufferedReader br = new BufferedReader(new InputStreamReader(fis, "UTF-8")); // 从文件流中获取数据流
 			String line = null;
 			try
 			{
@@ -115,7 +116,7 @@ public class PHPiniItemManager
 				e.printStackTrace();
 			}
 
-		} catch (FileNotFoundException e)
+		} catch (FileNotFoundException | UnsupportedEncodingException e)
 		{
 			// TODO 自动生成的 catch 块
 			e.printStackTrace();
@@ -129,53 +130,24 @@ public class PHPiniItemManager
 
 	public static void ruleWriteForFile()
 	{
-		File f = new File(path);
-		FileWriter fis = null;
+		FileOutputStream fis = null;
 		BufferedWriter bw = null;
 		try
 		{
-			fis = new FileWriter(f);
-		} catch (IOException e1)
-		{
-			// TODO 自动生成的 catch 块
-			e1.printStackTrace();
-		}
-		bw = new BufferedWriter(fis);
-		try
-		{
+
+			fis = new FileOutputStream(path);
+			bw = new BufferedWriter(new OutputStreamWriter(fis, "UTF-8"));
 			for (int k = 0; k < MainWindow.INIRuleTable.getRowCount(); k++) // 循环必须在try/catch之内
 			{
 				bw.write((String) (MainWindow.INIRuleModel.getValueAt(k, 0) + "￥"
 						+ MainWindow.INIRuleModel.getValueAt(k, 1)));
 				bw.newLine();
 			}
-
-		} catch (IOException e)
+			bw.close();
+			fis.close();
+		} catch (IOException e1)
 		{
-			// TODO 自动生成的 catch 块
-			e.printStackTrace();
-		} finally
-		{
-			if (bw != null)
-				try
-				{
-					bw.close();
-				} catch (IOException e)
-				{
-					// TODO 自动生成的 catch 块
-					e.printStackTrace();
-				}
-			if (fis != null)
-			{
-				try
-				{
-					fis.close();
-				} catch (IOException e)
-				{
-					// TODO 自动生成的 catch 块
-					e.printStackTrace();
-				}
-			}
+			e1.printStackTrace();
 		}
 	}
 }

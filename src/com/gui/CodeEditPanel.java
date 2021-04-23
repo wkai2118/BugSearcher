@@ -93,7 +93,7 @@ public class CodeEditPanel extends JPanel
 		add(splitPane, BorderLayout.CENTER);
 
 		textArea = new RSyntaxTextArea();
-//		MainWindow.textArea.setCodeFoldingEnabled(true);
+		textArea.setCodeFoldingEnabled(true);
 		textArea.setSyntaxEditingStyle("text/" + path.split("\\.")[path.split("\\.").length - 1]);
 		textArea.setFont(textArea.getFont().deriveFont((float) DefaultCodeEditSize));
 		textArea.setCurrentLineHighlightColor(Color.GREEN);

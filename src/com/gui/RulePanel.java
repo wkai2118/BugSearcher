@@ -15,7 +15,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 import javax.swing.JTextField;
 
-import com.tool.RuleManager;
+import com.tool.CodeCheckRuleManager;
 
 public class RulePanel extends JPanel
 {
@@ -100,7 +100,9 @@ public class RulePanel extends JPanel
 			{
 				String[] rowDate = { RuleEdit.getText(), DetailsEdit.getText() };
 				MainWindow.RuleModel.addRow(rowDate);
-				RuleManager.ruleWriteForFile();
+				CodeCheckRuleManager.ruleWriteForFile();
+				RuleEdit.setText("");
+				DetailsEdit.setText("");
 			}
 		});
 		RButton.add(AddButton);
@@ -115,7 +117,9 @@ public class RulePanel extends JPanel
 					MainWindow.RuleModel.setValueAt(RuleEdit.getText(), selectRow, 0);
 					MainWindow.RuleModel.setValueAt(DetailsEdit.getText(), selectRow, 1);
 				}
-				RuleManager.ruleWriteForFile();
+				CodeCheckRuleManager.ruleWriteForFile();
+				RuleEdit.setText("");
+				DetailsEdit.setText("");
 			}
 		});
 		RButton.add(UpdButton);
@@ -129,7 +133,9 @@ public class RulePanel extends JPanel
 				{
 					MainWindow.RuleModel.removeRow(selectRow);
 				}
-				RuleManager.ruleWriteForFile();
+				CodeCheckRuleManager.ruleWriteForFile();
+				RuleEdit.setText("");
+				DetailsEdit.setText("");
 			}
 		});
 		RButton.add(DelButton);

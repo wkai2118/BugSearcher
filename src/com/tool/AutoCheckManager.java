@@ -84,15 +84,15 @@ public class AutoCheckManager
 		{
 			fis = new FileInputStream(path);
 			String line = null;
-			BufferedReader br = new BufferedReader(new InputStreamReader(fis, "utf-8")); // 从文件流中获取数据流
-			String[][] RuleDate = RuleManager.ruleReadFromFile();
+			BufferedReader br = new BufferedReader(new InputStreamReader(fis, "UTF-8")); // 从文件流中获取数据流
+			String[][] RuleDate = CodeCheckRuleManager.ruleReadFromFile();
 			try
 			{
 				while ((line = br.readLine()) != null) // 一行一行读取
 				{
 					for (int i = 0; i < RuleDate.length; i++) // 将读取的行放入每一个规则中
 					{
-						m = RuleManager.CompileRules[i].matcher(line);
+						m = CodeCheckRuleManager.CompileRules[i].matcher(line);
 						if (m.find())
 						{
 							if (!bugResult.contains(RuleDate[i][1] + path + line)) // 为了避免重复
@@ -147,6 +147,8 @@ public class AutoCheckManager
 				BufferedWriter writer = new BufferedWriter(outputWriter);
 				writer.write(returnReport());
 				writer.close();
+				outputWriter.close();
+				outputStream.close();
 			} catch (IOException e)
 			{
 				e.printStackTrace();
@@ -157,48 +159,34 @@ public class AutoCheckManager
 	public static String returnReport()
 	{
 		FileInputStream f = null;
-		try
-		{
-			f = new FileInputStream("src/com/config/report.html");
-		} catch (FileNotFoundException e)
-		{
-			// TODO 自动生成的 catch 块
-			e.printStackTrace();
-		}
-		BufferedReader br = null;
-		try
-		{
-			br = new BufferedReader(new InputStreamReader(f, "GBK"));
-		} catch (UnsupportedEncodingException e1)
-		{
-			// TODO 自动生成的 catch 块
-			e1.printStackTrace();
-		}
 		String line = "";
 		String lines = "";
 		String result = "";
+
+		BufferedReader br = null;
 		try
 		{
+			f = new FileInputStream("src/com/config/report.html");
+			br = new BufferedReader(new InputStreamReader(f, "GBK"));
 			while ((line = br.readLine()) != null)
 			{
 				lines = lines + line + "\r\n";
 			}
-
-		} catch (IOException e)
+			for (int i = 0; i < AutoCheckPanel.ResultTable.getRowCount(); i++)
+			{
+				result = result + "<tr><td width=\"20%\">" + (String) AutoCheckPanel.ResultTable.getValueAt(i, 0)
+						+ "</td><td width=\"30%\">" + (String) AutoCheckPanel.ResultTable.getValueAt(i, 1)
+						+ "</td><td width=\"45%\">"
+						+ StringEscapeUtils.escapeHtml4((String) AutoCheckPanel.ResultTable.getValueAt(i, 2))
+						+ "</td></tr>\r\n";
+			}
+			lines = lines.replace("replace_content", result);
+			br.close();
+			f.close();
+		} catch (IOException e1)
 		{
-			// TODO 自动生成的 catch 块
-			e.printStackTrace();
+			e1.printStackTrace();
 		}
-		for (int i = 0; i < AutoCheckPanel.ResultTable.getRowCount(); i++)
-		{
-			result = result + "<tr><td width=\"20%\">" + (String) AutoCheckPanel.ResultTable.getValueAt(i, 0)
-					+ "</td><td width=\"30%\">" + (String) AutoCheckPanel.ResultTable.getValueAt(i, 1)
-					+ "</td><td width=\"45%\">"
-					+ StringEscapeUtils.escapeHtml4((String) AutoCheckPanel.ResultTable.getValueAt(i, 2))
-					+ "</td></tr>\r\n";
-		}
-		lines = lines.replace("replace_content", result);
-//		System.out.println(lines);
 		return lines;
 	}
 
@@ -209,7 +197,6 @@ public class AutoCheckManager
 		MainWindow.tabbedPane.add("自动审计", MainWindow.autoCheckPanel);
 		MainWindow.tabbedPane.setSelectedIndex(MainWindow.tabbedPane.getTabCount() - 1);
 	}
-
 }
 
 class startAutoCheck extends Thread

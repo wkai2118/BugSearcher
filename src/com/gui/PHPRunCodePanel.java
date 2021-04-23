@@ -6,10 +6,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStreamReader;
 
 import javax.swing.Box;
 import javax.swing.DefaultListModel;
@@ -24,7 +20,7 @@ import javax.swing.JToolBar;
 import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
 import org.fife.ui.rtextarea.RTextScrollPane;
 
-import com.tool.FileTreeManager;
+import com.tool.PHPRunCodeManager;
 
 public class PHPRunCodePanel extends JPanel
 {
@@ -87,9 +83,9 @@ public class PHPRunCodePanel extends JPanel
 		{
 			public void actionPerformed(ActionEvent e)
 			{
-				FileTreeManager.savePHPFile(textArea, "src/com/config/runphp.php");
+				PHPRunCodeManager.savePHPRunFile(textArea, "src/com/config/runphp.php");
 				mList.clear();
-				runPHP();
+				PHPRunCodeManager.runPHP(mList);
 			}
 		});
 		btnNewButton.setFont(new Font("Î¢ÈíÑÅºÚ", Font.PLAIN, 16));
@@ -103,31 +99,7 @@ public class PHPRunCodePanel extends JPanel
 		list.setModel(mList);
 		scrollPane.setViewportView(list);
 
-		FileTreeManager.openPHPFile(textArea, "src/com/config/runphp.php");
-	}
-
-	public void runPHP()
-	{
-		Process proc;
-		try
-		{
-			proc = Runtime.getRuntime()
-					.exec(MainWindow.PhpExe + " " + new File("src/com/config/runphp.php").getAbsolutePath());
-			BufferedReader in = new BufferedReader(new InputStreamReader(proc.getInputStream()));
-			String line = null;
-			while ((line = in.readLine()) != null)
-			{
-				mList.addElement(line);
-			}
-			in.close();
-			proc.waitFor();
-		} catch (IOException e)
-		{
-			e.printStackTrace();
-		} catch (InterruptedException e)
-		{
-			e.printStackTrace();
-		}
+		PHPRunCodeManager.openPHPRunFile(textArea, "src/com/config/runphp.php");
 	}
 
 }

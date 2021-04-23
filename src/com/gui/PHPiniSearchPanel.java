@@ -3,10 +3,10 @@ package com.gui;
 import java.awt.BorderLayout;
 import java.awt.Font;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Properties;
 
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -14,7 +14,6 @@ import javax.swing.JToolBar;
 import javax.swing.table.DefaultTableModel;
 
 import com.tool.PHPiniItemManager;
-import javax.swing.JLabel;
 
 public class PHPiniSearchPanel extends JPanel
 {
@@ -40,7 +39,7 @@ public class PHPiniSearchPanel extends JPanel
 		JToolBar toolBar = new JToolBar();
 		toolBar.setFloatable(false);
 		add(toolBar, BorderLayout.NORTH);
-		
+
 		JLabel lblNewLabel = new JLabel("php.ini\u5371\u9669\u9879\u68C0\u6D4B");
 		lblNewLabel.setFont(new Font("Î¢ÈíÑÅºÚ", Font.PLAIN, 16));
 		toolBar.add(lblNewLabel);
@@ -62,16 +61,17 @@ public class PHPiniSearchPanel extends JPanel
 	public void StartPHPiniCheck()
 	{
 		String[][] RuleDate = PHPiniItemManager.ruleReadFromFile();
+		FileInputStream fis = null;
 		try
 		{
-			PHPini.load(new FileInputStream(PHPIniPath));
-		} catch (FileNotFoundException e)
+			fis = new FileInputStream(PHPIniPath);
+			PHPini.load(fis);
+			fis.close();
+		} catch (IOException e1)
 		{
-			e.printStackTrace();
-		} catch (IOException e)
-		{
-			e.printStackTrace();
+			e1.printStackTrace();
 		}
+
 		for (String[] item : RuleDate)
 		{
 			if (PHPini.getProperty(item[0]) != null)

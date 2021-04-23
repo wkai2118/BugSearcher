@@ -12,6 +12,7 @@ import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Properties;
 
@@ -36,15 +37,13 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.tree.DefaultMutableTreeNode;
 
-import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
-
 import com.tool.AutoCheckManager;
 import com.tool.FileTreeManager;
 import com.tool.GlobalGrammarSearcher;
 import com.tool.MinimizeIcon;
 import com.tool.PHPiniItemManager;
 import com.tool.RecentProjectManger;
-import com.tool.RuleManager;
+import com.tool.CodeCheckRuleManager;
 import com.tool.TabManager;
 
 @SuppressWarnings("unused")
@@ -380,13 +379,13 @@ public class MainWindow extends JFrame
 		settingBtn.setFont(new Font("微软雅黑", Font.PLAIN, 16));
 		menuBar.add(settingBtn);
 
-		JMenuItem mntmNewMenuItem_3 = new JMenuItem("\u89C4\u5219\u914D\u7F6E");
+		JMenuItem mntmNewMenuItem_3 = new JMenuItem("\u5BA1\u8BA1\u89C4\u5219\u914D\u7F6E");
 		mntmNewMenuItem_3.setFont(new Font("微软雅黑", Font.PLAIN, 16));
 		mntmNewMenuItem_3.addActionListener(new ActionListener()
 		{
 			public void actionPerformed(ActionEvent e)
 			{
-				RuleManager.openRuleFromFile();
+				CodeCheckRuleManager.openRuleFromFile();
 			}
 		});
 		settingBtn.add(mntmNewMenuItem_3);
@@ -667,13 +666,18 @@ public class MainWindow extends JFrame
 	// 初始化部分数据
 	public static void InitAll()
 	{
-//		String laf = UIManager.getSystemLookAndFeelClassName();// 获取系统图形界面外观
-//		UIManager.setLookAndFeel(laf);// 设置图形界面外观
-
+		InputStream fis = null;
 		try
 		{
-			InitConfig.load(new FileInputStream("src/com/config/Init.properties"));
-
+			fis = new FileInputStream("src/com/config/Init.properties");
+			InitConfig.load(fis);
+			fis.close();
+		} catch (IOException e1)
+		{
+			e1.printStackTrace();
+		}
+		try
+		{
 			Theme = InitConfig.getProperty("theme");
 			if (System.getProperty("os.name").equals("Linux"))
 			{
@@ -685,7 +689,7 @@ public class MainWindow extends JFrame
 			PhpExe = InitConfig.getProperty("phpexe");
 			PhpIni = InitConfig.getProperty("phpini");
 
-		} catch (IOException | ClassNotFoundException | InstantiationException | IllegalAccessException
+		} catch (ClassNotFoundException | InstantiationException | IllegalAccessException
 				| UnsupportedLookAndFeelException e)
 		{
 			e.printStackTrace();
@@ -693,9 +697,9 @@ public class MainWindow extends JFrame
 
 		FileTreepanel = new FilePanel(); // 实例化左侧面板
 		TabPane = new AllTabPanel(); // 实例化右侧面板
-		RuleManager.setRulePtah("src/com/config/Rule.txt");
+		CodeCheckRuleManager.setRulePtah("src/com/config/Rule.txt");
 		PHPiniItemManager.setRulePtah("src/com/config/PHPiniSearchItem.txt");
-		RuleManager.CompileRuleInit();
+		CodeCheckRuleManager.CompileRuleInit();
 		AutoCheckManager.AutoCheckInit();
 		GlobalGrammarSearcher.GramSearchInit();
 		MinimizeIcon.minisize();

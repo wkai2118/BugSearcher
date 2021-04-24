@@ -251,7 +251,7 @@ class TableListener implements MouseListener
 			context.setSearchForward(true);
 			@SuppressWarnings("unused")
 			boolean found = SearchEngine.find(codeEditPane.getTextArea(), context).wasFound();
-			codeEditPane.textField.setText((String) AutoCheckPanel.ResultModel.getValueAt(selectRow, 2));
+			codeEditPane.textField.setText((String) AutoCheckPanel.ResultModel.getValueAt(model_row, 2));
 		}
 	}
 

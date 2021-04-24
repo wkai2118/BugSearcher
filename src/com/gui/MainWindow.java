@@ -38,12 +38,11 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.tree.DefaultMutableTreeNode;
 
 import com.tool.AutoCheckManager;
-import com.tool.FileTreeManager;
-import com.tool.GlobalGrammarSearcher;
-import com.tool.MinimizeIcon;
-import com.tool.PHPiniItemManager;
-import com.tool.RecentProjectManger;
 import com.tool.CodeCheckRuleManager;
+import com.tool.GlobalGrammarSearcher;
+import com.tool.ItemManager;
+import com.tool.MinimizeManager;
+import com.tool.PHPiniItemManager;
 import com.tool.TabManager;
 
 @SuppressWarnings("unused")
@@ -79,7 +78,7 @@ public class MainWindow extends JFrame
 
 	public static JMenuBar menuBar;
 
-	public static AutoCheckPanel autoCheckPanel;
+	public static AutoCheckTab autoCheckPanel;
 
 	public static Properties InitConfig = new Properties();
 
@@ -161,8 +160,8 @@ public class MainWindow extends JFrame
 				if (i == JFileChooser.APPROVE_OPTION) // 如果i为允许的选项
 				{
 					path = filechooser.getSelectedFile().getAbsolutePath(); // 将选择项的绝对路径给path
-					FileTreeManager.getFileTree(path);
-					RecentProjectManger.addRecentItemHistory(path); // 添加记录至文件
+					ItemManager.newItem(path);
+					ItemManager.addRecentItemHistory(path); // 添加记录至文件
 					TabManager.closeAllTab();
 					RecentItemBtn.removeAll(); // 移除所有记录的按钮
 					RecentItemBtn.add(clearHistoryBtn); // 添加清空按钮
@@ -185,7 +184,7 @@ public class MainWindow extends JFrame
 		{
 			public void actionPerformed(ActionEvent arg0)
 			{
-				RecentProjectManger.clearAllItemHistory();
+				ItemManager.clearAllItemHistory();
 				RecentItemBtn.removeAll();
 				RecentItemBtn.add(clearHistoryBtn);
 			}
@@ -201,17 +200,7 @@ public class MainWindow extends JFrame
 		{
 			public void actionPerformed(ActionEvent e)
 			{
-				TabManager.closeAllTab();
-				if (AutoCheckManager.myThreadState)
-				{
-					AutoCheckManager.stopAutoCheck();
-				}
-				if (ParentNode != null)
-				{
-					FileTreepanel.remove(TreeScrollPane);
-					FileTreepanel.updateUI();
-					MainWindow.ParentNode = null;
-				}
+				ItemManager.closeItem();
 			}
 		});
 		mnNewMenu_1.add(mntmNewMenuItem_1);
@@ -226,7 +215,7 @@ public class MainWindow extends JFrame
 		{
 			public void actionPerformed(ActionEvent e)
 			{
-				MinimizeIcon.exitSystem();
+				MinimizeManager.exitSystem();
 			}
 		});
 		mntmNewMenuItem_2.setFont(new Font("微软雅黑", Font.PLAIN, 16));
@@ -249,7 +238,7 @@ public class MainWindow extends JFrame
 		{
 			public void actionPerformed(ActionEvent e)
 			{
-				DecodingPanel urlencoding = new DecodingPanel("Url Encoding");
+				DecodingTab urlencoding = new DecodingTab("Url Encoding");
 				MainWindow.tabbedPane.add(urlencoding, "Url Encoding");
 				MainWindow.tabbedPane.setSelectedIndex(MainWindow.tabbedPane.getTabCount() - 1);
 			}
@@ -261,7 +250,7 @@ public class MainWindow extends JFrame
 		{
 			public void actionPerformed(ActionEvent e)
 			{
-				DecodingPanel htmlencoding = new DecodingPanel("Html Entity Encoding");
+				DecodingTab htmlencoding = new DecodingTab("Html Entity Encoding");
 				MainWindow.tabbedPane.add(htmlencoding, "Html Entity Encoding");
 				MainWindow.tabbedPane.setSelectedIndex(MainWindow.tabbedPane.getTabCount() - 1);
 			}
@@ -274,7 +263,7 @@ public class MainWindow extends JFrame
 		{
 			public void actionPerformed(ActionEvent e)
 			{
-				DecodingPanel base64encoding = new DecodingPanel("Base64 Encoding");
+				DecodingTab base64encoding = new DecodingTab("Base64 Encoding");
 				MainWindow.tabbedPane.add(base64encoding, "Base64 Encoding");
 				MainWindow.tabbedPane.setSelectedIndex(MainWindow.tabbedPane.getTabCount() - 1);
 			}
@@ -287,7 +276,7 @@ public class MainWindow extends JFrame
 		{
 			public void actionPerformed(ActionEvent e)
 			{
-				PHPRunCodePanel phprunpanel = new PHPRunCodePanel();
+				CodeDebugTab phprunpanel = new CodeDebugTab();
 				MainWindow.tabbedPane.add("PHP代码调试", phprunpanel);
 				MainWindow.tabbedPane.setSelectedIndex(MainWindow.tabbedPane.getTabCount() - 1);
 			}
@@ -300,7 +289,7 @@ public class MainWindow extends JFrame
 		{
 			public void actionPerformed(ActionEvent e)
 			{
-				MainWindow.tabbedPane.add("PHPINI配置检测", new PHPiniSearchPanel());
+				MainWindow.tabbedPane.add("PHPINI配置检测", new PHPiniSearchTab());
 				MainWindow.tabbedPane.setSelectedIndex(MainWindow.tabbedPane.getTabCount() - 1);
 			}
 		});
@@ -400,7 +389,7 @@ public class MainWindow extends JFrame
 		{
 			public void actionPerformed(ActionEvent e)
 			{
-				CodeEditPanel.Encode = "utf-8";
+				CodeEditTab.Encode = "utf-8";
 			}
 		});
 		encodeselect.add(utf8);
@@ -411,7 +400,7 @@ public class MainWindow extends JFrame
 		{
 			public void actionPerformed(ActionEvent e)
 			{
-				CodeEditPanel.Encode = "gbk";
+				CodeEditTab.Encode = "gbk";
 			}
 		});
 		encodeselect.add(gbk);
@@ -421,7 +410,7 @@ public class MainWindow extends JFrame
 		btg.add(utf8);
 		btg.add(gbk);
 
-		switch (CodeEditPanel.Encode)
+		switch (CodeEditTab.Encode)
 			{
 			case "utf-8":
 			{
@@ -644,7 +633,7 @@ public class MainWindow extends JFrame
 			@Override
 			public void windowClosing(WindowEvent arg0)
 			{
-				MinimizeIcon.ItemShow.setEnabled(true);
+				MinimizeManager.ItemShow.setEnabled(true);
 			}
 
 			@Override
@@ -676,6 +665,7 @@ public class MainWindow extends JFrame
 		{
 			e1.printStackTrace();
 		}
+
 		try
 		{
 			Theme = InitConfig.getProperty("theme");
@@ -695,20 +685,20 @@ public class MainWindow extends JFrame
 			e.printStackTrace();
 		}
 
-		FileTreepanel = new FilePanel(); // 实例化左侧面板
+		FileTreepanel = new JPanel(new BorderLayout()); // 实例化左侧面板
 		TabPane = new AllTabPanel(); // 实例化右侧面板
 		CodeCheckRuleManager.setRulePtah("src/com/config/Rule.txt");
 		PHPiniItemManager.setRulePtah("src/com/config/PHPiniSearchItem.txt");
 		CodeCheckRuleManager.CompileRuleInit();
 		AutoCheckManager.AutoCheckInit();
 		GlobalGrammarSearcher.GramSearchInit();
-		MinimizeIcon.minisize();
-		RecentProjectManger.InitRecentItemHistory(); // 初始化最近项目
+		MinimizeManager.minisize();
+		ItemManager.InitRecentItemHistory(); // 初始化最近项目
 	}
 
 	public void InitHistoryBtn()
 	{
-		for (String ItemHistory : RecentProjectManger.rowDate)
+		for (String ItemHistory : ItemManager.rowDate)
 		{
 			JMenuItem Record = new JMenuItem(ItemHistory);
 			MainWindow.RecentItemBtn.add(Record);
@@ -720,7 +710,7 @@ public class MainWindow extends JFrame
 				public void actionPerformed(ActionEvent e)
 				{
 					// TODO 自动生成的方法存根
-					FileTreeManager.getFileTree(ItemHistory);
+					ItemManager.newItem(ItemHistory);
 					TabManager.closeAllTab();
 				}
 			});

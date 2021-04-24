@@ -28,7 +28,7 @@ import javax.swing.table.TableRowSorter;
 
 import com.tool.AutoCheckManager;
 
-public class AutoCheckPanel extends JPanel
+public class AutoCheckTab extends JPanel
 {
 	/**
 	 * 
@@ -51,7 +51,7 @@ public class AutoCheckPanel extends JPanel
 	 * Create the panel.
 	 */
 
-	public AutoCheckPanel()
+	public AutoCheckTab()
 	{
 		setLayout(new BorderLayout(0, 0));
 
@@ -66,21 +66,21 @@ public class AutoCheckPanel extends JPanel
 		/****************************************************************************************************************************************/
 
 		// 设置每一行的值
-		AutoCheckPanel.ResultModel = new DefaultTableModel(rowData, columnNames);
+		AutoCheckTab.ResultModel = new DefaultTableModel(rowData, columnNames);
 
-		AutoCheckPanel.ResultTable = new JTable(AutoCheckPanel.ResultModel);
+		AutoCheckTab.ResultTable = new JTable(AutoCheckTab.ResultModel);
 
-		AutoCheckPanel.ResultTable.setRowHeight(30);
+		AutoCheckTab.ResultTable.setRowHeight(30);
 
-		AutoCheckPanel.ResultTable.setFont(new Font("Menu.font", Font.PLAIN, 14));
+		AutoCheckTab.ResultTable.setFont(new Font("Menu.font", Font.PLAIN, 14));
 
 //		RowSorter<TableModel> sorter = new TableRowSorter<TableModel>(AutoCheckPanel.ResultModel);
 
-		AutoCheckPanel.ResultTable.setRowSorter(null); // 取消排序
+		AutoCheckTab.ResultTable.setRowSorter(null); // 取消排序
 
 //		AutoCheckPanel.ResultTable.setEnabled(false);	//设置为不可编辑
 
-		scrollPane.setViewportView(AutoCheckPanel.ResultTable);
+		scrollPane.setViewportView(AutoCheckTab.ResultTable);
 
 		JToolBar CtrlToolBar = new JToolBar();
 		CtrlToolBar.setLayout(new FlowLayout(FlowLayout.LEFT));
@@ -189,10 +189,10 @@ public class AutoCheckPanel extends JPanel
 			{
 				if (TypeComboBox.getSelectedItem() == "全部")
 				{
-					AutoCheckPanel.sorter.setRowFilter(null);
+					AutoCheckTab.sorter.setRowFilter(null);
 				} else
 				{
-					AutoCheckPanel.sorter
+					AutoCheckTab.sorter
 							.setRowFilter(RowFilter.regexFilter(TypeComboBox.getSelectedItem().toString()));
 				}
 			}

@@ -27,10 +27,10 @@ import org.apache.commons.lang3.StringEscapeUtils;
 import org.fife.ui.rtextarea.SearchContext;
 import org.fife.ui.rtextarea.SearchEngine;
 
-import com.gui.AutoCheckPanel;
-import com.gui.CodeEditPanel;
+import com.gui.AutoCheckTab;
+import com.gui.CodeEditTab;
 import com.gui.MainWindow;
-import com.tool.FileTreeManager.DefaultMutableTreeNodes;
+import com.tool.ItemManager.DefaultMutableTreeNodes;
 
 @SuppressWarnings("deprecation")
 public class AutoCheckManager
@@ -47,22 +47,22 @@ public class AutoCheckManager
 
 	public static void runAutoCheck()
 	{
-		AutoCheckPanel.ResultModel.setRowCount(0);
-		AutoCheckPanel.ResultTable.setRowSorter(null); // 重新开始后必须移除原有的排序设定，防止扫描中被排序
-		AutoCheckPanel.ResultTable.removeMouseListener(tableListener); // 防止重复注册事件
+		AutoCheckTab.ResultModel.setRowCount(0);
+		AutoCheckTab.ResultTable.setRowSorter(null); // 重新开始后必须移除原有的排序设定，防止扫描中被排序
+		AutoCheckTab.ResultTable.removeMouseListener(tableListener); // 防止重复注册事件
 
 		if (MainWindow.ParentNode != null) // 说明已经新建了项目
 		{
 			myThread = new startAutoCheck();
 			AutoCheckManager.myThreadState = true;
-			AutoCheckPanel.progressBar.setMinimum(0);
-			AutoCheckPanel.progressBar.setMaximum(FileTreeManager.FileCount);
+			AutoCheckTab.progressBar.setMinimum(0);
+			AutoCheckTab.progressBar.setMaximum(ItemManager.FileCount);
 			myThread.start();
 		} else
 		{
 			JOptionPane.showMessageDialog(MainWindow.frame, "请先新建项目", "Error", JOptionPane.ERROR_MESSAGE);
 		}
-		AutoCheckPanel.ResultTable.addMouseListener(tableListener);
+		AutoCheckTab.ResultTable.addMouseListener(tableListener);
 	}
 
 	public static void stopAutoCheck()
@@ -71,8 +71,8 @@ public class AutoCheckManager
 		{
 			myThread.stop();
 			myThreadState = false;
-			AutoCheckPanel.ResultModel.setRowCount(0);
-			AutoCheckPanel.progressBar.setValue(0);
+			AutoCheckTab.ResultModel.setRowCount(0);
+			AutoCheckTab.progressBar.setValue(0);
 		}
 	}
 
@@ -98,10 +98,10 @@ public class AutoCheckManager
 							if (!bugResult.contains(RuleDate[i][1] + path + line)) // 为了避免重复
 							{
 								String[] rowDate = { RuleDate[i][1], path, line };
-								AutoCheckPanel.ResultModel.addRow(rowDate);
+								AutoCheckTab.ResultModel.addRow(rowDate);
 								if (!bugType.contains(RuleDate[i][1]))
 								{
-									AutoCheckPanel.TypeComboBox.addItem(RuleDate[i][1]);
+									AutoCheckTab.TypeComboBox.addItem(RuleDate[i][1]);
 									bugType.add(RuleDate[i][1]);
 								}
 								bugResult.add(RuleDate[i][1] + path + line);
@@ -172,12 +172,12 @@ public class AutoCheckManager
 			{
 				lines = lines + line + "\r\n";
 			}
-			for (int i = 0; i < AutoCheckPanel.ResultTable.getRowCount(); i++)
+			for (int i = 0; i < AutoCheckTab.ResultTable.getRowCount(); i++)
 			{
-				result = result + "<tr><td width=\"20%\">" + (String) AutoCheckPanel.ResultTable.getValueAt(i, 0)
-						+ "</td><td width=\"30%\">" + (String) AutoCheckPanel.ResultTable.getValueAt(i, 1)
+				result = result + "<tr><td width=\"20%\">" + (String) AutoCheckTab.ResultTable.getValueAt(i, 0)
+						+ "</td><td width=\"30%\">" + (String) AutoCheckTab.ResultTable.getValueAt(i, 1)
 						+ "</td><td width=\"45%\">"
-						+ StringEscapeUtils.escapeHtml4((String) AutoCheckPanel.ResultTable.getValueAt(i, 2))
+						+ StringEscapeUtils.escapeHtml4((String) AutoCheckTab.ResultTable.getValueAt(i, 2))
 						+ "</td></tr>\r\n";
 			}
 			lines = lines.replace("replace_content", result);
@@ -193,7 +193,7 @@ public class AutoCheckManager
 	public static void AutoCheckInit()
 	{
 		bugType = new ArrayList<String>();
-		MainWindow.autoCheckPanel = new AutoCheckPanel();
+		MainWindow.autoCheckPanel = new AutoCheckTab();
 		MainWindow.tabbedPane.add("自动审计", MainWindow.autoCheckPanel);
 		MainWindow.tabbedPane.setSelectedIndex(MainWindow.tabbedPane.getTabCount() - 1);
 	}
@@ -223,11 +223,11 @@ class startAutoCheck extends Thread
 			{
 				AutoCheckManager.RegexMatch(AutoCheckManager.node.getValue());
 			}
-			AutoCheckPanel.progressBar.setValue(fileCount);
+			AutoCheckTab.progressBar.setValue(fileCount);
 		}
 		AutoCheckManager.myThreadState = false;
-		AutoCheckPanel.sorter = new TableRowSorter<TableModel>(AutoCheckPanel.ResultModel);
-		AutoCheckPanel.ResultTable.setRowSorter(AutoCheckPanel.sorter);
+		AutoCheckTab.sorter = new TableRowSorter<TableModel>(AutoCheckTab.ResultModel);
+		AutoCheckTab.ResultTable.setRowSorter(AutoCheckTab.sorter);
 	}
 
 }
@@ -238,20 +238,20 @@ class TableListener implements MouseListener
 	@Override
 	public void mouseClicked(MouseEvent e)
 	{
-		int selectRow = AutoCheckPanel.ResultTable.getSelectedRow(); // 只能获取视图中的索引，而视图与模型是一一对应的
-		int model_row = AutoCheckPanel.ResultTable.convertRowIndexToModel(selectRow); // 将视图索引转化为模型缩影
+		int selectRow = AutoCheckTab.ResultTable.getSelectedRow(); // 只能获取视图中的索引，而视图与模型是一一对应的
+		int model_row = AutoCheckTab.ResultTable.convertRowIndexToModel(selectRow); // 将视图索引转化为模型缩影
 		if (model_row != -1)
 		{
-			String path = (String) AutoCheckPanel.ResultModel.getValueAt(model_row, 1);
+			String path = (String) AutoCheckTab.ResultModel.getValueAt(model_row, 1);
 			@SuppressWarnings("unused")
-			CodeEditPanel codeEditPane = new CodeEditPanel(path);
+			CodeEditTab codeEditPane = new CodeEditTab(path);
 
 			SearchContext context = new SearchContext();
-			context.setSearchFor((String) AutoCheckPanel.ResultModel.getValueAt(model_row, 2));
+			context.setSearchFor((String) AutoCheckTab.ResultModel.getValueAt(model_row, 2));
 			context.setSearchForward(true);
 			@SuppressWarnings("unused")
 			boolean found = SearchEngine.find(codeEditPane.getTextArea(), context).wasFound();
-			codeEditPane.textField.setText((String) AutoCheckPanel.ResultModel.getValueAt(model_row, 2));
+			codeEditPane.textField.setText((String) AutoCheckTab.ResultModel.getValueAt(model_row, 2));
 		}
 	}
 

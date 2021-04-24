@@ -15,7 +15,7 @@ import javax.swing.table.DefaultTableModel;
 
 import com.tool.PHPiniItemManager;
 
-public class PHPiniSearchPanel extends JPanel
+public class PHPiniSearchTab extends JPanel
 {
 
 	/**
@@ -32,7 +32,7 @@ public class PHPiniSearchPanel extends JPanel
 	/**
 	 * Create the panel.
 	 */
-	public PHPiniSearchPanel()
+	public PHPiniSearchTab()
 	{
 		setLayout(new BorderLayout(0, 0));
 

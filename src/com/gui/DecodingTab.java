@@ -17,7 +17,7 @@ import java.awt.event.ActionEvent;
 import java.awt.Font;
 import javax.swing.BoxLayout;
 
-public class DecodingPanel extends JPanel
+public class DecodingTab extends JPanel
 {
 
 	/**
@@ -28,7 +28,7 @@ public class DecodingPanel extends JPanel
 	/**
 	 * Create the panel.
 	 */
-	public DecodingPanel(String category)
+	public DecodingTab(String category)
 	{
 		setLayout(new BorderLayout(0, 0));
 

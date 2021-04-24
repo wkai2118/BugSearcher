@@ -20,9 +20,10 @@ import javax.swing.JToolBar;
 import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
 import org.fife.ui.rtextarea.RTextScrollPane;
 
-import com.tool.PHPRunCodeManager;
+import com.tool.PHPCodeManager;
+import com.tool.CodeDebugManager;
 
-public class PHPRunCodePanel extends JPanel
+public class CodeDebugTab extends JPanel
 {
 
 	/**
@@ -35,7 +36,7 @@ public class PHPRunCodePanel extends JPanel
 	/**
 	 * Create the panel.
 	 */
-	public PHPRunCodePanel()
+	public CodeDebugTab()
 	{
 		setLayout(new BorderLayout(0, 0));
 
@@ -58,7 +59,7 @@ public class PHPRunCodePanel extends JPanel
 
 		textArea.setSyntaxEditingStyle(RSyntaxTextArea.SYNTAX_STYLE_PHP);
 
-		textArea.setFont(textArea.getFont().deriveFont((float) CodeEditPanel.DefaultCodeEditSize));
+		textArea.setFont(textArea.getFont().deriveFont((float) CodeEditTab.DefaultCodeEditSize));
 
 		splitPane.setLeftComponent(sp);
 
@@ -83,9 +84,9 @@ public class PHPRunCodePanel extends JPanel
 		{
 			public void actionPerformed(ActionEvent e)
 			{
-				PHPRunCodeManager.savePHPRunFile(textArea, "src/com/config/runphp.php");
+				CodeDebugManager.savePHPRunFile(textArea, "src/com/config/runphp.php");
 				mList.clear();
-				PHPRunCodeManager.runPHP(mList);
+				CodeDebugManager.runPHP(mList);
 			}
 		});
 		btnNewButton.setFont(new Font("Î¢ÈíÑÅºÚ", Font.PLAIN, 16));
@@ -95,11 +96,11 @@ public class PHPRunCodePanel extends JPanel
 		terminal.add(scrollPane, BorderLayout.CENTER);
 
 		JList<String> list = new JList<String>();
-		list.setFont(new Font("Î¢ÈíÑÅºÚ", Font.PLAIN, CodeEditPanel.DefaultCodeEditSize));
+		list.setFont(new Font("Î¢ÈíÑÅºÚ", Font.PLAIN, CodeEditTab.DefaultCodeEditSize));
 		list.setModel(mList);
 		scrollPane.setViewportView(list);
 
-		PHPRunCodeManager.openPHPRunFile(textArea, "src/com/config/runphp.php");
+		PHPCodeManager.openPHPFile(textArea, "src/com/config/runphp.php");
 	}
 
 }

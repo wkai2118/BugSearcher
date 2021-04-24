@@ -10,7 +10,7 @@ import javax.swing.text.TextAction;
 
 import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
 
-import com.gui.GrammarPanel;
+import com.gui.GrammarWindow;
 
 public class GrammarSearcher extends TextAction
 {
@@ -34,10 +34,10 @@ public class GrammarSearcher extends TextAction
 		switch (System.getProperty("os.name"))
 			{
 			case "Windows 10":
-				GrammarPanel.openForm("https://www.php.net/" + SelectContent, SelectContent);
+				GrammarWindow.openForm("https://www.php.net/" + SelectContent, SelectContent);
 				break;
 			case "Windows 7":
-				GrammarPanel.openForm("https://www.php.net/" + SelectContent, SelectContent);
+				GrammarWindow.openForm("https://www.php.net/" + SelectContent, SelectContent);
 				break;
 			case "Linux":
 				Desktop LinuxBrowser = Desktop.getDesktop();

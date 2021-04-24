@@ -15,9 +15,10 @@ import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 import javax.swing.JTextField;
 
-import com.tool.CodeCheckRuleManager;
+import com.tool.PHPiniItemManager;
+import javax.swing.JTextArea;
 
-public class RulePanel extends JPanel
+public class PHPiniRuleTab extends JPanel
 {
 
 	/**
@@ -30,21 +31,21 @@ public class RulePanel extends JPanel
 	 */
 
 	public JScrollPane scrollPane;
-	public JLabel RuleLabel = new JLabel("规则：");
-	public JLabel DetailsLabel = new JLabel("详情：");
+	public JLabel RuleLabel = new JLabel("\u914D\u7F6E\u9879\u76EE\uFF1A");
+	public JLabel DetailsLabel = new JLabel("\u9879\u76EE\u63CF\u8FF0\uFF1A");
 	public JTextField RuleEdit = new JTextField();
-	public JTextField DetailsEdit = new JTextField();
+	public JTextArea DetailsEdit = new JTextArea();
 	private JButton AddButton = new JButton("添加");
 	private JButton UpdButton = new JButton("更新");
 	private JButton DelButton = new JButton("删除");
 
-	public RulePanel()
+	public PHPiniRuleTab()
 	{
 		setLayout(new BorderLayout(0, 0));
 
 		JSplitPane splitPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT);
 
-		splitPane.setDividerLocation(520);
+		splitPane.setDividerLocation(400);
 		splitPane.setContinuousLayout(true); // 设置是否重绘制分割条
 		splitPane.setDividerSize(5); // 设置分割条的像素大小
 
@@ -53,18 +54,18 @@ public class RulePanel extends JPanel
 			@Override
 			public void componentResized(ComponentEvent e)
 			{
-				splitPane.setDividerLocation(0.76);
+				splitPane.setDividerLocation(0.60);
 			}
 		});
 
 		add(splitPane, BorderLayout.CENTER);
 
-		JPanel RuleTablePanel = new JPanel();
-		splitPane.setLeftComponent(RuleTablePanel);
-		RuleTablePanel.setLayout(new BorderLayout(0, 0));
+		JPanel INIRuleTablePanel = new JPanel();
+		splitPane.setLeftComponent(INIRuleTablePanel);
+		INIRuleTablePanel.setLayout(new BorderLayout(0, 0));
 
-		scrollPane = new JScrollPane(MainWindow.RuleTable);
-		RuleTablePanel.add(scrollPane);
+		scrollPane = new JScrollPane(MainWindow.INIRuleTable);
+		INIRuleTablePanel.add(scrollPane);
 
 		JPanel RuleEditPanel = new JPanel();
 		RuleEditPanel.setLayout(new BorderLayout(0, 0));
@@ -72,23 +73,27 @@ public class RulePanel extends JPanel
 		JPanel RTextField = new JPanel();
 		RTextField.setLayout(null);
 
-		RuleLabel.setBounds(50, 30, 50, 20);
+		RuleLabel.setBounds(50, 30, 94, 20);
 		RuleLabel.setFont(new Font("微软雅黑", Font.PLAIN, 16));
 		RTextField.add(RuleLabel);
 
-		DetailsLabel.setBounds(50, 80, 50, 20);
+		DetailsLabel.setBounds(50, 80, 94, 20);
 		DetailsLabel.setFont(new Font("微软雅黑", Font.PLAIN, 16));
 		RTextField.add(DetailsLabel);
 
-		RuleEdit.setBounds(110, 20, 810, 30);
-		RuleEdit.setFont(new Font("Menu.font", Font.PLAIN, 15));
+		RuleEdit.setBounds(143, 26, 777, 30);
+		RuleEdit.setFont(new Font("Dialog", Font.PLAIN, 16));
 		RTextField.add(RuleEdit);
 
-		DetailsEdit.setBounds(110, 70, 810, 30);
-		DetailsEdit.setFont(new Font("Menu.font", Font.PLAIN, 15));
-		RTextField.add(DetailsEdit);
-
 		RuleEditPanel.add(RTextField, BorderLayout.CENTER);
+
+		JScrollPane scrollPane_1 = new JScrollPane();
+		scrollPane_1.setBounds(143, 80, 777, 110);
+		RTextField.add(scrollPane_1);
+		DetailsEdit.setFont(new Font("微软雅黑", Font.PLAIN, 16));
+		DetailsEdit.setLineWrap(true);
+
+		scrollPane_1.setViewportView(DetailsEdit);
 
 		splitPane.setRightComponent(RuleEditPanel);
 
@@ -99,8 +104,8 @@ public class RulePanel extends JPanel
 			public void actionPerformed(ActionEvent arg0)
 			{
 				String[] rowDate = { RuleEdit.getText(), DetailsEdit.getText() };
-				MainWindow.RuleModel.addRow(rowDate);
-				CodeCheckRuleManager.ruleWriteForFile();
+				MainWindow.INIRuleModel.addRow(rowDate);
+				PHPiniItemManager.ruleWriteForFile();
 				RuleEdit.setText("");
 				DetailsEdit.setText("");
 			}
@@ -111,13 +116,13 @@ public class RulePanel extends JPanel
 		{
 			public void actionPerformed(ActionEvent e)
 			{
-				int selectRow = MainWindow.RuleTable.getSelectedRow();
+				int selectRow = MainWindow.INIRuleTable.getSelectedRow();
 				if (selectRow != -1)
 				{
-					MainWindow.RuleModel.setValueAt(RuleEdit.getText(), selectRow, 0);
-					MainWindow.RuleModel.setValueAt(DetailsEdit.getText(), selectRow, 1);
+					MainWindow.INIRuleModel.setValueAt(RuleEdit.getText(), selectRow, 0);
+					MainWindow.INIRuleModel.setValueAt(DetailsEdit.getText(), selectRow, 1);
 				}
-				CodeCheckRuleManager.ruleWriteForFile();
+				PHPiniItemManager.ruleWriteForFile();
 				RuleEdit.setText("");
 				DetailsEdit.setText("");
 			}
@@ -128,12 +133,12 @@ public class RulePanel extends JPanel
 		{
 			public void actionPerformed(ActionEvent e)
 			{
-				int selectRow = MainWindow.RuleTable.getSelectedRow();
+				int selectRow = MainWindow.INIRuleTable.getSelectedRow();
 				if (selectRow != -1)
 				{
-					MainWindow.RuleModel.removeRow(selectRow);
+					MainWindow.INIRuleModel.removeRow(selectRow);
 				}
-				CodeCheckRuleManager.ruleWriteForFile();
+				PHPiniItemManager.ruleWriteForFile();
 				RuleEdit.setText("");
 				DetailsEdit.setText("");
 			}
@@ -148,7 +153,7 @@ public class RulePanel extends JPanel
 		return RuleEdit;
 	}
 
-	public JTextField getDetailsEdit()
+	public JTextArea getDetailsEdit()
 	{
 		return DetailsEdit;
 	}

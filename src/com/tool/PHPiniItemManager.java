@@ -19,7 +19,7 @@ import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
 import com.gui.MainWindow;
-import com.gui.PHPiniRulePanel;
+import com.gui.PHPiniRuleTab;
 
 public class PHPiniItemManager
 {
@@ -45,7 +45,7 @@ public class PHPiniItemManager
 		MainWindow.INIRuleTable = new JTable(MainWindow.INIRuleModel);
 		MainWindow.INIRuleTable.setRowHeight(30);
 		MainWindow.INIRuleTable.setFont(new Font("Menu.font", Font.PLAIN, 15));
-		PHPiniRulePanel rulepanel = new PHPiniRulePanel();
+		PHPiniRuleTab rulepanel = new PHPiniRuleTab();
 		MainWindow.tabbedPane.add("PHPINI…®√ËœÓƒø≈‰÷√", rulepanel);
 		MainWindow.INIRuleTable.addMouseListener(new MouseListener()
 		{

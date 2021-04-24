@@ -7,7 +7,7 @@ import javax.swing.JPanel;
 import chrriis.dj.nativeswing.swtimpl.NativeInterface;
 import chrriis.dj.nativeswing.swtimpl.components.JWebBrowser;
 
-public class GrammarPanel extends JPanel
+public class GrammarWindow extends JPanel
 {
 	private static final long serialVersionUID = 1L;
 
@@ -15,7 +15,7 @@ public class GrammarPanel extends JPanel
 
 	private JWebBrowser webBrowser;
 
-	public GrammarPanel(String url)
+	public GrammarWindow(String url)
 	{
 		super(new BorderLayout());
 		webBrowserPanel = new JPanel(new BorderLayout());
@@ -37,7 +37,7 @@ public class GrammarPanel extends JPanel
 		frame.setAlwaysOnTop(true);
 		// 设置窗体关闭的时候不关闭应用程序
 		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		frame.getContentPane().add(new GrammarPanel(url), BorderLayout.CENTER);
+		frame.getContentPane().add(new GrammarWindow(url), BorderLayout.CENTER);
 		frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
 		frame.setLocationByPlatform(true);
 		// 让窗体可见

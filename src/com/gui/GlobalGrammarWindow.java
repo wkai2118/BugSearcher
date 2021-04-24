@@ -12,7 +12,7 @@ import com.tool.GlobalGrammarSearcher;
 import chrriis.dj.nativeswing.swtimpl.NativeInterface;
 import chrriis.dj.nativeswing.swtimpl.components.JWebBrowser;
 
-public class GlobalGrammarPanel extends JFrame
+public class GlobalGrammarWindow extends JFrame
 {
 
 	/**
@@ -20,7 +20,7 @@ public class GlobalGrammarPanel extends JFrame
 	 */
 	private JPanel webBrowserPanel;
 
-	public static GlobalGrammarPanel GrammarSearch = null;
+	public static GlobalGrammarWindow GrammarSearch = null;
 
 	public static JWebBrowser webBrowser;
 
@@ -28,7 +28,7 @@ public class GlobalGrammarPanel extends JFrame
 
 	public static boolean SearchisExit = true;
 
-	public GlobalGrammarPanel(String url)
+	public GlobalGrammarWindow(String url)
 	{
 		NativeInterface.open();
 		webBrowserPanel = new JPanel(new BorderLayout());
@@ -52,7 +52,7 @@ public class GlobalGrammarPanel extends JFrame
 			{
 				// TODO 自动生成的方法存根
 				GlobalGrammarSearcher.GramSearchOpen();
-				GlobalGrammarPanel.GrammarSearch.dispose();	//销毁全局语法搜索窗口
+				GlobalGrammarWindow.GrammarSearch.dispose();	//销毁全局语法搜索窗口
 			}
 
 			@Override

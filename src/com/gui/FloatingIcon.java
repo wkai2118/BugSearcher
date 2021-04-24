@@ -14,7 +14,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import com.tool.Clipboard;
+import com.tool.ClipboardManager;
 import com.tool.GlobalGrammarSearcher;
 
 public class FloatingIcon extends JFrame
@@ -95,19 +95,19 @@ public class FloatingIcon extends JFrame
 	public void WindowsEntered()
 	{
 		GlobalGrammarSearcher.GramSearchClose();
-		GlobalGrammarPanel.SearchisExit = false;
+		GlobalGrammarWindow.SearchisExit = false;
 		FloatingIcon.Icon.setVisible(false);
 		GlobalGrammarSearcher.robot.keyPress(KeyEvent.VK_CONTROL);
 		GlobalGrammarSearcher.robot.keyPress(KeyEvent.VK_C);
 		GlobalGrammarSearcher.robot.keyRelease(KeyEvent.VK_CONTROL);
 		GlobalGrammarSearcher.robot.keyRelease(KeyEvent.VK_C);
 		GlobalGrammarSearcher.robot.delay(220);
-		String contents = Clipboard.getClipboardString();
+		String contents = ClipboardManager.getClipboardString();
 //		System.out.println(contents);
-		GlobalGrammarPanel.GrammarSearch = new GlobalGrammarPanel("https://www.php.net/" + contents);
-		GlobalGrammarPanel.GrammarSearch.setBounds(GlobalGrammarSearcher.ReleaseX + 38,
+		GlobalGrammarWindow.GrammarSearch = new GlobalGrammarWindow("https://www.php.net/" + contents);
+		GlobalGrammarWindow.GrammarSearch.setBounds(GlobalGrammarSearcher.ReleaseX + 38,
 				GlobalGrammarSearcher.ReleaseY - 12, 600, 450);
-		GlobalGrammarPanel.GrammarSearch.setVisible(true);
+		GlobalGrammarWindow.GrammarSearch.setVisible(true);
 	}
 
 	public void LinuxEntered()
@@ -118,7 +118,7 @@ public class FloatingIcon extends JFrame
 		GlobalGrammarSearcher.robot.keyRelease(KeyEvent.VK_CONTROL);
 		GlobalGrammarSearcher.robot.keyRelease(KeyEvent.VK_C);
 		GlobalGrammarSearcher.robot.delay(220);
-		String contents = Clipboard.getClipboardString();
+		String contents = ClipboardManager.getClipboardString();
 		Desktop LinuxBrowser = Desktop.getDesktop();
 		try
 		{

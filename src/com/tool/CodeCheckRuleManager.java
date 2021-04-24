@@ -19,7 +19,7 @@ import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
 import com.gui.MainWindow;
-import com.gui.RulePanel;
+import com.gui.RegexRuleTab;
 
 public class CodeCheckRuleManager
 {
@@ -45,7 +45,7 @@ public class CodeCheckRuleManager
 		MainWindow.RuleTable = new JTable(MainWindow.RuleModel);
 		MainWindow.RuleTable.setRowHeight(30);
 		MainWindow.RuleTable.setFont(new Font("Menu.font", Font.PLAIN, 15));
-		RulePanel rulepanel = new RulePanel();
+		RegexRuleTab rulepanel = new RegexRuleTab();
 		MainWindow.tabbedPane.add("自动审计规则配置", rulepanel);
 		MainWindow.RuleTable.addMouseListener(new MouseListener()
 		{

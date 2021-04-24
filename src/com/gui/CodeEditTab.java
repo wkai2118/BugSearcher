@@ -10,13 +10,7 @@ import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import javax.swing.JButton;
@@ -42,11 +36,10 @@ import org.fife.ui.rtextarea.SearchContext;
 import org.fife.ui.rtextarea.SearchEngine;
 
 import com.tool.DecodingManger;
-import com.tool.FileTreeManager;
-import com.tool.FuncGuide;
 import com.tool.GrammarSearcher;
+import com.tool.PHPCodeManager;
 
-public class CodeEditPanel extends JPanel
+public class CodeEditTab extends JPanel
 {
 	/**
 	 * 
@@ -61,10 +54,10 @@ public class CodeEditPanel extends JPanel
 	private JScrollPane scrollPane_1;
 	public static Pattern FuncRegx = Pattern.compile("(?!\\\\)(.{0,10})(function\\s{1,5}(\\w{1,20})\\s{0,5})(?=\\()",
 			Pattern.CASE_INSENSITIVE);
-	private static Pattern VarsRegx = Pattern.compile("\\$\\w{1,20}((\\[[\"']|\\[)\\${0,1}[\\w\\[\\]\"']{0,30}){0,1}",
+	public static Pattern VarsRegx = Pattern.compile("\\$\\w{1,20}((\\[[\"']|\\[)\\${0,1}[\\w\\[\\]\"']{0,30}){0,1}",
 			Pattern.CASE_INSENSITIVE);
-	private String[] ArrayFunc;
-	private String[] ArrayVars;
+	public static String[] ArrayFunc;
+	public static String[] ArrayVars;
 	private boolean SearchForward = true;
 	public static int DefaultCodeEditSize = Integer.valueOf(MainWindow.InitConfig.getProperty("editsize"));
 	public static String Encode = MainWindow.InitConfig.getProperty("encode");
@@ -72,7 +65,7 @@ public class CodeEditPanel extends JPanel
 	/**
 	 * Create the panel.
 	 */
-	public CodeEditPanel(String path)
+	public CodeEditTab(String path)
 	{
 		setLayout(new BorderLayout(0, 0));
 		splitPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT);
@@ -102,7 +95,7 @@ public class CodeEditPanel extends JPanel
 		JPopupMenu popup = textArea.getPopupMenu();
 		popup.addSeparator();
 		popup.add(new JMenuItem(new GrammarSearcher(textArea)));
-		popup.add(new JMenuItem(new FuncGuide()));
+		popup.add(new JMenuItem(new PHPCodeManager()));
 
 		JMenu decode = new JMenu("编码转换");
 
@@ -114,7 +107,7 @@ public class CodeEditPanel extends JPanel
 
 		popup.setPreferredSize(new Dimension(150, 230));
 
-		FileTreeManager.openPHPFile(textArea, path);
+		PHPCodeManager.openPHPFile(textArea, path); // 将文件内容加载至编辑器
 
 		RTextScrollPane sp = new RTextScrollPane(textArea);
 
@@ -192,7 +185,7 @@ public class CodeEditPanel extends JPanel
 		scrollPane_1.setBounds(465, 83, 224, 254);
 		SearchPanel.add(scrollPane_1);
 
-		getFuncAndVars(path); // 获取该标签的函数和变量
+		PHPCodeManager.getFuncAndVars(path); // 获取该标签的函数和变量
 
 		list = new JList<String>();
 		list.setListData(ArrayFunc);
@@ -326,42 +319,6 @@ public class CodeEditPanel extends JPanel
 	public RSyntaxTextArea getTextArea()
 	{
 		return textArea;
-	}
-
-	public void getFuncAndVars(String path)
-	{
-		ArrayList<String> ArrayListFunc = new ArrayList<String>();
-		ArrayList<String> ArrayListVars = new ArrayList<String>();
-
-		FileInputStream fis = null;
-		@SuppressWarnings("unused")
-		String line = null;
-		try
-		{
-			fis = new FileInputStream(path);
-			BufferedReader br = new BufferedReader(new InputStreamReader(fis, "utf-8"));
-			while ((line = br.readLine()) != null)
-			{
-				Matcher f = FuncRegx.matcher(line);
-				Matcher v = VarsRegx.matcher(line);
-				if (f.find())
-				{
-					ArrayListFunc.add(f.group(0));
-				}
-				if (v.find() && (!ArrayListVars.contains(v.group(0))))
-				{
-					ArrayListVars.add(v.group(0));
-				}
-
-			}
-			br.close();
-			fis.close();
-		} catch (IOException e)
-		{
-			e.printStackTrace();
-		}
-		ArrayFunc = (String[]) ArrayListFunc.toArray(new String[ArrayListFunc.size()]);
-		ArrayVars = (String[]) ArrayListVars.toArray(new String[ArrayListFunc.size()]);
 	}
 
 }

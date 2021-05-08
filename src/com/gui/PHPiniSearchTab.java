@@ -60,7 +60,7 @@ public class PHPiniSearchTab extends JPanel
 
 	public void StartPHPiniCheck()
 	{
-		String[][] RuleDate = PHPiniItemManager.ruleReadFromFile();
+		String[][] RuleDate = PHPiniItemManager.readItemFromFile();
 		FileInputStream fis = null;
 		try
 		{

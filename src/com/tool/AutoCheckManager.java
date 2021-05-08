@@ -85,7 +85,7 @@ public class AutoCheckManager
 			fis = new FileInputStream(path);
 			String line = null;
 			BufferedReader br = new BufferedReader(new InputStreamReader(fis, "UTF-8")); // 从文件流中获取数据流
-			String[][] RuleDate = CodeCheckRuleManager.ruleReadFromFile();
+			String[][] RuleDate = CodeCheckRuleManager.readRuleFromFile();
 			try
 			{
 				while ((line = br.readLine()) != null) // 一行一行读取
@@ -124,7 +124,7 @@ public class AutoCheckManager
 		}
 	}
 
-	public static void reportForHtml()
+	public static void reportForHtml()	//将审计结果保存至文件
 	{
 		JFileChooser chooser = new JFileChooser();
 		FileNameExtensionFilter filter = new FileNameExtensionFilter("html文件(*.html)", "html");
@@ -156,7 +156,7 @@ public class AutoCheckManager
 		}
 	}
 
-	public static String returnReport()
+	public static String returnReport()	//输出审计结果
 	{
 		FileInputStream f = null;
 		String line = "";

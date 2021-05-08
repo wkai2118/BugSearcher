@@ -1,2 +1,4 @@
 D:\phpStudy\WWW\bbs_new
 D:\phpStudy\WWW\DVWA
+D:\phpStudy\WWW
+D:\phpStudy\WWW\DVWAC

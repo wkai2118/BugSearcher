@@ -439,7 +439,7 @@ public class MainWindow extends JFrame
 		{
 			public void actionPerformed(ActionEvent e)
 			{
-				PHPiniItemManager.openRuleFromFile();
+				PHPiniItemManager.openItemFromFile();
 			}
 		});
 		settingBtn.add(mntmNewMenuItem_22);
@@ -688,8 +688,8 @@ public class MainWindow extends JFrame
 		FileTreepanel = new JPanel(new BorderLayout()); // 实例化左侧面板
 		TabPane = new AllTabPanel(); // 实例化右侧面板
 		CodeCheckRuleManager.setRulePtah("src/com/config/Rule.txt");
-		PHPiniItemManager.setRulePtah("src/com/config/PHPiniSearchItem.txt");
-		CodeCheckRuleManager.CompileRuleInit();
+		PHPiniItemManager.setItemPtah("src/com/config/PHPiniSearchItem.txt");
+		CodeCheckRuleManager.initCompileRule();
 		AutoCheckManager.AutoCheckInit();
 		GlobalGrammarSearcher.GramSearchInit();
 		MinimizeManager.minisize();

@@ -40,7 +40,7 @@ public class CodeCheckRuleManager
 	{
 		String[] columnNames = { "规则", "描述" };
 
-		String[][] tableValues = ruleReadFromFile();
+		String[][] tableValues = readRuleFromFile();
 		MainWindow.RuleModel = new DefaultTableModel(tableValues, columnNames);
 		MainWindow.RuleTable = new JTable(MainWindow.RuleModel);
 		MainWindow.RuleTable.setRowHeight(30);
@@ -94,7 +94,7 @@ public class CodeCheckRuleManager
 		MainWindow.tabbedPane.setSelectedIndex(MainWindow.tabbedPane.getTabCount() - 1);
 	}
 
-	static String[][] ruleReadFromFile()
+	static String[][] readRuleFromFile()
 	{
 		ArrayList<String[]> rowDate = new ArrayList<String[]>(); // 首先创建个列表
 		try
@@ -128,7 +128,7 @@ public class CodeCheckRuleManager
 		return rowDates;
 	}
 
-	public static void ruleWriteForFile()
+	public static void writeRuleForFile()
 	{
 		FileOutputStream fis = null;
 		BufferedWriter bw = null;
@@ -152,10 +152,10 @@ public class CodeCheckRuleManager
 
 	}
 
-	public static void CompileRuleInit()
+	public static void initCompileRule()
 	{
 		ArrayList<Pattern> CompileRule = new ArrayList<Pattern>();
-		String[][] RuleDate = CodeCheckRuleManager.ruleReadFromFile();
+		String[][] RuleDate = CodeCheckRuleManager.readRuleFromFile();
 		for (String[] RuleRow : RuleDate)
 		{
 			CompileRule.add(Pattern.compile(RuleRow[0], Pattern.CASE_INSENSITIVE));

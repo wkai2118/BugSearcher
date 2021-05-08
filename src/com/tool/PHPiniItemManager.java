@@ -26,21 +26,21 @@ public class PHPiniItemManager
 	private static String path;
 	public static Pattern[] CompileRules;
 
-	public static void setRulePtah(String temp)
+	public static void setItemPtah(String temp)
 	{
 		path = temp;
 	}
 
-	public static String getRulePtah(String temp)
+	public static String getItemPtah(String temp)
 	{
 		return path;
 	}
 
-	public static void openRuleFromFile()
+	public static void openItemFromFile()
 	{
 		String[] columnNames = { "项目配置", "项目描述" };
 
-		String[][] tableValues = ruleReadFromFile();
+		String[][] tableValues = readItemFromFile();
 		MainWindow.INIRuleModel = new DefaultTableModel(tableValues, columnNames);
 		MainWindow.INIRuleTable = new JTable(MainWindow.INIRuleModel);
 		MainWindow.INIRuleTable.setRowHeight(30);
@@ -94,7 +94,7 @@ public class PHPiniItemManager
 		MainWindow.tabbedPane.setSelectedIndex(MainWindow.tabbedPane.getTabCount() - 1);
 	}
 
-	public static String[][] ruleReadFromFile()
+	public static String[][] readItemFromFile()
 	{
 		ArrayList<String[]> rowDate = new ArrayList<String[]>(); // 首先创建个列表
 		try
@@ -128,7 +128,7 @@ public class PHPiniItemManager
 		return rowDates;
 	}
 
-	public static void ruleWriteForFile()
+	public static void writeItemForFile()	//写入文件
 	{
 		FileOutputStream fis = null;
 		BufferedWriter bw = null;

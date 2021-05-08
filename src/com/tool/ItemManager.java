@@ -24,10 +24,10 @@ import com.gui.MainWindow;
 public class ItemManager
 {
 	public static int FileCount;
-	public static String path = "src/com/config/RecentItemRecord.txt";
+	public static String RecentItemRecord = "src/com/config/RecentItemRecord.txt";
 	public static ArrayList<String> rowDate;
 
-	public static void newItem(String path) // 获取文件树，新建项目
+	public static void newItem(String itemPath) // 新建项目
 	{
 		MainWindow.FunctionList = new ArrayList<String[]>();
 		if (MainWindow.TreeScrollPane != null)
@@ -35,7 +35,7 @@ public class ItemManager
 			MainWindow.FileTreepanel.remove(MainWindow.TreeScrollPane); // 这边只能移除滚动面板，直接移除树面板没用
 		}
 		ItemManager.FileCount = 0; // 将文件数量置为0
-		if ((MainWindow.ParentNode = traverseItemFolder(path)) != null)
+		if ((MainWindow.ParentNode = traverseItemFolder(itemPath)) != null)
 		{
 			MainWindow.FileTree = new JTree(MainWindow.ParentNode);
 			MainWindow.FileTree.setFont(new Font("Menu.font", Font.PLAIN, 15));
@@ -88,7 +88,7 @@ public class ItemManager
 		}
 	}
 
-	public static DefaultMutableTreeNodes traverseItemFolder(String path)
+	public static DefaultMutableTreeNodes traverseItemFolder(String path) // 生成项目文件树
 	{
 		DefaultMutableTreeNodes ParentNode = new DefaultMutableTreeNodes(new File(path).getName()); // 首先创建一个父节点
 
@@ -130,12 +130,12 @@ public class ItemManager
 		return ParentNode; // 最终返回父节点
 	}
 
-	public static void InitRecentItemHistory()
+	public static void InitRecentItemHistory() // 初始化最近项目
 	{
 		rowDate = new ArrayList<String>(); // 首先创建个列表
 		try
 		{
-			FileInputStream fis = new FileInputStream(path); // 读取文件流
+			FileInputStream fis = new FileInputStream(RecentItemRecord); // 读取文件流
 			BufferedReader br = new BufferedReader(new InputStreamReader(fis)); // 从文件流中获取数据流
 			String line = null;
 			try
@@ -148,48 +148,40 @@ public class ItemManager
 				fis.close();
 			} catch (IOException e)
 			{
-				// TODO 自动生成的 catch 块
+
 				e.printStackTrace();
 			}
 
 		} catch (FileNotFoundException e)
 		{
-			// TODO 自动生成的 catch 块
+
 			e.printStackTrace();
 		}
 
 	}
 
-	public static void addRecentItemHistory(String NewHistory)
+	public static void addRecentItemHistory(String NewHistory) // 添加最近项目历史
 	{
 		if (!rowDate.contains(NewHistory))
 		{
 			rowDate.add(NewHistory);
 		}
-		File f = new File(path);
+		File f = new File(RecentItemRecord);
 		FileWriter fis = null;
 		BufferedWriter bw = null;
 		try
 		{
 			fis = new FileWriter(f);
-		} catch (IOException e1)
-		{
-			// TODO 自动生成的 catch 块
-			e1.printStackTrace();
-		}
-		bw = new BufferedWriter(fis);
-		try
-		{
+			bw = new BufferedWriter(fis);
 			for (String temp : rowDate) // 循环必须在try/catch之内
 			{
 				bw.write(temp);
 				bw.newLine();
 			}
-
-		} catch (IOException e)
+		} catch (IOException e1)
 		{
-			// TODO 自动生成的 catch 块
-			e.printStackTrace();
+
+			e1.printStackTrace();
 		} finally
 		{
 			if (bw != null)
@@ -198,7 +190,7 @@ public class ItemManager
 					bw.close();
 				} catch (IOException e)
 				{
-					// TODO 自动生成的 catch 块
+
 					e.printStackTrace();
 				}
 			if (fis != null)
@@ -208,40 +200,31 @@ public class ItemManager
 					fis.close();
 				} catch (IOException e)
 				{
-					// TODO 自动生成的 catch 块
+
 					e.printStackTrace();
 				}
 			}
 		}
 	}
 
-	public static void clearAllItemHistory()
+	public static void clearAllItemHistory() // 清空所有最近项目历史
 	{
 		rowDate = new ArrayList<>();
-		File f = new File(path);
+		File f = new File(RecentItemRecord);
 		FileWriter fis = null;
 		BufferedWriter bw = null;
 		try
 		{
 			fis = new FileWriter(f);
-		} catch (IOException e1)
-		{
-			// TODO 自动生成的 catch 块
-			e1.printStackTrace();
-		}
-		bw = new BufferedWriter(fis);
-		try
-		{
+			bw = new BufferedWriter(fis);
 			for (String temp : rowDate) // 循环必须在try/catch之内
 			{
 				bw.write(temp);
 				bw.newLine();
 			}
-
-		} catch (IOException e)
+		} catch (IOException e1)
 		{
-			// TODO 自动生成的 catch 块
-			e.printStackTrace();
+			e1.printStackTrace();
 		} finally
 		{
 			if (bw != null)
@@ -250,7 +233,6 @@ public class ItemManager
 					bw.close();
 				} catch (IOException e)
 				{
-					// TODO 自动生成的 catch 块
 					e.printStackTrace();
 				}
 			if (fis != null)
@@ -260,14 +242,14 @@ public class ItemManager
 					fis.close();
 				} catch (IOException e)
 				{
-					// TODO 自动生成的 catch 块
+
 					e.printStackTrace();
 				}
 			}
 		}
 	}
 
-	public static void closeItem()
+	public static void closeItem() // 关闭项目，关闭文件树和重置标签页工作区
 	{
 		TabManager.closeAllTab();
 		if (AutoCheckManager.myThreadState)
@@ -282,12 +264,8 @@ public class ItemManager
 		}
 	}
 
-	static class DefaultMutableTreeNodes extends DefaultMutableTreeNode // 继承的树节点，为了能够存取一些值
+	static class DefaultMutableTreeNodes extends DefaultMutableTreeNode // 继承的树节点，为了让树节点能够存取一些值
 	{
-
-		/**
-		 * 
-		 */
 		public String node_value; // node_value用于存储信息
 		private static final long serialVersionUID = 1L;
 

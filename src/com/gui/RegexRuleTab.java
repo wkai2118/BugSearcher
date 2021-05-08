@@ -100,7 +100,7 @@ public class RegexRuleTab extends JPanel
 			{
 				String[] rowDate = { RuleEdit.getText(), DetailsEdit.getText() };
 				MainWindow.RuleModel.addRow(rowDate);
-				CodeCheckRuleManager.ruleWriteForFile();
+				CodeCheckRuleManager.writeRuleForFile();
 				RuleEdit.setText("");
 				DetailsEdit.setText("");
 			}
@@ -117,7 +117,7 @@ public class RegexRuleTab extends JPanel
 					MainWindow.RuleModel.setValueAt(RuleEdit.getText(), selectRow, 0);
 					MainWindow.RuleModel.setValueAt(DetailsEdit.getText(), selectRow, 1);
 				}
-				CodeCheckRuleManager.ruleWriteForFile();
+				CodeCheckRuleManager.writeRuleForFile();
 				RuleEdit.setText("");
 				DetailsEdit.setText("");
 			}
@@ -133,7 +133,7 @@ public class RegexRuleTab extends JPanel
 				{
 					MainWindow.RuleModel.removeRow(selectRow);
 				}
-				CodeCheckRuleManager.ruleWriteForFile();
+				CodeCheckRuleManager.writeRuleForFile();
 				RuleEdit.setText("");
 				DetailsEdit.setText("");
 			}

@@ -105,7 +105,7 @@ public class PHPiniRuleTab extends JPanel
 			{
 				String[] rowDate = { RuleEdit.getText(), DetailsEdit.getText() };
 				MainWindow.INIRuleModel.addRow(rowDate);
-				PHPiniItemManager.ruleWriteForFile();
+				PHPiniItemManager.writeItemForFile();
 				RuleEdit.setText("");
 				DetailsEdit.setText("");
 			}
@@ -122,7 +122,7 @@ public class PHPiniRuleTab extends JPanel
 					MainWindow.INIRuleModel.setValueAt(RuleEdit.getText(), selectRow, 0);
 					MainWindow.INIRuleModel.setValueAt(DetailsEdit.getText(), selectRow, 1);
 				}
-				PHPiniItemManager.ruleWriteForFile();
+				PHPiniItemManager.writeItemForFile();
 				RuleEdit.setText("");
 				DetailsEdit.setText("");
 			}
@@ -138,7 +138,7 @@ public class PHPiniRuleTab extends JPanel
 				{
 					MainWindow.INIRuleModel.removeRow(selectRow);
 				}
-				PHPiniItemManager.ruleWriteForFile();
+				PHPiniItemManager.writeItemForFile();
 				RuleEdit.setText("");
 				DetailsEdit.setText("");
 			}
